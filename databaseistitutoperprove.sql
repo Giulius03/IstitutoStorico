@@ -27,6 +27,18 @@ SET time_zone = "+00:00";
 -- Struttura della tabella `archivepage`
 --
 
+USE `databaseistitutoperprove`;
+
+CREATE TABLE `users` (
+  `userID` int(11) AUTO_INCREMENT PRIMARY KEY,
+  `userEmail` varchar(100) NOT NULL UNIQUE,
+  `password` varchar(255) NOT NULL,
+  `adminYN` boolean NOT NULL 
+)
+
+INSERT INTO `users` (`userEmail`, `password`, `adminYN`) VALUES 
+('marco.giugliani@studio.unibo.it', 'admin', true);
+
 CREATE TABLE `archivepage` (
   `chronologyStartYear` year(4) NOT NULL,
   `Page_idPage` int(11) NOT NULL,
