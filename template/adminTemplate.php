@@ -1,5 +1,5 @@
 <h1 class="text-center fs-1 fw-bold mt-4">Gestione dei Contenuti</h1>
-<div class="mx-4 mt-5">
+<div class="mx-4 mt-5" id="pagesContainer">
     <a class="btn btn-dark" href="#" role="button">Inserisci una nuova pagina</a>
     <?php $pages = $dbh->getPages();
     if (count($pages) == 0): ?>
@@ -8,6 +8,7 @@
     </div>
     <?php else: ?>
     <table class="table mt-3">
+        <caption>Pagine attualmente presenti</caption>
         <thead>
             <tr>
                 <th scope="col">Titolo</th>

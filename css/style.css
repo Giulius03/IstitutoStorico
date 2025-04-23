@@ -7,6 +7,10 @@
     cursor: pointer;
 }
 
+caption {
+    caption-side: top;
+}
+
 td, td button {
     font-size: 13px !important;
 }
@@ -24,6 +28,11 @@ td button {
 @media (min-width: 992px) {
     .loginForm {
         margin: 0 20%;
+    }
+
+    #pagesContainer {
+        margin-left: 10% !important;
+        margin-right: 10% !important;
     }
 }
 
