@@ -7,6 +7,14 @@
     cursor: pointer;
 }
 
+td, td button {
+    font-size: 13px !important;
+}
+
+td button {
+    width: 60px !important;
+}
+
 @media (min-width: 768px) {
     .loginForm {
         margin: 0 10%;
