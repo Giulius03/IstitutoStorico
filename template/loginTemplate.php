@@ -1,6 +1,6 @@
 <h1 class="text-center fs-1 fw-bold my-4">Accedi</h1>
 <form class="mx-5" onsubmit="login(event)">
-    <ul class="loginForm list-unstyled px-4">
+    <ul class="loginForm list-unstyled px-1">
         <li class="form-floating my-4">
             <input name="username" type="text" class="form-control" id="username" placeholder="username" required />
             <label for="username">Username</label>
