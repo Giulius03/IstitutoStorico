@@ -1,10 +1,9 @@
 tinymce.init({
     selector: 'textarea#content',
-    plugins: 'code image link',
-    toolbar: 'image link code',
+    plugins: 'lists code image link',
+    toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link image | code',
     menubar: false,
-    height: 400,
-    branding: false,
+    height: 200,
     content_style: 'body { font-family: monospace; font-size: 14px; }',
 
     /* Configurazione per upload immagini */
@@ -27,12 +26,12 @@ tinymce.init({
     }
 });
 
-const input = document.getElementById('content');
-const frame = document.getElementById('liveHTML');
+// const input = document.getElementById('content');
+// const frame = document.getElementById('liveHTML');
 
-input.addEventListener('input', () => {
-    frame.srcdoc = input.value;
-});
+// input.addEventListener('input', () => {
+//     frame.srcdoc = input.value;
+// });
 
 function select(url) {
     window.opener.selectImage(url);

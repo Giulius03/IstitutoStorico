@@ -22,7 +22,7 @@
     </div>
     <?php endif; ?>
     <fieldset class="border-top mt-4">
-        <ul class="newPageForm list-unstyled mt-4 px-2">
+        <ul class="list-unstyled m-0 mt-4 px-2">
             <li class="form-floating mb-3">
                 <input name="titolo" type="text" class="form-control" id="titolo" placeholder="Titolo" required />
                 <label for="titolo">Titolo</label>
@@ -31,18 +31,35 @@
                 <input name="slug" type="text" class="form-control" id="slug" placeholder="slug" required />
                 <label for="slug">Slug</label>
             </li>
-            <li>
-                <label for="content">Inserisci il contenuto HTML della pagina:</label>
-                <textarea class="form-control" name="content" id="content"></textarea>
-                <iframe id="liveHTML"></iframe>
+            <li class="mb-3">
+                <label for="content" class="form-label">Inserisci il contenuto della pagina:</label>
+                <textarea class="form-control" name="content" id="content" rows="10" required></textarea>
             </li>
-            <!-- 
-            <li class="text-center mb-4">
-                <input class="btn btn-dark w-75" type="submit" id="btnLog" value="Entra" />
-            </li> -->
-            <li id="loginError" class="text-center mb-4">
-
+            <li class="form-check">
+                <input class="form-check-input" type="checkbox" value="visible" id="visible" name="visible" checked />
+                <label class="form-check-label" for="visible">Visibile</label>
+            </li>
+        </ul>
+    </fieldset>
+    <fieldset class="border-top mt-4">
+        <legend>Search Engine Optimization</legend>
+        <ul class="list-unstyled mt-5 px-2">
+            <li class="form-floating mb-3">
+                <input name="titoloSEO" type="text" class="form-control" id="titoloSEO" placeholder="TitoloSEO" required />
+                <label for="titoloSEO">Titolo SEO</label>
+            </li>
+            <li class="form-floating mb-3">
+                <input name="testoSEO" type="text" class="form-control" id="testoSEO" placeholder="testoSEO" required />
+                <label for="testoSEO">Testo SEO</label>
+            </li>
+            <li class="form-floating mb-3">
+                <input name="chiaviSEO" type="text" class="form-control" id="chiaviSEO" placeholder="ChiaviSEO" required />
+                <label for="chiaviSEO">Parole Chiave SEO</label>
             </li>
         </ul>
     </fieldset>
 </form>
+ <!-- 
+            <li class="text-center mb-4">
+                <input class="btn btn-dark w-75" type="submit" id="btnLog" value="Entra" />
+            </li> -->
