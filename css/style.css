@@ -11,12 +11,20 @@ caption {
     caption-side: top;
 }
 
-td, td button {
+td, td a {
     font-size: 13px !important;
 }
 
-td button {
+td a {
     width: 60px !important;
+}
+
+.imageSelectorContainer img {
+    width: 100px;
+    margin: 5px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
 @media (min-width: 768px) {
