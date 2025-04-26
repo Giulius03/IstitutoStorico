@@ -26,13 +26,6 @@ tinymce.init({
     }
 });
 
-// const input = document.getElementById('content');
-// const frame = document.getElementById('liveHTML');
-
-// input.addEventListener('input', () => {
-//     frame.srcdoc = input.value;
-// });
-
 function select(url) {
     window.opener.selectImage(url);
     window.close();
