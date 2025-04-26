@@ -63,5 +63,40 @@ class DatabaseHelper{
 
         return $pages;
     }
+
+    private function getNonPages($table, $idField, $nameField) {
+        $stmt = $this->db->prepare("SELECT $idField as ID, $nameField as name FROM $table");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    /**
+     * @return array ID e nome di tutti i menù presenti al momento della richiesta
+     */
+    public function getMenus() {
+        return $this->getNonPages("menu", "idMenu", "menuName");
+    }
+
+    /**
+     * @return array ID e nome di tutti i tag presenti al momento della richiesta
+     */
+    public function getTags() {
+        return $this->getNonPages("tag", "idTag", "tagName");
+    }
+
+    /**
+     * @return array ID e nome di tutti gli articoli d'inventario presenti al momento della richiesta
+     */
+    public function getInventoryItems() {
+        return $this->getNonPages("inventoryItem", "idInventoryItem", "inventoryItemName");
+    }
+
+    /**
+     * @return array ID e nome di tutti gli strumenti di corredo presenti al momento della richiesta
+     */
+    public function getReferenceTools() {
+        return $this->getNonPages("referencetool", "idReferenceTool", "nameReferenceTool");
+    }
 }
 ?>

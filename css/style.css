@@ -38,7 +38,7 @@ td a {
         margin: 0 20%;
     }
 
-    #pagesContainer {
+    #contentsShower, #selectorContainer {
         margin-left: 10% !important;
         margin-right: 10% !important;
     }
