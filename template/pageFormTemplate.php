@@ -1,7 +1,7 @@
 <h1 class="text-center fs-1 fw-bold mt-4">
     <?php echo ($templateParams["action"] == "I" ? "Inserisci nuova" : ($templateParams["action"] == "E" ? "Modifica" : "Cancella"))." pagina" ?>
 </h1>
-<form class="mx-5 mt-4" onsubmit="">
+<form action="" method="POST" class="mx-5 mt-4 pageForm">
     <?php if ($templateParams["action"] == "I"): ?>
     <div class="d-flex flex-column align-items-center">
         <label>Seleziona il tipo di pagina:</label>
@@ -22,7 +22,8 @@
     </div>
     <?php endif; ?>
     <fieldset class="border-top mt-4">
-        <ul class="list-unstyled m-0 mt-4 px-2">
+        <legend>Attributi</legend>
+        <ul class="list-unstyled m-0 mt-5 px-2">
             <li class="form-floating mb-3">
                 <input name="titolo" type="text" class="form-control" id="titolo" placeholder="Titolo" required />
                 <label for="titolo">Titolo</label>
@@ -31,13 +32,25 @@
                 <input name="slug" type="text" class="form-control" id="slug" placeholder="slug" required />
                 <label for="slug">Slug</label>
             </li>
-            <li class="mb-3">
-                <label for="content" class="form-label">Inserisci il contenuto della pagina:</label>
-                <textarea class="form-control" name="content" id="content" rows="10" required></textarea>
-            </li>
-            <li class="form-check">
+            <li class="form-check mb-3">
                 <input class="form-check-input" type="checkbox" value="visible" id="visible" name="visible" checked />
                 <label class="form-check-label" for="visible">Visibile</label>
+            </li>
+            <li class="mb-3">
+                <label for="content" class="form-label">Inserisci il contenuto della pagina:</label>
+                <textarea class="form-control" name="content" id="content" rows="10"></textarea>
+            </li>
+            <li class="mb-3">
+                <label>Seleziona i tag a cui appartiene la pagina:</label>
+                <ul class="mt-2 p-0">
+                    <?php $tags = $dbh->getTags();
+                    foreach ($tags as $tag): ?>
+                    <li class="form-check me-5">
+                        <input class="form-check-input" type="checkbox" value="<?php echo $tag['ID'] ?>" id="<?php echo "tag".$tag['ID'] ?>" name="<?php echo "tag".$tag['ID'] ?>" />
+                        <label class="form-check-label" for="<?php echo "tag".$tag['ID'] ?>"><?php echo $tag['name'] ?></label>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
             </li>
         </ul>
     </fieldset>
@@ -58,8 +71,69 @@
             </li>
         </ul>
     </fieldset>
+    <fieldset class="border-top border-bottom my-4">
+        <legend>Indice</legend>
+        <?php if ($templateParams["action"] == "I"): ?>
+        <div class="text-center py-3">
+            <p class="fst-italic">È possibile aggiungere voci all'indice di una pagina solo dopo che quest'ultima è stata creata.</p>
+        </div>
+        <?php endif; ?>
+        <!-- TODO: parte in cui vengono aggiunte voci all'indice -->
+    </fieldset>
+    <div id="archivePageInfo" class="d-none">
+        <fieldset class="border-top mb-4">
+            <legend>Attributi Pagina di Archivio</legend>
+            <div class="form-floating mt-3">
+                <input step="1" name="dataInizio" type="number" class="form-control" id="dataInizio" placeholder="dataInizio" required />
+                <label for="dataInizio">Data cronologica di inizio</label>
+            </div>
+            <div class="form-floating mt-3">
+                <input step="1" name="dataFine" type="number" class="form-control" id="dataFine" placeholder="dataFine" required />
+                <label for="dataFine">Data cronologica di fine</label>
+            </div>
+        </fieldset>
+        <fieldset class="border-top mb-4">
+            <legend>Strumenti di Corredo</legend>
+            <label>Seleziona gli strumenti di corredo appartenenti alla pagina:</label>
+            <ul class="mt-2 p-0">
+                <?php $referenceTools = $dbh->getReferenceTools();
+                foreach ($referenceTools as $rTool): ?>
+                <li class="form-check me-5">
+                    <input class="form-check-input" type="checkbox" value="<?php echo $rTool['ID'] ?>" id="<?php echo "strumento".$rTool['ID'] ?>" name="<?php echo "strumento".$rTool['ID'] ?>" />
+                    <label class="form-check-label" for="<?php echo "strumento".$rTool['ID'] ?>"><?php echo $rTool['name'] ?></label>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        </fieldset>
+        <fieldset class="border-top border-bottom mb-4">
+            <legend>Articoli d'Inventario</legend>
+            <label>Seleziona gli articoli d'inventario della pagina:</label>
+            <ul class="mt-2 p-0">
+                <?php $inventoryItems = $dbh->getInventoryItems();
+                foreach ($inventoryItems as $iItem): ?>
+                <li class="form-check me-5">
+                    <input class="form-check-input" type="checkbox" value="<?php echo $iItem['ID'] ?>" id="<?php echo "articolo".$iItem['ID'] ?>" name="<?php echo "articolo".$iItem['ID'] ?>" />
+                    <label class="form-check-label" for="<?php echo "articolo".$iItem['ID'] ?>"><?php echo $iItem['name'] ?></label>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        </fieldset>
+    </div>
+    <fieldset id="resourceCollectorInfo" class="border-top mb-4 d-none">
+        <legend>Attributi Raccolta di Risorse</legend>
+        <div class="form-floating mb-3">
+            <input name="nomeRaccolta" type="text" class="form-control" id="nomeRaccolta" placeholder="nomeRaccolta" required />
+            <label for="nomeRaccolta">Nome Raccolta</label>
+        </div>
+        <div class="mb-3">
+            <label for="path">Path Raccolta</label>
+            <input name="path" type="file" webkitdirectory directory class="form-control mt-1" id="path" placeholder="path" />
+        </div>
+        <div class="text-center border-bottom py-3">
+            <p class="fst-italic">È possibile aggiungere elementi alla raccolta solo dopo che la pagina che la contiene è stata creata.</p>
+        </div>
+    </fieldset>
+    <div class="text-center my-4">
+        <input class="btn btn-dark w-25" type="submit" id="btnCreatePage" value="Crea" />
+    </div>
 </form>
- <!-- 
-            <li class="text-center mb-4">
-                <input class="btn btn-dark w-75" type="submit" id="btnLog" value="Entra" />
-            </li> -->
