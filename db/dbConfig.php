@@ -50,8 +50,8 @@ class DatabaseHelper{
      * @return array ID, titolo, data di creazione, ultima data di aggiornamento e tipologia di tutte le pagine
      * presenti al momento della richiesta
      */
-    public function getPages() {
-        $stmt = $this->db->prepare("SELECT idPage, title, creationDate, updatedDate FROM page");
+    public function getPages($orderedBy) {
+        $stmt = $this->db->prepare("SELECT idPage, title, creationDate, updatedDate FROM page ORDER BY $orderedBy " . ($orderedBy == "updatedDate" ? "DESC" : ""));
         $stmt->execute();
         $result = $stmt->get_result();
         $pages = $result->fetch_all(MYSQLI_ASSOC);
@@ -86,6 +86,16 @@ class DatabaseHelper{
     }
 
     /**
+     * @return int Il numero di tag presenti
+     */
+    public function getNumOfTags() {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM tag");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_row()[0];
+    }
+
+    /**
      * @return array ID e nome di tutti gli articoli d'inventario presenti al momento della richiesta
      */
     public function getInventoryItems() {
@@ -97,6 +107,23 @@ class DatabaseHelper{
      */
     public function getReferenceTools() {
         return $this->getNonPages("referencetool", "idReferenceTool", "nameReferenceTool");
+    }
+
+    public function addPage($title, $slug, $html, $isVisible, $seoTitle, $seoText, $seoKeywords) {
+        $creationDate = date('Y-m-d H:i:s');
+        $stmt = $this->db->prepare("INSERT INTO page (title, slug, text, creationDate, updatedDate, isVisibile, seoTitle, seoText, seoKeywords) 
+                    VALUES (?, ?, ?, '$creationDate', '$creationDate', ?, ?, ?, ?)");
+        $stmt->bind_param('sssisss', $title, $slug, $html, $isVisible, $seoTitle, $seoText, $seoKeywords);
+        $stmt->execute();
+        return $stmt->insert_id;
+    }
+
+    public function connectTagsToPage($pageID, $tagsID) {
+        foreach ($tagsID as $tagID) {
+            $stmt = $this->db->prepare("INSERT INTO page_has_tag (page_idPage, tag_idTag) VALUES (?, ?)");
+            $stmt->bind_param('ii', $pageID, $tagID);
+            $stmt->execute();
+        }
     }
 }
 ?>

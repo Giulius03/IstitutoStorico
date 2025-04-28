@@ -1,7 +1,7 @@
 <h1 class="text-center fs-1 fw-bold mt-4">
     <?php echo ($templateParams["action"] == "I" ? "Inserisci nuova" : ($templateParams["action"] == "E" ? "Modifica" : "Cancella"))." pagina" ?>
 </h1>
-<form action="" method="POST" class="mx-5 mt-4 pageForm">
+<form action="../utils/addNewPage.php" method="POST" class="mx-5 mt-4">
     <?php if ($templateParams["action"] == "I"): ?>
     <div class="d-flex flex-column align-items-center">
         <label>Seleziona il tipo di pagina:</label>
@@ -71,7 +71,7 @@
             </li>
         </ul>
     </fieldset>
-    <fieldset class="border-top border-bottom my-4">
+    <fieldset class="border-top my-4">
         <legend>Indice</legend>
         <?php if ($templateParams["action"] == "I"): ?>
         <div class="text-center py-3">
@@ -80,15 +80,37 @@
         <?php endif; ?>
         <!-- TODO: parte in cui vengono aggiunte voci all'indice -->
     </fieldset>
+    <fieldset class="border-top my-4">
+        <legend>Note</legend>
+        <?php if ($templateParams["action"] == "I"): ?>
+        <div class="text-center py-3">
+            <p class="fst-italic">È possibile aggiungere note alla pagina solo dopo che quest'ultima è stata creata.</p>
+        </div>
+        <?php endif; ?>
+        <!-- TODO: parte in cui vengono aggiunte note -->
+    </fieldset>
+    <!-- <fieldset class="border-top border-bottom my-4">
+        <legend>Pagine Contenute</legend>
+        <label>Seleziona le pagine che saranno contenute all'interno di quella che stai creando:</label>
+        <ul class="mt-2 p-0 listPagesContained">
+            <?php $pages = $dbh->getPages("title");
+            foreach ($pages as $page): ?>
+            <li class="form-check me-5">
+                <input class="form-check-input" type="checkbox" value="<?php echo $page['idPage'] ?>" id="<?php echo "page".$page['idPage'] ?>" name="<?php echo "page".$page['idPage'] ?>" />
+                <label class="form-check-label" for="<?php echo "page".$page['idPage'] ?>"><?php echo $page['title'] ?></label>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+    </fieldset> -->
     <div id="archivePageInfo" class="d-none">
         <fieldset class="border-top mb-4">
             <legend>Attributi Pagina di Archivio</legend>
             <div class="form-floating mt-3">
-                <input step="1" name="dataInizio" type="number" class="form-control" id="dataInizio" placeholder="dataInizio" required />
+                <input step="1" name="dataInizio" type="number" class="form-control" id="dataInizio" placeholder="dataInizio" />
                 <label for="dataInizio">Data cronologica di inizio</label>
             </div>
             <div class="form-floating mt-3">
-                <input step="1" name="dataFine" type="number" class="form-control" id="dataFine" placeholder="dataFine" required />
+                <input step="1" name="dataFine" type="number" class="form-control" id="dataFine" placeholder="dataFine" />
                 <label for="dataFine">Data cronologica di fine</label>
             </div>
         </fieldset>
@@ -122,7 +144,7 @@
     <fieldset id="resourceCollectorInfo" class="border-top mb-4 d-none">
         <legend>Attributi Raccolta di Risorse</legend>
         <div class="form-floating mb-3">
-            <input name="nomeRaccolta" type="text" class="form-control" id="nomeRaccolta" placeholder="nomeRaccolta" required />
+            <input name="nomeRaccolta" type="text" class="form-control" id="nomeRaccolta" placeholder="nomeRaccolta" />
             <label for="nomeRaccolta">Nome Raccolta</label>
         </div>
         <div class="mb-3">

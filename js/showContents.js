@@ -6,7 +6,7 @@ contentTypeSelect.addEventListener('change', function(event) {
     switch (contentTypeSelect.value) {
         case "pages":
             btnInsertText = "Inserisci una nuova pagina";
-            showContents("getPages.php", addContDir + "newPage.php", btnInsertText, "pagine", [ "Titolo", "Ultima Modifica", "Tipo" ]);
+            showContents("getPages.php?ordBy=updatedDate", addContDir + "newPage.php", btnInsertText, "pagine", [ "Titolo", "Ultima Modifica", "Tipo" ]);
             break;
         case "menu":
             btnInsertText = "Inserisci un nuovo menù";
@@ -37,9 +37,12 @@ async function showContents(getterFile, link, btnInsertText, plural, fields) {
         </div>
         `;
     } else {
+        let txtOrdered = plural === "pagine" ? "(ordinate per ultima modifica)" : "";
         contentsHTML += `
         <table class="table mt-3">
-            <caption>${plural.charAt(0).toUpperCase() + plural.slice(1)} attualmente presenti</caption>
+            <caption>${plural.charAt(0).toUpperCase() + plural.slice(1)} attualmente presenti ${txtOrdered}`;
+        contentsHTML += `
+            </caption>
             <thead>
                 <tr>`;
 

@@ -5,6 +5,7 @@ require_once 'bootstrap.php';
 $templateParams["titolo"] = "Gestione Contenuti";
 $templateParams["nome"] = "adminTemplate.php";
 $templateParams["js"] = array("js/showContents.js");
+$templateParams["css"] = "css/style.css";
 
 require 'template/base.php';
 ?>
