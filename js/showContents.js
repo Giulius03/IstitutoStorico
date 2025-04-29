@@ -30,7 +30,7 @@ contentTypeSelect.addEventListener('change', function(event) {
 async function showContents(getterFile, link, btnInsertText, plural, fields) {
     const contents = await getContents(getterFile);
     let contentsHTML = `<a class="btn btn-dark" href="${link}" role="button">${btnInsertText}</a>`;
-    if (contents.length == 0) {
+    if (contents.length === 0) {
         contentsHTML += `
         <div class="text-center pt-5">
             <p class="fst-italic">Al momento non sono presenti ${plural}.</p>

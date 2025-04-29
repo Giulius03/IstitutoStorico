@@ -125,5 +125,20 @@ class DatabaseHelper{
             $stmt->execute();
         }
     }
+
+    public function addMenu($name) {
+        $stmt = $this->db->prepare("INSERT INTO menu (menuName) VALUES (?)");
+        $stmt->bind_param('s', $name);
+        $stmt->execute();
+        return $stmt->insert_id;
+    }
+
+    public function addMenuItem($name, $position, $menu, $pageToLink, $father = null) {
+        $stmt = $this->db->prepare("INSERT INTO menuitem (menuItemName, menuItemOrderedPosition, Menu_idMenu, Page_idPage, MenuItem_idMenuItem) 
+                    VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param('siiii', $name, $position, $menu, $pageToLink, $father);
+        $stmt->execute();
+        return $stmt->insert_id;
+    }
 }
 ?>

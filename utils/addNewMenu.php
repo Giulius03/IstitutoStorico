@@ -1,0 +1,27 @@
+<?php
+require_once '../bootstrap.php';
+
+$fieldsName = ['NomeMenu'];
+
+for ($i=0; $i < $_POST['numeroVoci']; $i++) {
+    $current = $i+1;
+    array_push($fieldsName, "NomeVoce".$current, "fatherItem".$current, "PosizioneVoce".$current);
+}
+var_dump($_POST);
+
+if (checkIsSet($fieldsName)) {
+    try {
+        $idNewMenu = $dbh->addMenu($_POST['NomeMenu']);
+        for ($i=0; $i < $_POST['numeroVoci']; $i++) {
+            $current = $i+1;
+            $pageToLink = isset($_POST['linkToPage'.$current]) ? $_POST['linkToPage'.$current] : null;
+            $father = isset($_POST['fatherItem'.$current]) ? $_POST['fatherItem'.$current] : null;
+            $dbh->addMenuItem($_POST['NomeVoce'.$current], $_POST['PosizioneVoce'.$current], $idNewMenu, $pageToLink, $father);
+        }
+    } catch (Exception $e) {
+        echo "Errore: " . $e->getMessage();
+    }
+} else {
+    echo "damn";
+}
+?>
