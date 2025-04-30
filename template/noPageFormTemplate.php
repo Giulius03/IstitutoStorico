@@ -1,19 +1,11 @@
 <?php
-$action = "";
-switch ($templateParams['noPageType']) {
-    case 'menù':
-        $action = "addNewMenu.php";
-        break;
-    case 'strumento di corredo':
-        $action = "addNewRefTool.php";
-        break;
-    case 'articolo d\'inventario':
-        $action = "addNewInvItem.php";
-        break;
-    case 'tag':
-        $action = "addNewTag.php";
-        break;
-}
+$switch = [
+    'menù' => fn() => "addNewMenu.php",
+    'strumento di corredo' => fn() => "addNewRefTool.php",
+    'articolo d\'inventario' => fn() => "addNewInvItem.php",
+    'tag' => fn() => "addNewTag.php",
+];
+$action = ($switch[$templateParams['noPageType']])();
 ?>
 <h1 class="text-center fs-1 fw-bold mt-4">
     <?php echo ($templateParams["action"] == "I" ? "Inserisci nuovo" : ($templateParams["action"] == "E" ? "Modifica" : "Cancella"))." ".$templateParams['noPageType'] ?>

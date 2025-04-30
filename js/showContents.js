@@ -2,7 +2,7 @@ const contentTypeSelect = document.getElementById("contentType");
 
 contentTypeSelect.addEventListener('change', function(event) {
     let btnInsertText = "";
-    const addContDir = "pagesToAddNewContent/";
+    const addContDir = "contentsManagement/insertion/";
     switch (contentTypeSelect.value) {
         case "pages":
             btnInsertText = "Inserisci una nuova pagina";

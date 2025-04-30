@@ -62,7 +62,7 @@ document.getElementById("newNoPageForm").addEventListener("submit", function(e) 
 });
 
 async function getPages() {
-    const url = '../utils/getters/getPages.php?ordBy=title';
+    const url = '../../utils/getters/getPages.php?ordBy=title';
     try {
         const response = await fetch(url);
         if (!response.ok) {
