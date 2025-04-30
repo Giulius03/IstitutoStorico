@@ -7,6 +7,7 @@ $templateParams["nome"] = "../template/noPageFormTemplate.php";
 $templateParams["action"] = "I";
 $templateParams["js"] = array("../js/showNewMenuItemFields.js");
 $templateParams["css"] = "../css/style.css";
+$templateParams["noPageType"] = "menù";
 
 require '../template/base.php';
 ?>

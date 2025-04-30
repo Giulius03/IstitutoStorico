@@ -57,7 +57,7 @@ function updateSelects() {
     }
 }
 
-document.getElementById("newMenuForm").addEventListener("submit", function(e) {
+document.getElementById("newNoPageForm").addEventListener("submit", function(e) {
     document.getElementById("numeroVoci").value = numOfItems;
 });
 
