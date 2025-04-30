@@ -140,5 +140,26 @@ class DatabaseHelper{
         $stmt->execute();
         return $stmt->insert_id;
     }
+
+    public function addTag($name, $description) {
+        $stmt = $this->db->prepare("INSERT INTO tag (tagName, tagDescription) VALUES (?, ?)");
+        $stmt->bind_param('ss', $name, $description);
+        $stmt->execute();
+        return $stmt->insert_id;
+    }
+
+    public function addReferenceTool($name) {
+        $stmt = $this->db->prepare("INSERT INTO referencetool (nameReferenceTool) VALUES (?)");
+        $stmt->bind_param('s', $name);
+        $stmt->execute();
+        return $stmt->insert_id;
+    }
+
+    public function addInventoryItem($name) {
+        $stmt = $this->db->prepare("INSERT INTO inventoryitem (inventoryItemName) VALUES (?)");
+        $stmt->bind_param('s', $name);
+        $stmt->execute();
+        return $stmt->insert_id;
+    }
 }
 ?>

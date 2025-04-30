@@ -10,7 +10,7 @@ $action = ($switch[$templateParams['noPageType']])();
 <h1 class="text-center fs-1 fw-bold mt-4">
     <?php echo ($templateParams["action"] == "I" ? "Inserisci nuovo" : ($templateParams["action"] == "E" ? "Modifica" : "Cancella"))." ".$templateParams['noPageType'] ?>
 </h1>
-<form action="../utils/newContentAdders/<?php echo $action ?>" method="POST" class="mx-5 mt-5" id="newNoPageForm">
+<form action="../../utils/newContentAdders/<?php echo $action ?>" method="POST" class="mx-5 mt-5" id="newNoPageForm">
     <input type="hidden" name="numeroVoci" id="numeroVoci" />
     <div class="form-floating mb-3">
         <input name="Nome" type="text" class="form-control" id="Nome" placeholder="Nome" required />
