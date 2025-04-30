@@ -34,7 +34,7 @@ function showNewMenuItemFields() {
     pages.forEach(page => {
         document.getElementById("pagesList" + numOfItems).innerHTML += `
                 <li class="form-check">
-                    <input class="form-check-input" type="radio" name="linkToPage${numOfItems}" value="${page['idPage']}${numOfItems}" id="${page['idPage']}${numOfItems}" />
+                    <input class="form-check-input" type="radio" name="linkToPage${numOfItems}" value="${page['idPage']}" id="${page['idPage']}${numOfItems}" />
                     <label class="form-check-label" for="${page['idPage']}${numOfItems}">${page['title']}</label>
                 </li>`;
     });

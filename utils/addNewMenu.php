@@ -7,7 +7,6 @@ for ($i=0; $i < $_POST['numeroVoci']; $i++) {
     $current = $i+1;
     array_push($fieldsName, "NomeVoce".$current, "fatherItem".$current, "PosizioneVoce".$current);
 }
-var_dump($_POST);
 
 if (checkIsSet($fieldsName)) {
     try {
@@ -18,10 +17,9 @@ if (checkIsSet($fieldsName)) {
             $father = isset($_POST['fatherItem'.$current]) ? $_POST['fatherItem'.$current] : null;
             $dbh->addMenuItem($_POST['NomeVoce'.$current], $_POST['PosizioneVoce'.$current], $idNewMenu, $pageToLink, $father);
         }
+        header('Location: ../admin.php');
     } catch (Exception $e) {
         echo "Errore: " . $e->getMessage();
     }
-} else {
-    echo "damn";
 }
 ?>
