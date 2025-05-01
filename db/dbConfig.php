@@ -85,14 +85,6 @@ class DatabaseHelper{
         return $this->getNonPages("tag", "idTag", "tagName");
     }
 
-    public function getTagFromID($tagID) {
-        $stmt = $this->db->prepare("SELECT tagName as name, tagDescription as description FROM tag WHERE idTag = ?");
-        $stmt->bind_param('i', $tagID);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
     /**
      * @return int Il numero di tag presenti
      */
@@ -110,14 +102,6 @@ class DatabaseHelper{
         return $this->getNonPages("inventoryItem", "idInventoryItem", "inventoryItemName");
     }
 
-    public function getInventoryItemFromID($inventoryItemID) {
-        $stmt = $this->db->prepare("SELECT inventoryItemName as name FROM inventoryItem WHERE idInventoryItem = ?");
-        $stmt->bind_param('i', $inventoryItemID);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
     /**
      * @return array ID e nome di tutti gli strumenti di corredo presenti al momento della richiesta
      */
@@ -125,12 +109,25 @@ class DatabaseHelper{
         return $this->getNonPages("referencetool", "idReferenceTool", "nameReferenceTool");
     }
 
-    public function getReferenceToolFromID($referenceToolID) {
-        $stmt = $this->db->prepare("SELECT nameReferenceTool as name FROM referencetool WHERE idReferenceTool = ?");
-        $stmt->bind_param('i', $referenceToolID);
+    private function getContentFromID($table, $contentID, $idField, $nameField) {
+        $query = "SELECT $nameField as name" . ($table == "tag" ? ", tagDescription as description" : "") . " FROM $table WHERE $idField = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $contentID);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getTagFromID($tagID) {
+        return $this->getContentFromID("tag", $tagID, "idTag", "tagName");
+    }
+
+    public function getInventoryItemFromID($inventoryItemID) {
+        return $this->getContentFromID("inventoryItem", $inventoryItemID, "idInventoryItem", "inventoryItemName");
+    }
+
+    public function getReferenceToolFromID($referenceToolID) {
+        return $this->getContentFromID("referencetool", $referenceToolID, "idReferenceTool", "nameReferenceTool");
     }
 
     public function addPage($title, $slug, $html, $isVisible, $seoTitle, $seoText, $seoKeywords) {
