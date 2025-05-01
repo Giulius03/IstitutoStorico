@@ -5,8 +5,8 @@ $fieldsName = ['Nome'];
 
 if (checkIsSet($fieldsName)) {
     try {
-        $idNewTag = $dbh->addReferenceTool($_POST['Nome']);
-        header('Location: ../../admin.php');
+        $idNewTag = $dbh->addInventoryItem($_POST['Nome']);
+        header('Location: ../../admin.php?cont=Articoli d\'inventario');
     } catch (Exception $e) {
         echo "Errore: " . $e->getMessage();
     }

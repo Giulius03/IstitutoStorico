@@ -8,7 +8,7 @@ $options = ['Pagine', 'Menù', 'Tag', 'Articoli d\'inventario', 'Strumenti di co
         <select class="form-select" name="contentType" id="contentType">
             <option <?php echo !isset($_GET['cont']) ? "selected" : "" ?> disabled></option>
             <?php foreach ($options as $opt): ?>
-            <option <?php echo (isset($_GET['cont']) && $_GET['cont'] == $opt) ? "selected" : "" ?> value="<?php echo $opt ?>"><?php echo $opt ?></option>
+            <option <?php echo (isset($_GET['cont']) && strtolower(substr($_GET['cont'], 0, 3)) == strtolower(substr($opt, 0, 3))) ? "selected" : "" ?> value="<?php echo $opt ?>"><?php echo $opt ?></option>
             <?php endforeach; ?>
         </select>
     </div>

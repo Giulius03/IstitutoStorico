@@ -185,5 +185,32 @@ class DatabaseHelper{
         $stmt->execute();
         return $stmt->insert_id;
     }
+
+    public function updateTag($tagID, $newTagName, $newTagDescription) {
+        $tag = $this->getTagFromID($tagID);
+        if ($tag[0]['name'] != $newTagName || $tag[0]['description'] != $newTagDescription) {
+            $stmt = $this->db->prepare("UPDATE tag SET tagName = ?, tagDescription = ? WHERE idTag = ?");
+            $stmt->bind_param('ssi', $newTagName, $newTagDescription, $tagID);
+            $stmt->execute();
+        }
+    }
+
+    public function updateReferenceTool($referenceToolID, $newReferenceToolName) {
+        $refTool = $this->getReferenceToolFromID($referenceToolID);
+        if ($refTool[0]['name'] != $newReferenceToolName) {
+            $stmt = $this->db->prepare("UPDATE referencetool SET nameReferenceTool = ? WHERE idReferenceTool = ?");
+            $stmt->bind_param('si', $newReferenceToolName, $referenceToolID);
+            $stmt->execute();
+        }
+    }
+
+    public function updateInventoryItem($inventoryItemID, $newInventoryItemName) {
+        $invItem = $this->getInventoryItemFromID($inventoryItemID);
+        if ($invItem[0]['name'] != $newInventoryItemName) {
+            $stmt = $this->db->prepare("UPDATE inventoryitem SET inventoryItemName = ? WHERE idInventoryItem = ?");
+            $stmt->bind_param('si', $newInventoryItemName, $inventoryItemID);
+            $stmt->execute();
+        }
+    }
 }
 ?>

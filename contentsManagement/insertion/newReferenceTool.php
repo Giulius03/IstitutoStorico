@@ -5,9 +5,9 @@ require_once '../../bootstrap.php';
 $templateParams["titolo"] = "Nuovo Strumento di Corredo";
 $templateParams["nome"] = "../../template/noPageFormTemplate.php";
 $templateParams["action"] = "I";
-$templateParams["actionFile"] = "newContentAdders/addNewRefTool.php";
+$templateParams["actionFile"] = "contentAdders/addNewRefTool.php";
 $templateParams["css"] = "../../css/style.css";
-$templateParams["noPageType"] = "Strumenti di corredo";
+$templateParams["noPageType"] = "strumento di corredo";
 
 require '../../template/base.php';
 ?>

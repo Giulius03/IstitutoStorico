@@ -5,9 +5,9 @@ require_once '../../bootstrap.php';
 $templateParams["titolo"] = "Nuovo Tag";
 $templateParams["nome"] = "../../template/noPageFormTemplate.php";
 $templateParams["action"] = "I";
-$templateParams["actionFile"] = "newContentAdders/addNewTag.php";
+$templateParams["actionFile"] = "contentAdders/addNewTag.php";
 $templateParams["css"] = "../../css/style.css";
-$templateParams["noPageType"] = "Tag";
+$templateParams["noPageType"] = "tag";
 
 require '../../template/base.php';
 ?>

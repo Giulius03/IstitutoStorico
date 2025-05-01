@@ -10,17 +10,17 @@ $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] ==
         <input name="Nome" type="text" class="form-control" id="Nome" placeholder="Nome" 
             value="<?php echo $editOrDelete ? $templateParams['content'][0]['name'] : "" ?>" required 
             <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
-        <label for="Nome">Nome <?php echo $templateParams['noPageType'] ?></label>
+        <label for="Nome">Nome</label>
     </div>
-    <?php if ($templateParams['noPageType'] == "Menù"): ?>
+    <?php if ($templateParams['noPageType'] == "menù"): ?>
     <a class="btn btn-dark mb-3" id="btnAddMenuItem" role="button">Aggiungi una voce al menù</a>
     <div id="menuItemsForms">
 
     </div>
-    <?php elseif ($templateParams['noPageType'] == "Tag"): ?>
+    <?php elseif ($templateParams['noPageType'] == "tag"): ?>
     <div class="form-floating mb-3">
         <textarea name="Descrizione" type="text" class="form-control" id="Descrizione" placeholder="Descrizione" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?>><?php echo $editOrDelete ? $templateParams['content'][0]['description'] : "" ?></textarea>
-        <label for="Descrizione">Descrizione <?php echo $templateParams['noPageType'] ?></label>
+        <label for="Descrizione">Descrizione</label>
     </div>
     <?php endif; ?>
     <div class="text-center my-4">
