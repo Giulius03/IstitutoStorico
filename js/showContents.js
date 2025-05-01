@@ -1,35 +1,42 @@
 const contentTypeSelect = document.getElementById("contentType");
 
 contentTypeSelect.addEventListener('change', function(event) {
-    let btnInsertText = "";
-    const addContDir = "contentsManagement/insertion/";
-    switch (contentTypeSelect.value) {
-        case "pages":
-            btnInsertText = "Inserisci una nuova pagina";
-            showContents("getPages.php?ordBy=updatedDate", addContDir + "newPage.php", btnInsertText, "pagine", [ "Titolo", "Ultima Modifica", "Tipo" ]);
-            break;
-        case "menu":
-            btnInsertText = "Inserisci un nuovo menù";
-            showContents("getMenus.php", addContDir + "newMenu.php", btnInsertText, "menù", [ "Nome" ]);
-            break;
-        case "tags":
-            btnInsertText = "Inserisci un nuovo tag";
-            showContents("getTags.php", addContDir + "newTag.php", btnInsertText, "tag", [ "Nome" ]);
-            break;
-        case "inventoryItem":
-            btnInsertText = "Inserisci un nuovo articolo d'inventario";
-            showContents("getInventoryItems.php", addContDir + "newInventoryItem.php", btnInsertText, "articoli d'inventario", [ "Nome" ]);
-            break;
-        case "referenceTools":
-            btnInsertText = "Inserisci un nuovo strumento di corredo";
-            showContents("getReferenceTools.php", addContDir + "newReferenceTool.php", btnInsertText, "strumenti di corredo", [ "Nome" ]);
-            break;
-    }
+    show();
 });
 
-async function showContents(getterFile, link, btnInsertText, plural, fields) {
+function show() {
+    let btnInsertText = "";
+    const addContDir = "contentsManagement/insertion/";
+    const editContDir = "contentsManagement/editing/";
+    switch (contentTypeSelect.value) {
+        case "Pagine":
+            btnInsertText = "Inserisci una nuova pagina";
+            showContents("getPages.php?ordBy=updatedDate", addContDir + "newPage.php", editContDir + "", btnInsertText, "pagine", [ "Titolo", "Ultima Modifica", "Tipo" ]);
+            break;
+        case "Menù":
+            btnInsertText = "Inserisci un nuovo menù";
+            showContents("getMenus.php", addContDir + "newMenu.php", editContDir + "", btnInsertText, "menù", [ "Nome" ]);
+            break;
+        case "Tag":
+            btnInsertText = "Inserisci un nuovo tag";
+            showContents("getTags.php", addContDir + "newTag.php", editContDir + "modifyTag.php", btnInsertText, "tag", [ "Nome" ]);
+            break;
+        case "Articoli d'inventario":
+            btnInsertText = "Inserisci un nuovo articolo d'inventario";
+            showContents("getInventoryItems.php", addContDir + "newInventoryItem.php", editContDir + "modifyInvItem.php", btnInsertText, "articoli d'inventario", [ "Nome" ]);
+            break;
+        case "Strumenti di corredo":
+            btnInsertText = "Inserisci un nuovo strumento di corredo";
+            showContents("getReferenceTools.php", addContDir + "newReferenceTool.php", editContDir + "modifyRefTool.php", btnInsertText, "strumenti di corredo", [ "Nome" ]);
+            break;
+        default:
+            break;
+    }
+}
+
+async function showContents(getterFile, addLink, editLink, btnInsertText, plural, fields) {
     const contents = await getContents(getterFile);
-    let contentsHTML = `<a class="btn btn-dark" href="${link}" role="button">${btnInsertText}</a>`;
+    let contentsHTML = `<a class="btn btn-dark" href="${addLink}" role="button">${btnInsertText}</a>`;
     if (contents.length === 0) {
         contentsHTML += `
         <div class="text-center pt-5">
@@ -58,13 +65,13 @@ async function showContents(getterFile, link, btnInsertText, plural, fields) {
             </thead>
             <tbody>
         `;
-        contentsHTML += plural === "pagine" ? showPages(contents) : showOther(contents);
+        contentsHTML += plural === "pagine" ? showPages(contents, editLink) : showOther(contents, editLink);
     }
 
     document.getElementById("contentsShower").innerHTML = contentsHTML;
 }
 
-function showPages(pages) {
+function showPages(pages, editLink) {
     let html = ``;
     pages.forEach(page => {
         html += `
@@ -75,7 +82,7 @@ function showPages(pages) {
         html += `
                 <td class="align-middle">${page['type']}</td>
                 <td class="align-middle">
-                    <a class="btn btn-secondary px-0 py-1" href="#" role="button">Modifica</a>
+                    <a class="btn btn-secondary px-0 py-1" href="${editLink}" role="button">Modifica</a>
                 </td>
                 <td class="align-middle">
                     <a class="btn btn-danger px-0 py-1" href="#" role="button">Cancella</a>
@@ -85,14 +92,14 @@ function showPages(pages) {
     return html;
 }
 
-function showOther(contents) {
+function showOther(contents, editLink) {
     let html = ``;
     contents.forEach(c => {
         html += `
             <tr>
                 <td class="align-middle">${c['name']}</td>
                 <td class="align-middle">
-                    <a class="btn btn-secondary px-0 py-1" href="#" role="button">Modifica</a>
+                    <a class="btn btn-secondary px-0 py-1" href="${editLink}?id=${c['ID']}" role="button">Modifica</a>
                 </td>
                 <td class="align-middle">
                     <a class="btn btn-danger px-0 py-1" href="#" role="button">Cancella</a>
@@ -116,3 +123,5 @@ async function getContents(utilFunction) {
         console.log(error.message);
     }
 }
+
+show();

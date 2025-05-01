@@ -1,14 +1,15 @@
+<?php
+$options = ['Pagine', 'Menù', 'Tag', 'Articoli d\'inventario', 'Strumenti di corredo'];
+?>
 <h1 class="text-center fs-1 fw-bold mt-4">Gestione dei Contenuti</h1>
 <div class="mx-4 mt-5">
     <div id="selectorContainer">
         <label for="contentType">Seleziona il tipo di contenuto da gestire:</label>
         <select class="form-select" name="contentType" id="contentType">
-            <option selected disabled></option>
-            <option value="pages">Pagine</option>
-            <option value="menu">Menù</option>
-            <option value="tags">Tag</option>
-            <option value="inventoryItem">Articoli d'inventario</option>
-            <option value="referenceTools">Strumenti di corredo</option>
+            <option <?php echo !isset($_GET['cont']) ? "selected" : "" ?> disabled></option>
+            <?php foreach ($options as $opt): ?>
+            <option <?php echo (isset($_GET['cont']) && $_GET['cont'] == $opt) ? "selected" : "" ?> value="<?php echo $opt ?>"><?php echo $opt ?></option>
+            <?php endforeach; ?>
         </select>
     </div>
     <div class="mt-5" id="contentsShower">
