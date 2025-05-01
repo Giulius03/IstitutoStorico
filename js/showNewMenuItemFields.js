@@ -1,5 +1,6 @@
-let numOfItems = 0;
 let pages = [];
+let startNumber = 0;
+let numOfItems = 0;
 
 document.getElementById("btnAddMenuItem").addEventListener('click', function(event) {
     showNewMenuItemFields();
@@ -7,7 +8,6 @@ document.getElementById("btnAddMenuItem").addEventListener('click', function(eve
 
 function showNewMenuItemFields() {
     const itemsContainer = document.getElementById("menuItemsForms");
-    numOfItems++;
     itemsContainer.insertAdjacentHTML('beforeend', `
     <fieldset class="form-floating mb-3 pt-1 border-top">
         <legend>Voce Numero ${numOfItems}</legend>
@@ -18,7 +18,7 @@ function showNewMenuItemFields() {
         <div class="d-flex align-items-center">
             <label class="w-75" for="fatherItem${numOfItems}">Seleziona il padre tramite il suo numero di voce (opzionale)</label>
             <select class="form-select w-25" name="fatherItem${numOfItems}" id="fatherItem${numOfItems}">
-                <option value="no" selected>Nessuno</option>
+                <option value="no">Nessuno</option>
             </select>
         </div>
         <div class="form-floating my-3">
@@ -39,32 +39,32 @@ function showNewMenuItemFields() {
                 </li>`;
     });
     updateSelects();
+    numOfItems++;
 }
 
 function updateSelects() {
-    for (let i = 0; i < numOfItems; i++) {
-        let currentSelect = i+1;
-        if (currentSelect !== numOfItems) {
-            document.getElementById("fatherItem" + currentSelect).add(new Option(numOfItems, numOfItems));
+    for (let i = startNumber; i <= numOfItems; i++) {
+        if (i !== numOfItems) {
+            document.getElementById("fatherItem"+i).insertAdjacentHTML('beforeend', `
+            <option value="${numOfItems}">${numOfItems}</option>`);
         } else {
-            for (let j = 0; j < numOfItems; j++) {
-                let currentVal = j+1;
-                if (currentVal !== numOfItems) {
-                    document.getElementById("fatherItem" + currentSelect).add(new Option(currentVal, currentVal));
-                }
+            for (let j = startNumber; j < numOfItems; j++) {
+                document.getElementById("fatherItem"+i).insertAdjacentHTML('beforeend', `
+                    <option value="${j}">${j}</option>`);
             }
         }
     }
 }
 
 document.getElementById("newNoPageForm").addEventListener("submit", function(e) {
-    document.getElementById("numeroVoci").value = numOfItems;
+    document.getElementById("idPartenza").value = startNumber;
+    document.getElementById("idFine").value = numOfItems;
 });
 
-async function getPages() {
-    const url = '../../utils/getters/getPages.php?ordBy=title';
+async function start() {
+    let url = '../../utils/getters/getPages.php?ordBy=title';
     try {
-        const response = await fetch(url);
+        let response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`);
         }
@@ -72,6 +72,18 @@ async function getPages() {
     } catch (error) {
         console.log(error.message);
     }
+    url = '../../utils/getters/getMenuItemsNextID.php';
+    try {
+        response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+        const json = await response.json();
+        startNumber = json['maxId'];
+        numOfItems = startNumber;
+    } catch (error) {
+        console.log(error.message);
+    }
 }
 
-getPages();
+start();

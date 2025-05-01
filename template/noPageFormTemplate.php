@@ -5,7 +5,6 @@ $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] ==
     <?php echo ($templateParams["action"] == "I" ? "Inserisci nuovo" : ($templateParams["action"] == "E" ? "Modifica" : "Cancella"))." ".$templateParams['noPageType'] ?>
 </h1>
 <form action="../../utils/<?php echo $templateParams['actionFile'] ?>" method="POST" class="mx-5 mt-5" id="newNoPageForm">
-    <input type="hidden" name="numeroVoci" id="numeroVoci" />
     <div class="form-floating mb-3">
         <input name="Nome" type="text" class="form-control" id="Nome" placeholder="Nome" 
             value="<?php echo $editOrDelete ? $templateParams['content'][0]['name'] : "" ?>" required 
@@ -13,6 +12,8 @@ $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] ==
         <label for="Nome">Nome</label>
     </div>
     <?php if ($templateParams['noPageType'] == "menù"): ?>
+    <input type="hidden" name="idPartenza" id="idPartenza" />
+    <input type="hidden" name="idFine" id="idFine" />
     <a class="btn btn-dark mb-3" id="btnAddMenuItem" role="button">Aggiungi una voce al menù</a>
     <div id="menuItemsForms">
 

@@ -162,6 +162,14 @@ class DatabaseHelper{
         return $stmt->insert_id;
     }
 
+    public function getMenuItemsNextID() {
+        $stmt = $this->db->prepare("SHOW TABLE STATUS LIKE 'menuitem'");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $rows = $result->fetch_all(MYSQLI_ASSOC);
+        return $rows[0]['Auto_increment'];
+    }
+
     public function addTag($name, $description) {
         $stmt = $this->db->prepare("INSERT INTO tag (tagName, tagDescription) VALUES (?, ?)");
         $stmt->bind_param('ss', $name, $description);

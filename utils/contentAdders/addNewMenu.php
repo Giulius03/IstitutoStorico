@@ -3,19 +3,17 @@ require_once '../../bootstrap.php';
 
 $fieldsName = ['Nome'];
 
-for ($i=0; $i < $_POST['numeroVoci']; $i++) {
-    $current = $i+1;
-    array_push($fieldsName, "NomeVoce".$current, "fatherItem".$current, "PosizioneVoce".$current);
+for ($i=$_POST['idPartenza']; $i < $_POST['idFine']; $i++) {
+    array_push($fieldsName, "NomeVoce".$i, "fatherItem".$i, "PosizioneVoce".$i);
 }
 
 if (checkIsSet($fieldsName)) {
     try {
         $idNewMenu = $dbh->addMenu($_POST['Nome']);
-        for ($i=0; $i < $_POST['numeroVoci']; $i++) {
-            $current = $i+1;
-            $pageToLink = isset($_POST['linkToPage'.$current]) ? $_POST['linkToPage'.$current] : null;
-            $father = isset($_POST['fatherItem'.$current]) ? $_POST['fatherItem'.$current] : null;
-            $dbh->addMenuItem($_POST['NomeVoce'.$current], $_POST['PosizioneVoce'.$current], $idNewMenu, $pageToLink, $father);
+        for ($i=$_POST['idPartenza']; $i < $_POST['idFine']; $i++) {
+            $pageToLink = isset($_POST['linkToPage'.$i]) ? $_POST['linkToPage'.$i] : null;
+            $father = isset($_POST['fatherItem'.$i]) ? $_POST['fatherItem'.$i] : null;
+            $dbh->addMenuItem($_POST['NomeVoce'.$i], $_POST['PosizioneVoce'.$i], $idNewMenu, $pageToLink, $father);
         }
         header('Location: ../../admin.php?cont=Menù');
     } catch (Exception $e) {
