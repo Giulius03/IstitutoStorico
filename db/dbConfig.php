@@ -130,6 +130,23 @@ class DatabaseHelper{
         return $this->getContentFromID("referencetool", $referenceToolID, "idReferenceTool", "nameReferenceTool");
     }
 
+    public function getMenuFromID($menuID) {
+        $stmt = $this->db->prepare("SELECT idMenu as ID, menuName as name FROM menu WHERE idMenu = ?");
+        $stmt->bind_param('i', $menuID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getMenuItems($menuID) {
+        $stmt = $this->db->prepare("SELECT idMenuItem as ID, menuItemName as name, menuItemOrderedPosition as position,
+            Page_idPage as page, MenuItem_idMenuItem as father FROM menuitem WHERE Menu_idMenu = ?");
+        $stmt->bind_param('i', $menuID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function addPage($title, $slug, $html, $isVisible, $seoTitle, $seoText, $seoKeywords) {
         $creationDate = date('Y-m-d H:i:s');
         $stmt = $this->db->prepare("INSERT INTO page (title, slug, text, creationDate, updatedDate, isVisibile, seoTitle, seoText, seoKeywords) 
@@ -154,7 +171,7 @@ class DatabaseHelper{
         return $stmt->insert_id;
     }
 
-    public function addMenuItem($name, $position, $menu, $pageToLink, $father = null) {
+    public function addMenuItem($name, $position, $menu, $pageToLink, $father) {
         $stmt = $this->db->prepare("INSERT INTO menuitem (menuItemName, menuItemOrderedPosition, Menu_idMenu, Page_idPage, MenuItem_idMenuItem) 
                     VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param('siiii', $name, $position, $menu, $pageToLink, $father);

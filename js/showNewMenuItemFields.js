@@ -1,6 +1,9 @@
+import {getMenuItems} from './showCurrentMenuItems.js';
+
 let pages = [];
 let startNumber = 0;
 let numOfItems = 0;
+let oldItemsTaken = false;
 
 document.getElementById("btnAddMenuItem").addEventListener('click', function(event) {
     showNewMenuItemFields();
@@ -8,7 +11,7 @@ document.getElementById("btnAddMenuItem").addEventListener('click', function(eve
 
 function showNewMenuItemFields() {
     const itemsContainer = document.getElementById("menuItemsForms");
-    itemsContainer.insertAdjacentHTML('beforeend', `
+    itemsContainer.insertAdjacentHTML('afterbegin', `
     <fieldset class="form-floating mb-3 pt-1 border-top">
         <legend>Voce Numero ${numOfItems}</legend>
         <div class="form-floating my-3">
@@ -18,7 +21,7 @@ function showNewMenuItemFields() {
         <div class="d-flex align-items-center">
             <label class="w-75" for="fatherItem${numOfItems}">Seleziona il padre tramite il suo numero di voce (opzionale)</label>
             <select class="form-select w-25" name="fatherItem${numOfItems}" id="fatherItem${numOfItems}">
-                <option value="no">Nessuno</option>
+                <option value="">Nessuno</option>
             </select>
         </div>
         <div class="form-floating my-3">
@@ -42,8 +45,17 @@ function showNewMenuItemFields() {
     numOfItems++;
 }
 
-function updateSelects() {
+async function updateSelects() {
+    console.log(document.getElementById("idMenu").value);
     for (let i = startNumber; i <= numOfItems; i++) {
+        if (document.getElementById("idMenu").value !== "" && oldItemsTaken === false) {
+            let items = await getMenuItems(document.getElementById("idMenu"));
+            items.forEach(item => {
+                document.getElementById("fatherItem"+i).insertAdjacentHTML('beforeend', `
+                    <option value="${item['ID']}">${item['ID']}</option>`);
+            });
+            oldItemsTaken = true;
+        }
         if (i !== numOfItems) {
             document.getElementById("fatherItem"+i).insertAdjacentHTML('beforeend', `
             <option value="${numOfItems}">${numOfItems}</option>`);

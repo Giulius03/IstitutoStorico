@@ -15,7 +15,7 @@ function show() {
             break;
         case "Menù":
             btnInsertText = "Inserisci un nuovo menù";
-            showContents("getMenus.php", addContDir + "newMenu.php", editContDir + "", btnInsertText, "menù", [ "Nome" ]);
+            showContents("getMenus.php", addContDir + "newMenu.php", editContDir + "modifyMenu.php", btnInsertText, "menù", [ "Nome" ]);
             break;
         case "Tag":
             btnInsertText = "Inserisci un nuovo tag";

@@ -12,6 +12,7 @@ $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] ==
         <label for="Nome">Nome</label>
     </div>
     <?php if ($templateParams['noPageType'] == "menù"): ?>
+    <input type="hidden" name="idMenu" id="idMenu" value="<?php echo $editOrDelete ? $templateParams['content'][0]['ID'] : ""?>" />
     <input type="hidden" name="idPartenza" id="idPartenza" />
     <input type="hidden" name="idFine" id="idFine" />
     <a class="btn btn-dark mb-3" id="btnAddMenuItem" role="button">Aggiungi una voce al menù</a>
