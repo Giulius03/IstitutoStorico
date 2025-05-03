@@ -1,7 +1,6 @@
 let pages = [];
 let startNumber = 0;
 let numOfItems = 0;
-let oldItemsTaken = false;
 
 document.getElementById("btnAddMenuItem").addEventListener('click', function(event) {
     showNewMenuItemFields();
@@ -55,7 +54,6 @@ async function updateSelects() {
                     document.getElementById("fatherItem"+i).insertAdjacentHTML('beforeend', `
                         <option value="${item['ID']}">${item['ID']}</option>`);
                 });
-                oldItemsTaken = true;
             }
             for (let j = startNumber; j < numOfItems; j++) {
                 document.getElementById("fatherItem"+i).insertAdjacentHTML('beforeend', `

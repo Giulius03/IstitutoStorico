@@ -208,6 +208,15 @@ class DatabaseHelper{
         return $stmt->insert_id;
     }
 
+    public function updateMenu($menuID, $newMenuName) {
+        $menu = $this->getMenuFromID($menuID);
+        if ($menu[0]['name'] != $newMenuName) {
+            $stmt = $this->db->prepare("UPDATE menu SET menuName = ? WHERE idMenu = ?");
+            $stmt->bind_param('si', $newMenuName, $menuID);
+            $stmt->execute();
+        }
+    }
+
     public function updateTag($tagID, $newTagName, $newTagDescription) {
         $tag = $this->getTagFromID($tagID);
         if ($tag[0]['name'] != $newTagName || $tag[0]['description'] != $newTagDescription) {
