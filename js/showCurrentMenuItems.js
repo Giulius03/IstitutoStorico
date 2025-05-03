@@ -29,7 +29,7 @@ function showCurrentItems(items) {
             <td class="align-middle">${item['page'] !== null ? item['page'] : ""}</td>
             <td class="align-middle">${item['father'] !== null ? item['father'] : ""}</td>
             <td class="align-middle">
-                <a class="btn btn-secondary px-0 py-1" href="#" role="button">Modifica</a>
+                <a class="btn btn-secondary px-0 py-1" href="modifyMenuItem.php?id=${item['ID']}&idMenu=${document.getElementById("idMenu").value}" role="button">Modifica</a>
             </td>
             <td class="align-middle">
                 <a class="btn btn-danger px-0 py-1" href="#" role="button">Cancella</a>

@@ -147,6 +147,15 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getMenuItemFromID($menuItemID) {
+        $stmt = $this->db->prepare("SELECT idMenuItem as ID, menuItemName as name, menuItemOrderedPosition as position,
+            Page_idPage as page, MenuItem_idMenuItem as father FROM menuitem WHERE idMenuItem = ?");
+        $stmt->bind_param('i', $menuItemID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function addPage($title, $slug, $html, $isVisible, $seoTitle, $seoText, $seoKeywords) {
         $creationDate = date('Y-m-d H:i:s');
         $stmt = $this->db->prepare("INSERT INTO page (title, slug, text, creationDate, updatedDate, isVisibile, seoTitle, seoText, seoKeywords) 
@@ -217,6 +226,15 @@ class DatabaseHelper{
         }
     }
 
+    public function updateMenuItem($menuItemID, $newMenuItemName, $newMenuItemFather, $newMenuItemPosition, $newMenuItemLinkPage) {
+        $item = $this->getMenuItemFromID($menuItemID);
+        if ($item[0]['name'] != $newMenuItemName || $item[0]['father'] != $newMenuItemFather || $item[0]['position'] != $newMenuItemPosition || $item[0]['page'] != $newMenuItemLinkPage) {
+            $stmt = $this->db->prepare("UPDATE menuitem SET menuItemName = ?, menuItemOrderedPosition = ?, Page_idPage = ?, MenuItem_idMenuItem = ? WHERE idMenuItem = ?");
+            $stmt->bind_param('siiii', $newMenuItemName, $newMenuItemPosition, $newMenuItemLinkPage, $newMenuItemFather, $menuItemID);
+            $stmt->execute();
+        }
+    }
+    
     public function updateTag($tagID, $newTagName, $newTagDescription) {
         $tag = $this->getTagFromID($tagID);
         if ($tag[0]['name'] != $newTagName || $tag[0]['description'] != $newTagDescription) {
