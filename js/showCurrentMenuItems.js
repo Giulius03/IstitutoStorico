@@ -40,7 +40,7 @@ function showCurrentItems(items) {
     document.getElementById("menuItemsForms").innerHTML = tableHeadHtml + itemsHtml;
 }
 
-export async function getMenuItems(menuID) {
+async function getMenuItems(menuID) {
     let url = '../../utils/getters/getMenuItems.php?id=' + menuID;
     try {
         const response = await fetch(url);
@@ -48,7 +48,6 @@ export async function getMenuItems(menuID) {
             throw new Error(`Response status: ${response.status}`);
         }
         const json = await response.json();
-        console.log(json);
         showCurrentItems(json);
     } catch (error) {
         console.log(error.message);

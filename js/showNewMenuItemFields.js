@@ -1,5 +1,3 @@
-import {getMenuItems} from './showCurrentMenuItems.js';
-
 let pages = [];
 let startNumber = 0;
 let numOfItems = 0;
@@ -9,7 +7,7 @@ document.getElementById("btnAddMenuItem").addEventListener('click', function(eve
     showNewMenuItemFields();
 });
 
-function showNewMenuItemFields() {
+async function showNewMenuItemFields() {
     const itemsContainer = document.getElementById("menuItemsForms");
     itemsContainer.insertAdjacentHTML('afterbegin', `
     <fieldset class="form-floating mb-3 pt-1 border-top">
@@ -41,25 +39,24 @@ function showNewMenuItemFields() {
                     <label class="form-check-label" for="${page['idPage']}${numOfItems}">${page['title']}</label>
                 </li>`;
     });
-    updateSelects();
+    await updateSelects();
     numOfItems++;
 }
 
 async function updateSelects() {
-    console.log(document.getElementById("idMenu").value);
     for (let i = startNumber; i <= numOfItems; i++) {
-        if (document.getElementById("idMenu").value !== "" && oldItemsTaken === false) {
-            let items = await getMenuItems(document.getElementById("idMenu"));
-            items.forEach(item => {
-                document.getElementById("fatherItem"+i).insertAdjacentHTML('beforeend', `
-                    <option value="${item['ID']}">${item['ID']}</option>`);
-            });
-            oldItemsTaken = true;
-        }
         if (i !== numOfItems) {
             document.getElementById("fatherItem"+i).insertAdjacentHTML('beforeend', `
             <option value="${numOfItems}">${numOfItems}</option>`);
         } else {
+            if (document.getElementById("idMenu").value !== "") {
+                const items = await getExistingItems(document.getElementById("idMenu").value);
+                items.forEach(item => {
+                    document.getElementById("fatherItem"+i).insertAdjacentHTML('beforeend', `
+                        <option value="${item['ID']}">${item['ID']}</option>`);
+                });
+                oldItemsTaken = true;
+            }
             for (let j = startNumber; j < numOfItems; j++) {
                 document.getElementById("fatherItem"+i).insertAdjacentHTML('beforeend', `
                     <option value="${j}">${j}</option>`);
@@ -72,6 +69,20 @@ document.getElementById("newNoPageForm").addEventListener("submit", function(e) 
     document.getElementById("idPartenza").value = startNumber;
     document.getElementById("idFine").value = numOfItems;
 });
+
+async function getExistingItems(menuID) {
+    let url = '../../utils/getters/getMenuItems.php?id=' + menuID;
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+        const json = await response.json();
+        return json;
+    } catch (error) {
+        console.log(error.message);
+    }
+}
 
 async function start() {
     let url = '../../utils/getters/getPages.php?ordBy=title';
