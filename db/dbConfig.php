@@ -109,7 +109,7 @@ class DatabaseHelper{
         return $this->getNonPages("referencetool", "idReferenceTool", "nameReferenceTool");
     }
 
-    private function getContentFromID($table, $contentID, $idField, $nameField) {
+    private function getNonPageContentFromID($table, $contentID, $idField, $nameField) {
         $query = "SELECT $nameField as name" . ($table == "tag" ? ", tagDescription as description" : "") . " FROM $table WHERE $idField = ?";
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('i', $contentID);
@@ -119,15 +119,15 @@ class DatabaseHelper{
     }
 
     public function getTagFromID($tagID) {
-        return $this->getContentFromID("tag", $tagID, "idTag", "tagName");
+        return $this->getNonPageContentFromID("tag", $tagID, "idTag", "tagName");
     }
 
     public function getInventoryItemFromID($inventoryItemID) {
-        return $this->getContentFromID("inventoryItem", $inventoryItemID, "idInventoryItem", "inventoryItemName");
+        return $this->getNonPageContentFromID("inventoryItem", $inventoryItemID, "idInventoryItem", "inventoryItemName");
     }
 
     public function getReferenceToolFromID($referenceToolID) {
-        return $this->getContentFromID("referencetool", $referenceToolID, "idReferenceTool", "nameReferenceTool");
+        return $this->getNonPageContentFromID("referencetool", $referenceToolID, "idReferenceTool", "nameReferenceTool");
     }
 
     public function getMenuFromID($menuID) {
@@ -260,6 +260,43 @@ class DatabaseHelper{
             $stmt->bind_param('si', $newInventoryItemName, $inventoryItemID);
             $stmt->execute();
         }
+    }
+
+    private function deleteContent($table, $idField, $contentID) {
+        $stmt = $this->db->prepare("DELETE FROM $table WHERE $idField = ?");
+        $stmt->bind_param('i', $contentID);
+        $stmt->execute();
+    }
+
+    public function deleteMenu($menuID) {
+        $this->deleteContent("menu", "idMenu", $menuID);
+    }
+    
+    public function deleteAllMenuItems($menuID) {
+        $this->deleteContent("menuitem", "Menu_idMenu", $menuID);
+    }
+
+    private function releaseItemChildren($menuItemID) {
+        $stmt = $this->db->prepare("UPDATE menuitem SET MenuItem_idMenuItem = NULL WHERE MenuItem_idMenuItem = ?");
+        $stmt->bind_param('i', $menuItemID);
+        $stmt->execute();
+    }
+
+    public function deleteMenuItem($menuItemID) {
+        $this->releaseItemChildren($menuItemID);
+        $this->deleteContent("menuitem", "idMenuItem", $menuItemID);
+    }
+
+    public function deleteTag($tagID) {
+        $this->deleteContent("tag", "idTag", $tagID);
+    }
+
+    public function deleteReferenceTool($referenceToolID) {
+        $this->deleteContent("referencetool", "idReferenceTool", $referenceToolID);
+    }
+
+    public function deleteInventoryItem($inventoryItemID) {
+        $this->deleteContent("inventoryitem", "idInventoryItem", $inventoryItemID);
     }
 }
 ?>

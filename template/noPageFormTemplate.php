@@ -11,6 +11,7 @@ $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] ==
         <label for="Nome">Nome</label>
     </div>
     <?php if ($templateParams['noPageType'] == "menù"): ?>
+    <input type="hidden" name="btnsDisab" id="btnsDisab" value="<?php echo $templateParams["action"] == "D" ? "true" : "false" ?>" />
     <input type="hidden" name="idMenu" id="idMenu" value="<?php echo $editOrDelete ? $templateParams['content'][0]['ID'] : ""?>" />
     <input type="hidden" name="idPartenza" id="idPartenza" />
     <input type="hidden" name="idFine" id="idFine" />
@@ -52,6 +53,11 @@ $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] ==
             <?php endforeach; ?>
             </ul>
         </div>
+        <?php if ($templateParams["action"] == "D"): ?>
+        <div class="text-center pt-1">
+            <p class="fst-italic">N.B. I figli di questa voce, al momento della sua eliminazione, verranno considerati figli diretti del menù.</p>
+        </div>
+        <?php endif; ?>
     </div>
     <?php endif; ?>
     <div class="text-center my-4">

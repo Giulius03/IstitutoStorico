@@ -8,6 +8,8 @@ function show() {
     let btnInsertText = "";
     const addContDir = "contentsManagement/insertion/";
     const editContDir = "contentsManagement/editing/";
+    const removeContDir = "contentsManagement/elimination/";
+    
     switch (contentTypeSelect.value) {
         case "Pagine":
             btnInsertText = "Inserisci una nuova pagina";
@@ -15,26 +17,24 @@ function show() {
             break;
         case "Menù":
             btnInsertText = "Inserisci un nuovo menù";
-            showContents("getMenus.php", addContDir + "newMenu.php", editContDir + "modifyMenu.php", btnInsertText, "menù", [ "Nome" ]);
+            showContents("getMenus.php", addContDir + "newMenu.php", editContDir + "modifyMenu.php", removeContDir + "removeMenu.php", btnInsertText, "menù", [ "Nome" ]);
             break;
         case "Tag":
             btnInsertText = "Inserisci un nuovo tag";
-            showContents("getTags.php", addContDir + "newTag.php", editContDir + "modifyTag.php", btnInsertText, "tag", [ "Nome" ]);
+            showContents("getTags.php", addContDir + "newTag.php", editContDir + "modifyTag.php", removeContDir + "removeTag.php", btnInsertText, "tag", [ "Nome" ]);
             break;
         case "Articoli d'inventario":
             btnInsertText = "Inserisci un nuovo articolo d'inventario";
-            showContents("getInventoryItems.php", addContDir + "newInventoryItem.php", editContDir + "modifyInvItem.php", btnInsertText, "articoli d'inventario", [ "Nome" ]);
+            showContents("getInventoryItems.php", addContDir + "newInventoryItem.php", editContDir + "modifyInvItem.php", removeContDir + "removeInvItem.php", btnInsertText, "articoli d'inventario", [ "Nome" ]);
             break;
         case "Strumenti di corredo":
             btnInsertText = "Inserisci un nuovo strumento di corredo";
-            showContents("getReferenceTools.php", addContDir + "newReferenceTool.php", editContDir + "modifyRefTool.php", btnInsertText, "strumenti di corredo", [ "Nome" ]);
-            break;
-        default:
+            showContents("getReferenceTools.php", addContDir + "newReferenceTool.php", editContDir + "modifyRefTool.php", removeContDir + "removeRefTool.php", btnInsertText, "strumenti di corredo", [ "Nome" ]);
             break;
     }
 }
 
-async function showContents(getterFile, addLink, editLink, btnInsertText, plural, fields) {
+async function showContents(getterFile, addLink, editLink, removeLink, btnInsertText, plural, fields) {
     const contents = await getContents(getterFile);
     let contentsHTML = `<a class="btn btn-dark" href="${addLink}" role="button">${btnInsertText}</a>`;
     if (contents.length === 0) {
@@ -65,13 +65,13 @@ async function showContents(getterFile, addLink, editLink, btnInsertText, plural
             </thead>
             <tbody>
         `;
-        contentsHTML += plural === "pagine" ? showPages(contents, editLink) : showOther(contents, editLink);
+        contentsHTML += plural === "pagine" ? showPages(contents, editLink, removeLink) : showOther(contents, editLink, removeLink);
     }
 
     document.getElementById("contentsShower").innerHTML = contentsHTML;
 }
 
-function showPages(pages, editLink) {
+function showPages(pages, editLink, removeLink) {
     let html = ``;
     pages.forEach(page => {
         html += `
@@ -85,14 +85,14 @@ function showPages(pages, editLink) {
                     <a class="btn btn-secondary px-0 py-1" href="${editLink}" role="button">Modifica</a>
                 </td>
                 <td class="align-middle">
-                    <a class="btn btn-danger px-0 py-1" href="#" role="button">Cancella</a>
+                    <a class="btn btn-danger px-0 py-1" href="${removeLink}" role="button">Cancella</a>
                 </td>
             </tr>`;
     });
     return html;
 }
 
-function showOther(contents, editLink) {
+function showOther(contents, editLink, removeLink) {
     let html = ``;
     contents.forEach(c => {
         html += `
@@ -102,7 +102,7 @@ function showOther(contents, editLink) {
                     <a class="btn btn-secondary px-0 py-1" href="${editLink}?id=${c['ID']}" role="button">Modifica</a>
                 </td>
                 <td class="align-middle">
-                    <a class="btn btn-danger px-0 py-1" href="#" role="button">Cancella</a>
+                    <a class="btn btn-danger px-0 py-1" href="${removeLink}?id=${c['ID']}" role="button">Cancella</a>
                 </td>
             </tr>
         `;
