@@ -18,7 +18,6 @@ let areButtonsNotEnabled = false;
 document.addEventListener('DOMContentLoaded', function() {
     getMenuItems(document.getElementById("idMenu").value);
     areButtonsNotEnabled = document.getElementById("btnsDisab").value;
-    console.log(areButtonsNotEnabled);
 });
 
 function showCurrentItems(items) {

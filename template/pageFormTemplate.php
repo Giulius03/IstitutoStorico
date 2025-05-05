@@ -32,6 +32,10 @@
                 <input name="slug" type="text" class="form-control" id="slug" placeholder="slug" required />
                 <label for="slug">Slug</label>
             </li>
+            <li class="form-floating mb-3">
+                <input name="autore" type="text" class="form-control" id="autore" placeholder="autore" />
+                <label for="autore">Autore</label>
+            </li>
             <li class="form-check mb-3">
                 <input class="form-check-input" type="checkbox" value="visible" id="visible" name="visible" checked />
                 <label class="form-check-label" for="visible">Visibile</label>
@@ -73,35 +77,28 @@
     </fieldset>
     <fieldset class="border-top my-4">
         <legend>Indice</legend>
-        <?php if ($templateParams["action"] == "I"): ?>
         <div class="text-center py-3">
-            <p class="fst-italic">È possibile aggiungere voci all'indice di una pagina solo dopo che quest'ultima è stata creata.</p>
+            <p class="fst-italic">Fare parte per aggiungere voci all'indice</p>
         </div>
-        <?php endif; ?>
-        <!-- TODO: parte in cui vengono aggiunte voci all'indice -->
     </fieldset>
     <fieldset class="border-top my-4">
         <legend>Note</legend>
-        <?php if ($templateParams["action"] == "I"): ?>
         <div class="text-center py-3">
-            <p class="fst-italic">È possibile aggiungere note alla pagina solo dopo che quest'ultima è stata creata.</p>
+            <p class="fst-italic">Fare parte per aggiungere note</p>
         </div>
-        <?php endif; ?>
-        <!-- TODO: parte in cui vengono aggiunte note -->
     </fieldset>
-    <!-- <fieldset class="border-top border-bottom my-4">
+    <fieldset class="border-top my-4">
         <legend>Pagine Contenute</legend>
-        <label>Seleziona le pagine che saranno contenute all'interno di quella che stai creando:</label>
-        <ul class="mt-2 p-0 listPagesContained">
-            <?php $pages = $dbh->getPages("title");
-            foreach ($pages as $page): ?>
+        <label>Seleziona i tag le cui pagine saranno contenute in quella che stai creando:</label>
+        <ul class="mt-2 p-0">
+            <?php foreach ($tags as $tag): ?>
             <li class="form-check me-5">
-                <input class="form-check-input" type="checkbox" value="<?php echo $page['idPage'] ?>" id="<?php echo "page".$page['idPage'] ?>" name="<?php echo "page".$page['idPage'] ?>" />
-                <label class="form-check-label" for="<?php echo "page".$page['idPage'] ?>"><?php echo $page['title'] ?></label>
+                <input class="form-check-input" type="checkbox" value="<?php echo $tag['ID'] ?>" id="<?php echo "tagContenuto".$tag['ID'] ?>" name="<?php echo "tagContenuto".$tag['ID'] ?>" />
+                <label class="form-check-label" for="<?php echo "tagContenuto".$tag['ID'] ?>"><?php echo $tag['name'] ?></label>
             </li>
             <?php endforeach; ?>
         </ul>
-    </fieldset> -->
+    </fieldset>
     <div id="archivePageInfo" class="d-none">
         <fieldset class="border-top mb-4">
             <legend>Attributi Pagina di Archivio</legend>
@@ -156,6 +153,8 @@
         </div>
     </fieldset>
     <div class="text-center my-4">
-        <input class="btn btn-dark w-25" type="submit" id="btnCreatePage" value="Crea" />
+        <a class="btn btn-dark w-25 me-4" role="button" href="../../admin.php?cont=Pagine">Torna indietro</a>
+        <input class="btn btn-dark ms-4 w-25" type="submit" id="btnCreatePage" 
+        value="<?php echo ($templateParams["action"] == "I" ? "Crea" : ($templateParams["action"] == "E" ? "Salva" : "Elimina")) ?>" />
     </div>
 </form>

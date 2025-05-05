@@ -62,7 +62,7 @@ $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] ==
     <?php endif; ?>
     <div class="text-center my-4">
         <?php $previousPagePath = $templateParams['noPageType'] == "voce del menù" 
-            ? "modifyMenu.php?id=".$_GET['idMenu'] 
+            ? "../editing/modifyMenu.php?id=".$_GET['idMenu'] 
             : "../../admin.php?cont=".$templateParams['noPageType'];?>
         <a class="btn btn-dark w-25 me-4" role="button" href="<?php echo $previousPagePath ?>">Torna indietro</a>
         <input class="btn btn-dark w-25 ms-4" type="submit" id="btnCreate"
