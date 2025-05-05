@@ -77,14 +77,16 @@
     </fieldset>
     <fieldset class="border-top my-4">
         <legend>Indice</legend>
-        <div class="text-center py-3">
-            <p class="fst-italic">Fare parte per aggiungere voci all'indice</p>
+        <a class="btn btn-dark mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddIndexItem" role="button">Aggiungi una voce all'indice</a>
+        <div id="indexItemsForms">
+
         </div>
     </fieldset>
     <fieldset class="border-top my-4">
         <legend>Note</legend>
-        <div class="text-center py-3">
-            <p class="fst-italic">Fare parte per aggiungere note</p>
+        <a class="btn btn-dark mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddNote" role="button">Aggiungi una nota</a>
+        <div id="notesForms">
+
         </div>
     </fieldset>
     <fieldset class="border-top my-4">
