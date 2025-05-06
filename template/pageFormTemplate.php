@@ -1,7 +1,7 @@
 <h1 class="text-center fs-1 fw-bold mt-4">
     <?php echo ($templateParams["action"] == "I" ? "Inserisci nuova" : ($templateParams["action"] == "E" ? "Modifica" : "Cancella"))." pagina" ?>
 </h1>
-<form action="../utils/addNewPage.php" method="POST" class="mx-5 mt-4">
+<form action="../utils/addNewPage.php" method="POST" class="mx-5 mt-4" id="newPageForm">
     <?php if ($templateParams["action"] == "I"): ?>
     <div class="d-flex flex-column align-items-center">
         <label>Seleziona il tipo di pagina:</label>
@@ -150,8 +150,9 @@
             <label for="path">Path Raccolta</label>
             <input name="path" type="file" webkitdirectory directory class="form-control mt-1" id="path" placeholder="path" />
         </div>
-        <div class="text-center border-bottom py-3">
-            <p class="fst-italic">È possibile aggiungere elementi alla raccolta solo dopo che la pagina che la contiene è stata creata.</p>
+        <a class="btn btn-dark mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddCollectionElem" role="button">Aggiungi un elemento di raccolta</a>
+        <div id="collectionElemForms">
+
         </div>
     </fieldset>
     <div class="text-center my-4">
