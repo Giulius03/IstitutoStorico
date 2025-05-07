@@ -37,15 +37,22 @@ async function showNewCollectionElemFields() {
         </div>
     </fieldset>`);
     document.querySelector('#radioContainer'+numOfElems).addEventListener('change', function(event) {
-        console.log(numOfElems);
+        const number = (event.target.name).split('elemType')[1];
         switch (event.target.value) {
             case "bibliografia":
-                showBibliographyElemFields(numOfElems-1);
+                showBibliographyElemFields(number);
                 break;
             case "cronologia":
-                showCronologyElemFields(numOfElems-1);
+                showCronologyElemFields(number);
                 break;
-            default:
+            case "emeroteca":
+                showNewsPaperLibraryElemFields(number);
+                break;
+            case "fototeca":
+                showNewPhotoLibraryElemFields(number);
+                break;
+            case "rete":
+                showNewNetworkResourceFields(number);
                 break;
         }
     });
@@ -81,5 +88,57 @@ function showCronologyElemFields(index) {
     <div class="form-floating my-3">
         <input name="descrizione${index}" type="text" class="form-control" id="descrizione${index}" placeholder="descrizione" />
         <label for="descrizione${index}">Descrizione</label>
+    </div>`;
+}
+
+function showNewsPaperLibraryElemFields(index) {
+    document.getElementById("specificFieldsForm"+index).innerHTML = `
+    <div class="form-floating my-3">
+        <input name="giornale${index}" type="text" class="form-control" id="giornale${index}" placeholder="giornale" required />
+        <label for="giornale${index}">Testata Giornalistica</label>
+    </div>
+    <div class="form-floating my-3">
+        <input name="titolo${index}" type="text" class="form-control" id="titolo${index}" placeholder="titolo" required />
+        <label for="titolo${index}">Titolo Articolo</label>
+    </div>
+    <div class="form-floating my-3">
+        <input name="dataPubblicazione${index}" type="date" class="form-control" id="dataPubblicazione${index}" placeholder="dataPubblicazione" required />
+        <label for="dataPubblicazione${index}">Data di Pubblicazione</label>
+    </div>
+    <div class="form-floating my-3">
+        <input name="HREF${index}" type="text" class="form-control" id="HREF${index}" placeholder="HREF" />
+        <label for="HREF${index}">HREF</label>
+    </div>`;
+}
+
+function showNewPhotoLibraryElemFields(index) {
+    document.getElementById("specificFieldsForm"+index).innerHTML = `
+    <div class="form-floating my-3">
+        <input name="descrizione${index}" type="text" class="form-control" id="descrizione${index}" placeholder="descrizione" />
+        <label for="descrizione${index}">Descrizione</label>
+    </div>`;
+}
+
+function showNewNetworkResourceFields(index) {
+    document.getElementById("specificFieldsForm"+index).innerHTML = `
+    <div class="form-floating my-3">
+        <input name="tipologia${index}" type="text" class="form-control" id="tipologia${index}" placeholder="tipologia" />
+        <label for="tipologia${index}">Tipologia di Risorsa</label>
+    </div>
+    <div class="form-floating my-3">
+        <input name="titolo${index}" type="text" class="form-control" id="titolo${index}" placeholder="titolo" required />
+        <label for="titolo${index}">Titolo</label>
+    </div>
+    <div class="form-floating my-3">
+        <input name="fonte${index}" type="text" class="form-control" id="fonte${index}" placeholder="fonte" />
+        <label for="fonte${index}">Fonte</label>
+    </div>
+    <div class="form-floating my-3">
+        <input name="HREF${index}" type="text" class="form-control" id="HREF${index}" placeholder="HREF" />
+        <label for="HREF${index}">HREF</label>
+    </div>
+    <div class="form-floating my-3">
+        <input name="DOI${index}" type="text" class="form-control" id="DOI${index}" placeholder="DOI" />
+        <label for="DOI${index}">DOI</label>
     </div>`;
 }
