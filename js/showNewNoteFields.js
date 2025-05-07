@@ -23,4 +23,5 @@ async function showNewNoteFields() {
         </div>
     </fieldset>`);
     numOfNotes++;
+    document.getElementById("numNote").value = numOfNotes;
 }

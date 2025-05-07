@@ -36,6 +36,7 @@ async function showNewIndexItemFields() {
                 </li>`;
     });
     numOfItems++;
+    document.getElementById("numVoci").value = numOfItems;
 }
 
 async function start() {

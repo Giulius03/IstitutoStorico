@@ -1,7 +1,7 @@
 <h1 class="text-center fs-1 fw-bold mt-4">
     <?php echo ($templateParams["action"] == "I" ? "Inserisci nuova" : ($templateParams["action"] == "E" ? "Modifica" : "Cancella"))." pagina" ?>
 </h1>
-<form action="../utils/addNewPage.php" method="POST" class="mx-5 mt-4" id="newPageForm">
+<form action="../../utils/contentAdders/addNewPage.php" method="POST" class="mx-5 mt-4" id="newPageForm">
     <?php if ($templateParams["action"] == "I"): ?>
     <div class="d-flex flex-column align-items-center">
         <label>Seleziona il tipo di pagina:</label>
@@ -78,6 +78,7 @@
     <fieldset class="border-top my-4">
         <legend>Indice</legend>
         <a class="btn btn-dark mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddIndexItem" role="button">Aggiungi una voce all'indice</a>
+        <input type="hidden" name="numVoci" id="numVoci" value="0" />
         <div id="indexItemsForms">
 
         </div>
@@ -85,6 +86,7 @@
     <fieldset class="border-top my-4">
         <legend>Note</legend>
         <a class="btn btn-dark mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddNote" role="button">Aggiungi una nota</a>
+        <input type="hidden" name="numNote" id="numNote" value="0" />
         <div id="notesForms">
 
         </div>
