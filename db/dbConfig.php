@@ -85,14 +85,18 @@ class DatabaseHelper{
         return $this->getNonPages("tag", "idTag", "tagName");
     }
 
+    private function getNumOfContents($table) {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM $table");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_row()[0];
+    }
+
     /**
      * @return int Il numero di tag presenti
      */
     public function getNumOfTags() {
-        $stmt = $this->db->prepare("SELECT COUNT(*) FROM tag");
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_row()[0];
+        return $this->getNumOfContents("tag");
     }
 
     /**
@@ -107,6 +111,14 @@ class DatabaseHelper{
      */
     public function getReferenceTools() {
         return $this->getNonPages("referencetool", "idReferenceTool", "nameReferenceTool");
+    }
+
+    public function getNumOfReferenceTools() {
+        return $this->getNumOfContents("referencetool");
+    }
+
+    public function getNumOfInventoryItems() {
+        return $this->getNumOfContents("inventoryitem");
     }
 
     private function getNonPageContentFromID($table, $contentID, $idField, $nameField) {
@@ -208,6 +220,28 @@ class DatabaseHelper{
         $stmt = $this->db->prepare("INSERT INTO note (noteAnchor, noteText, page_idPage, author) VALUES (?, ?, ?, ?)");
         $stmt->bind_param('ssis', $anchor, $text, $pageID, $author);
         $stmt->execute();
+    }
+
+    public function addArchivePage($chronologyStartYear, $chronologyEndYear, $pageID) {
+        $stmt = $this->db->prepare("INSERT INTO archivepage (chronologyStartYear, chronologyEndYear, Page_idPage) VALUES (?, ?, ?)");
+        $stmt->bind_param('ssi', $chronologyStartYear, $chronologyEndYear, $pageID);
+        $stmt->execute();
+    }
+
+    public function connectReferenceToolsToPage($pageID, $referenceToolsID) {
+        foreach ($referenceToolsID as $referenceToolID) {
+            $stmt = $this->db->prepare("INSERT INTO archivepage_has_referencetool (ArchivePage_Page_idPage, ReferenceTool_idReferenceTool) VALUES (?, ?)");
+            $stmt->bind_param('ii', $pageID, $referenceToolID);
+            $stmt->execute();
+        }
+    }
+
+    public function connectInventoryItemsToPage($pageID, $inventoryItems) {
+        foreach ($inventoryItems as $inventoryItem) {
+            $stmt = $this->db->prepare("INSERT INTO archivepage_has_inventoryitem (ArchivePage_Page_idPage, inventoryItem_idInventoryItem, itemQuantity) VALUES (?, ?, ?)");
+            $stmt->bind_param('iii', $pageID, $inventoryItem['articolo'], $inventoryItem['quantita']);
+            $stmt->execute();
+        }
     }
 
     public function addMenu($name) {

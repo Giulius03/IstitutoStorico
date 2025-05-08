@@ -33,6 +33,11 @@ td a {
     padding-right: 15px;
 }
 
+.addingInvItem .form-control {
+    width: 80px !important;
+    font-size: 14px;
+}
+
 @media (min-width: 768px) {
     .loginForm {
         margin: 0 10%;

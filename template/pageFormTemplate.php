@@ -130,13 +130,16 @@
         </fieldset>
         <fieldset class="border-top border-bottom mb-4">
             <legend>Articoli d'Inventario</legend>
-            <label>Seleziona gli articoli d'inventario della pagina:</label>
-            <ul class="mt-2 p-0">
+            <label>Seleziona gli articoli d'inventario della pagina e la rispettiva quantità:</label>
+            <ul class="mt-2 p-0 list-unstyled" id="invItemList">
                 <?php $inventoryItems = $dbh->getInventoryItems();
                 foreach ($inventoryItems as $iItem): ?>
-                <li class="form-check me-5">
-                    <input class="form-check-input" type="checkbox" value="<?php echo $iItem['ID'] ?>" id="<?php echo "articolo".$iItem['ID'] ?>" name="<?php echo "articolo".$iItem['ID'] ?>" />
-                    <label class="form-check-label" for="<?php echo "articolo".$iItem['ID'] ?>"><?php echo $iItem['name'] ?></label>
+                <li class="addingInvItem">
+                    <div class="form-check me-3 w-100">
+                        <input class="form-check-input" type="checkbox" value="<?php echo $iItem['ID'] ?>" id="<?php echo "articolo".$iItem['ID'] ?>" name="<?php echo "articolo".$iItem['ID'] ?>" />
+                        <label class="form-check-label" for="<?php echo "articolo".$iItem['ID'] ?>"><?php echo $iItem['name'] ?></label>
+                    </div>
+                    <input step="1" name="<?php echo "quantita".$iItem['ID'] ?>" type="number" class="form-control py-1 ps-2 pe-0 d-none" id="<?php echo "quantita".$iItem['ID'] ?>" placeholder="Quantità" aria-label="<?php echo "quantitàArticolo".$iItem['ID'] ?>" />
                 </li>
                 <?php endforeach; ?>
             </ul>
