@@ -83,11 +83,11 @@ function showCronologyElemFields(index) {
         <label for="data${index}">Data</label>
     </div>
     <div class="form-floating my-3">
-        <input name="localita${index}" type="text" class="form-control" id="localita${index}" placeholder="localita" />
+        <input name="localita${index}" type="text" class="form-control" id="localita${index}" placeholder="localita" required />
         <label for="localita${index}">Località</label>
     </div>
     <div class="form-floating my-3">
-        <input name="descrizione${index}" type="text" class="form-control" id="descrizione${index}" placeholder="descrizione" />
+        <input name="descrizione${index}" type="text" class="form-control" id="descrizione${index}" placeholder="descrizione" required />
         <label for="descrizione${index}">Descrizione</label>
     </div>`;
 }

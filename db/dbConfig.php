@@ -258,6 +258,36 @@ class DatabaseHelper{
         return $stmt->insert_id;
     }
 
+    public function addBibliographyElement($cit, $elementID, $collectionID, $href, $doi) {
+        $stmt = $this->db->prepare("INSERT INTO elementobibliografia (citazioneBibliografia, elementoDiRaccolta_idelementoDiRaccolta, elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse, href, DOI) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param('siiss', $cit, $elementID, $collectionID, $href, $doi);
+        $stmt->execute();
+    }
+
+    public function addChronologyElement($date, $elementID, $collectionID, $location, $description) {
+        $stmt = $this->db->prepare("INSERT INTO elementocronologia (idElementoCronologia, elementoDiRaccolta_idelementoDiRaccolta, elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse, localita, descrizioneElementoCronologia) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param('siiss', $date, $elementID, $collectionID, $location, $description);
+        $stmt->execute();
+    }
+
+    public function addNewsPaperLibraryElement($journal, $publicationDate, $elementID, $collectionID, $title, $href) {
+        $stmt = $this->db->prepare("INSERT INTO elementoemeroteca (nomeTestataGiornalistica, elementoDiRaccolta_idelementoDiRaccolta, elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse, href, dataPubblicazione, titoloArticolo) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param('siisss', $journal, $elementID, $collectionID, $href, $publicationDate, $title);
+        $stmt->execute();
+    }
+
+    public function addPhotoLibraryElement($description, $elementID, $collectionID) {
+        $stmt = $this->db->prepare("INSERT INTO elementofototeca (descrizioneElementoFototeca, elementoDiRaccolta_idelementoDiRaccolta, elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse) VALUES (?, ?, ?)");
+        $stmt->bind_param('sii', $description, $elementID, $collectionID);
+        $stmt->execute();
+    }
+
+    public function addNetworkResource($type, $elementID, $collectionID, $title, $href, $source, $doi) {
+        $stmt = $this->db->prepare("INSERT INTO elementorisorsa (tipologiaRisorsa, elementoDiRaccolta_idelementoDiRaccolta, elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse, titoloRisorsa, hrefRisorsa, fonte, DOI) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param('siissss', $type, $elementID, $collectionID, $title, $href, $source, $doi);
+        $stmt->execute();
+    }
+
     public function addMenu($name) {
         $stmt = $this->db->prepare("INSERT INTO menu (menuName) VALUES (?)");
         $stmt->bind_param('s', $name);
