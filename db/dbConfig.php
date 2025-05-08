@@ -170,6 +170,34 @@ class DatabaseHelper{
         }
     }
 
+    public function addDisplayedPages($viewerPageID, $tagsID) {
+        //inserimento dentro la tabella 'page_displays_pages_of_tag'
+        foreach ($tagsID as $tagID) {
+            $stmt = $this->db->prepare("INSERT INTO page_displays_pages_of_tag (page_idPage, tag_idTag) VALUES (?, ?)");
+            $stmt->bind_param('ii', $viewerPageID, $tagID);
+            $stmt->execute();
+        }
+        $displayedPages = $this->getAllDisplayedPagesFromTags($tagsID);
+        //inserimento dentro la tabella 'page_displays_page'
+        foreach ($displayedPages as $displayedPage) {
+            $stmt = $this->db->prepare("INSERT INTO page_displays_page (page_idPageContainer, page_idPageContained) VALUES (?, ?)");
+            $stmt->bind_param('ii', $viewerPageID, $displayedPage['ID']);
+            $stmt->execute();
+        }
+    }
+
+    private function getAllDisplayedPagesFromTags($tagsID) {
+        $query = "SELECT DISTINCT page_idPage as ID FROM page_has_tag WHERE ";
+        for ($i=0; $i < count($tagsID); $i++) { 
+            $query .= $i != 0 ? " OR " : "";
+            $query .= "tag_idTag = " . $tagsID[$i];
+        }
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     public function addIndexItem($position, $shownInPageID, $targetAnchor, $linkToPage, $title) {
         $stmt = $this->db->prepare("INSERT INTO indexitem (orderedPosition, shownInPageId, targetAnchor, linkToPage, indexItemTitle) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param('iisis', $position, $shownInPageID, $targetAnchor, $linkToPage, $title);

@@ -9,6 +9,13 @@ for ($i=1; $i <= $numOfTags; $i++) {
     }
 }
 
+$displayedPagesTagsSet = [];
+for ($i=1; $i <= $numOfTags; $i++) { 
+    if (isset($_POST['tagContenuto'.$i])) {
+        $displayedPagesTagsSet[] = (int) $_POST['tagContenuto'.$i];
+    }
+}
+
 $fieldsName = ['pageType', 'titolo', 'slug', 'visible', 'content', 'titoloSEO', 'testoSEO', 'chiaviSEO', 'numVoci', 'numNote'];
 if (checkIsSet($fieldsName)) {
     try {
@@ -29,6 +36,8 @@ if (checkIsSet($fieldsName)) {
                 $dbh->addNote($_POST['AncoraNota'.$i], $_POST['Testo'.$i], $idNewPage, $author);
             }
         }
+        //inserimento pagine contenute tramite tag
+        $dbh->addDisplayedPages($idNewPage, $displayedPagesTagsSet);
         header('Location: ../../admin.php?cont=Pagine');
     } catch (Exception $e) {
         echo "Errore: " . $e->getMessage();
