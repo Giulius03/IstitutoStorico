@@ -16,6 +16,11 @@ if (checkIsSet($fieldsName)) {
             addReferenceToolsToPage($idNewPage);
             addInventoryItemsToPage($idNewPage);
         }
+        if ($_POST['pageType'] == "raccolta" && checkIsSet(['nomeRaccolta', 'path'])) {
+            $path = $_POST['path'] != "" ? $_POST['path'] : null;
+            $idNewResourceCollection = $dbh->addResourceCollection($_POST['nomeRaccolta'], $path, $idNewPage);
+            addNewCollectionElements($idNewResourceCollection);
+        }
         header('Location: ../../admin.php?cont=Pagine');
     } catch (Exception $e) {
         echo "Errore: " . $e->getMessage();
@@ -90,6 +95,20 @@ function addInventoryItemsToPage($pageID) {
     }
     if (count($invItemsSet) != 0) {
         $GLOBALS['dbh']->connectInventoryItemsToPage($pageID, $invItemsSet);
+    }
+}
+
+function addNewCollectionElements($resourceCollectionID) {
+    for ($i=0; $i < $_POST['numElems']; $i++) {
+        switch ($_POST['elemType'.$i]) {
+            case 'value':
+                # code...
+                break;
+            
+            default:
+                # code...
+                break;
+        }
     }
 }
 ?>

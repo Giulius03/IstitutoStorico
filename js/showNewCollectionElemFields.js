@@ -57,6 +57,7 @@ async function showNewCollectionElemFields() {
         }
     });
     numOfElems++;
+    document.getElementById("numElems").value = numOfElems;
 }
 
 function showBibliographyElemFields(index) {

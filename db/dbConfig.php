@@ -244,6 +244,20 @@ class DatabaseHelper{
         }
     }
 
+    public function addResourceCollection($collectionName, $path, $pageID) {
+        $stmt = $this->db->prepare("INSERT INTO raccoltadirisorse (nomeRaccolta, pathRaccolta, Page_idPage) VALUES (?, ?, ?)");
+        $stmt->bind_param('ssi', $collectionName, $path, $pageID);
+        $stmt->execute();
+        return $stmt->insert_id;
+    }
+
+    public function addCollectionElement($resourceCollectionID) {
+        $stmt = $this->db->prepare("INSERT INTO elementodiraccolta (RaccoltaDiRisorse_idRaccoltaDiRisorse) VALUES (?)");
+        $stmt->bind_param('i', $resourceCollectionID);
+        $stmt->execute();
+        return $stmt->insert_id;
+    }
+
     public function addMenu($name) {
         $stmt = $this->db->prepare("INSERT INTO menu (menuName) VALUES (?)");
         $stmt->bind_param('s', $name);

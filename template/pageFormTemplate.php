@@ -156,6 +156,7 @@
             <input name="path" type="file" webkitdirectory directory class="form-control mt-1" id="path" placeholder="path" />
         </div>
         <a class="btn btn-dark mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddCollectionElem" role="button">Aggiungi un elemento di raccolta</a>
+        <input type="hidden" name="numElems" id="numElems" value="0" />
         <div id="collectionElemForms">
 
         </div>
