@@ -13,7 +13,7 @@ function show() {
     switch (contentTypeSelect.value) {
         case "Pagine":
             btnInsertText = "Inserisci una nuova pagina";
-            showContents("getPages.php?ordBy=updatedDate", addContDir + "newPage.php", editContDir + "", removeContDir + "", btnInsertText, "pagine", [ "Titolo", "Ultima Modifica", "Tipo" ]);
+            showContents("getPages.php?ordBy=updatedDate", addContDir + "newPage.php", editContDir + "modifyPage.php", removeContDir + "", btnInsertText, "pagine", [ "Titolo", "Ultima Modifica", "Tipo" ]);
             break;
         case "Menù":
             btnInsertText = "Inserisci un nuovo menù";
@@ -82,10 +82,10 @@ function showPages(pages, editLink, removeLink) {
         html += `
                 <td class="align-middle">${page['type']}</td>
                 <td class="align-middle">
-                    <a class="btn btn-secondary px-0 py-1" href="${editLink}" role="button">Modifica</a>
+                    <a class="btn btn-secondary px-0 py-1" href="${editLink}?id=${page['idPage']}" role="button">Modifica</a>
                 </td>
                 <td class="align-middle">
-                    <a class="btn btn-danger px-0 py-1" href="${removeLink}" role="button">Cancella</a>
+                    <a class="btn btn-danger px-0 py-1" href="${removeLink}?id=${page['idPage']}" role="button">Cancella</a>
                 </td>
             </tr>`;
     });

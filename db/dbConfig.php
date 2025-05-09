@@ -121,6 +121,54 @@ class DatabaseHelper{
         return $this->getNumOfContents("inventoryitem");
     }
 
+    public function getPageFromID($pageID) {
+        $stmt = $this->db->prepare("SELECT title, slug, text, isVisibile, seoTitle, seoText, seoKeywords, author FROM page WHERE idPage = ?");
+        $stmt->bind_param('i', $pageID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getTagsFromPageID($pageID) {
+        $stmt = $this->db->prepare("SELECT tag_idTag as tagId FROM page_has_tag WHERE page_idPage = ?");
+        $stmt->bind_param('i', $pageID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $tagsIds = [];
+        while ($row = $result->fetch_assoc()) {
+            $tagsIds[] = $row['tagId'];
+        }
+        return $tagsIds;
+    }
+
+    public function getContainedPagesTagsFromContainerID($containerID) {
+        $stmt = $this->db->prepare("SELECT tag_idTag as tagId FROM page_displays_pages_of_tag WHERE page_idPage = ?");
+        $stmt->bind_param('i', $containerID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $tagsIds = [];
+        while ($row = $result->fetch_assoc()) {
+            $tagsIds[] = $row['tagId'];
+        }
+        return $tagsIds;
+    }
+
+    public function getIndexItemsFromPageID($pageID) {
+        $stmt = $this->db->prepare("SELECT idIndexItem as ID, indexItemTitle as title, orderedPosition as position FROM indexitem WHERE shownInPageId = ?");
+        $stmt->bind_param('i', $pageID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getNotesFromPageID($pageID) {
+        $stmt = $this->db->prepare("SELECT noteId as ID, noteText as text FROM note WHERE page_idPage = ?");
+        $stmt->bind_param('i', $pageID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     private function getNonPageContentFromID($table, $contentID, $idField, $nameField) {
         $query = "SELECT $nameField as name" . ($table == "tag" ? ", tagDescription as description" : "") . " FROM $table WHERE $idField = ?";
         $stmt = $this->db->prepare($query);

@@ -23,6 +23,14 @@ tinymce.init({
                 callback(url, { alt: '' });
             };
         }
+    },
+
+    setup: function(editor) {
+        editor.on('init', function() {
+            if (document.getElementById("tinymceDisabled").value === "true") {
+                tinymce.get('content').mode.set('readonly');
+            }
+        });
     }
 });
 
