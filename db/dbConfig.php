@@ -126,7 +126,9 @@ class DatabaseHelper{
         $stmt->bind_param('i', $pageID);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        $page = $result->fetch_assoc();
+        $page['type'] = $this->getPageType($pageID);
+        return $page;
     }
 
     public function getTagsFromPageID($pageID) {
@@ -167,6 +169,41 @@ class DatabaseHelper{
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getArchivePageFromPageID($pageID) {
+        $stmt = $this->db->prepare("SELECT chronologyStartYear as start, chronologyEndYear as end FROM archivepage WHERE Page_idPage = ?");
+        $stmt->bind_param('i', $pageID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getReferenceToolsFromArchivePageID($archivePageID) {
+        $stmt = $this->db->prepare("SELECT ReferenceTool_idReferenceTool as rToolId FROM archivepage_has_referencetool WHERE ArchivePage_Page_idPage = ?");
+        $stmt->bind_param('i', $archivePageID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $refToolsIds = [];
+        while ($row = $result->fetch_assoc()) {
+            $refToolsIds[] = $row['rToolId'];
+        }
+        return $refToolsIds;
+    }
+
+    public function getInventoryItemsFromArchivePageID($archivePageID) {
+        $stmt = $this->db->prepare("SELECT inventoryItem_idInventoryItem as invItemId, itemQuantity FROM archivepage_has_inventoryitem WHERE ArchivePage_Page_idPage = ?");
+        $stmt->bind_param('i', $archivePageID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $invItemsIds = [];
+        while ($row = $result->fetch_assoc()) {
+            $invItemsIds[] = [
+                'ID' => $row['invItemId'],
+                'quantity' => $row['itemQuantity']
+            ];
+        }
+        return $invItemsIds;
     }
 
     private function getNonPageContentFromID($table, $contentID, $idField, $nameField) {

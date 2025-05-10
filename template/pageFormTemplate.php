@@ -30,24 +30,24 @@ $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] ==
         <legend>Attributi</legend>
         <ul class="list-unstyled m-0 mt-5 px-2">
             <li class="form-floating mb-3">
-                <input name="titolo" type="text" class="form-control" id="titolo" placeholder="Titolo" value="<?php echo $editOrDelete ? $templateParams['page'][0]['title'] : "" ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                <input name="titolo" type="text" class="form-control" id="titolo" placeholder="Titolo" value="<?php echo $editOrDelete ? $templateParams['page']['title'] : "" ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
                 <label for="titolo">Titolo</label>
             </li>
             <li class="form-floating mb-3">
-                <input name="slug" type="text" class="form-control" id="slug" placeholder="slug" value="<?php echo $editOrDelete ? $templateParams['page'][0]['slug'] : "" ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> required />
+                <input name="slug" type="text" class="form-control" id="slug" placeholder="slug" value="<?php echo $editOrDelete ? $templateParams['page']['slug'] : "" ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
                 <label for="slug">Slug</label>
             </li>
             <li class="form-floating mb-3">
-                <input name="autore" type="text" class="form-control" id="autore" placeholder="autore" value="<?php echo $editOrDelete ? $templateParams['page'][0]['author'] : "" ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?>/>
+                <input name="autore" type="text" class="form-control" id="autore" placeholder="autore" value="<?php echo $editOrDelete ? $templateParams['page']['author'] : "" ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?>/>
                 <label for="autore">Autore</label>
             </li>
             <li class="form-check mb-3">
-                <input class="form-check-input" type="checkbox" value="visible" id="visible" name="visible" <?php echo $templateParams["action"] == "I" || ($editOrDelete && $templateParams['page'][0]['isVisibile'] == true) ? "checked" : "" ?> <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                <input class="form-check-input" type="checkbox" value="visible" id="visible" name="visible" <?php echo $templateParams["action"] == "I" || ($editOrDelete && $templateParams['page']['isVisibile'] == true) ? "checked" : "" ?> <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
                 <label class="form-check-label" for="visible">Visibile</label>
             </li>
             <li class="mb-3">
                 <label for="content" class="form-label">Inserisci il contenuto della pagina:</label>
-                <textarea class="form-control" name="content" id="content" rows="10"><?php echo $editOrDelete ? $templateParams['page'][0]['text'] : "" ?></textarea>
+                <textarea class="form-control" name="content" id="content" rows="10"><?php echo $editOrDelete ? $templateParams['page']['text'] : "" ?></textarea>
                 <input type="hidden" name="tinymceDisabled" id="tinymceDisabled" value="<?php echo $templateParams['action'] == "D" ? "true" : "" ?>" />
             </li>
             <li class="mb-3">
@@ -68,15 +68,15 @@ $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] ==
         <legend>Search Engine Optimization</legend>
         <ul class="list-unstyled mt-5 px-2">
             <li class="form-floating mb-3">
-                <input name="titoloSEO" type="text" class="form-control" id="titoloSEO" placeholder="TitoloSEO" value="<?php echo $editOrDelete ? $templateParams['page'][0]['seoTitle'] : "" ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                <input name="titoloSEO" type="text" class="form-control" id="titoloSEO" placeholder="TitoloSEO" value="<?php echo $editOrDelete ? $templateParams['page']['seoTitle'] : "" ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
                 <label for="titoloSEO">Titolo SEO</label>
             </li>
             <li class="form-floating mb-3">
-                <input name="testoSEO" type="text" class="form-control" id="testoSEO" placeholder="testoSEO" value="<?php echo $editOrDelete ? $templateParams['page'][0]['seoText'] : "" ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                <input name="testoSEO" type="text" class="form-control" id="testoSEO" placeholder="testoSEO" value="<?php echo $editOrDelete ? $templateParams['page']['seoText'] : "" ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
                 <label for="testoSEO">Testo SEO</label>
             </li>
             <li class="form-floating mb-3">
-                <input name="chiaviSEO" type="text" class="form-control" id="chiaviSEO" placeholder="ChiaviSEO" value="<?php echo $editOrDelete ? $templateParams['page'][0]['seoKeywords'] : "" ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                <input name="chiaviSEO" type="text" class="form-control" id="chiaviSEO" placeholder="ChiaviSEO" value="<?php echo $editOrDelete ? $templateParams['page']['seoKeywords'] : "" ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
                 <label for="chiaviSEO">Parole Chiave SEO</label>
             </li>
         </ul>
@@ -109,15 +109,15 @@ $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] ==
             <?php endforeach; ?>
         </ul>
     </fieldset>
-    <div id="archivePageInfo" class="d-none">
+    <div id="archivePageInfo" class="<?php echo $templateParams['action'] == "I" || (isset($templateParams['page']) && $templateParams['page']['type'] != "Pagina di Archivio") ? "d-none" : "" ?>">
         <fieldset class="border-top mb-4">
             <legend>Attributi Pagina di Archivio</legend>
             <div class="form-floating mt-3">
-                <input step="1" name="dataInizio" type="number" class="form-control" id="dataInizio" placeholder="dataInizio" />
+                <input step="1" name="dataInizio" type="number" class="form-control" id="dataInizio" placeholder="dataInizio" value="<?php echo $editOrDelete ? $templateParams['archivePage'][0]['start'] : "" ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
                 <label for="dataInizio">Data cronologica di inizio</label>
             </div>
             <div class="form-floating mt-3">
-                <input step="1" name="dataFine" type="number" class="form-control" id="dataFine" placeholder="dataFine" />
+                <input step="1" name="dataFine" type="number" class="form-control" id="dataFine" placeholder="dataFine" value="<?php echo $editOrDelete ? $templateParams['archivePage'][0]['end'] : "" ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
                 <label for="dataFine">Data cronologica di fine</label>
             </div>
         </fieldset>
@@ -128,7 +128,7 @@ $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] ==
                 <?php $referenceTools = $dbh->getReferenceTools();
                 foreach ($referenceTools as $rTool): ?>
                 <li class="form-check me-5">
-                    <input class="form-check-input" type="checkbox" value="<?php echo $rTool['ID'] ?>" id="<?php echo "strumento".$rTool['ID'] ?>" name="<?php echo "strumento".$rTool['ID'] ?>" />
+                    <input class="form-check-input" type="checkbox" value="<?php echo $rTool['ID'] ?>" id="<?php echo "strumento".$rTool['ID'] ?>" name="<?php echo "strumento".$rTool['ID'] ?>" <?php echo $editOrDelete && in_array($rTool['ID'], $templateParams["referenceTools"]) ? "checked" : "" ?> <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
                     <label class="form-check-label" for="<?php echo "strumento".$rTool['ID'] ?>"><?php echo $rTool['name'] ?></label>
                 </li>
                 <?php endforeach; ?>
@@ -140,18 +140,21 @@ $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] ==
             <ul class="mt-2 p-0 list-unstyled" id="invItemList">
                 <?php $inventoryItems = $dbh->getInventoryItems();
                 foreach ($inventoryItems as $iItem): ?>
+                <?php 
+                $index = array_search($iItem['ID'], array_column($templateParams["inventoryItems"], 'ID'));
+                $contained = $editOrDelete && $index !== false; ?>
                 <li class="addingInvItem">
                     <div class="form-check me-3 w-100">
-                        <input class="form-check-input" type="checkbox" value="<?php echo $iItem['ID'] ?>" id="<?php echo "articolo".$iItem['ID'] ?>" name="<?php echo "articolo".$iItem['ID'] ?>" />
+                        <input class="form-check-input" type="checkbox" value="<?php echo $iItem['ID'] ?>" id="<?php echo "articolo".$iItem['ID'] ?>" name="<?php echo "articolo".$iItem['ID'] ?>" <?php echo $contained ? "checked" : "" ?> <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
                         <label class="form-check-label" for="<?php echo "articolo".$iItem['ID'] ?>"><?php echo $iItem['name'] ?></label>
                     </div>
-                    <input step="1" name="<?php echo "quantita".$iItem['ID'] ?>" type="number" class="form-control py-1 ps-2 pe-0 d-none" id="<?php echo "quantita".$iItem['ID'] ?>" placeholder="Quantità" aria-label="<?php echo "quantitàArticolo".$iItem['ID'] ?>" />
+                    <input step="1" name="<?php echo "quantita".$iItem['ID'] ?>" type="number" class="form-control py-1 ps-2 pe-0 <?php echo $contained ? "" : "d-none" ?>" id="<?php echo "quantita".$iItem['ID'] ?>" placeholder="Quantità" aria-label="<?php echo "quantitàArticolo".$iItem['ID'] ?>" value="<?php echo $contained ? $templateParams['inventoryItems'][$index]['quantity'] : "" ?>" <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
                 </li>
                 <?php endforeach; ?>
             </ul>
         </fieldset>
     </div>
-    <fieldset id="resourceCollectorInfo" class="border-top mb-4 d-none">
+    <fieldset id="resourceCollectorInfo" class="border-top mb-4 <?php echo $templateParams['action'] == "I" || (isset($templateParams['page']) && $templateParams['page']['type'] != "Raccolta di Risorse") ? "d-none" : "" ?>">
         <legend>Attributi Raccolta di Risorse</legend>
         <div class="form-floating mb-3">
             <input name="nomeRaccolta" type="text" class="form-control" id="nomeRaccolta" placeholder="nomeRaccolta" />

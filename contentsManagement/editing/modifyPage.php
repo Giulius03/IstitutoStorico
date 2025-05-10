@@ -14,6 +14,11 @@ if (isset($_GET['id'])) {
     $templateParams["actionFile"] .= "?id=".$_GET['id'];
     $templateParams["pageTags"] = $dbh->getTagsFromPageID($_GET['id']);
     $templateParams["containedPagesTags"] = $dbh->getContainedPagesTagsFromContainerID($_GET['id']);
+    if ($templateParams["page"]["type"] == "Pagina di Archivio") {
+        $templateParams["archivePage"] = $dbh->getArchivePageFromPageID($_GET['id']);
+        $templateParams["referenceTools"] = $dbh->getReferenceToolsFromArchivePageID($_GET['id']);
+        $templateParams["inventoryItems"] = $dbh->getInventoryItemsFromArchivePageID($_GET['id']);
+    }
 }
 
 require '../../template/base.php';

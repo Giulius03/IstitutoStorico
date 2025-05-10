@@ -7,7 +7,7 @@ $templateParams["nome"] = "../../template/pageFormTemplate.php";
 $templateParams["action"] = "I";
 $templateParams["actionFile"] = "contentAdders/addNewPage.php";
 $templateParams["js"] = array("../../js/tinymce.js", "../../js/showSpecifics.js", "../../js/showNewIndexItemFields.js", "../../js/showNewNoteFields.js",
-    "../../js/showNewCollectionElemFields.js");
+    "../../js/showNewCollectionElemFields.js", "../../js/showInvItemsQuantityInputs.js");
 $templateParams["css"] = "../../css/style.css";
 
 require '../../template/base.php';
