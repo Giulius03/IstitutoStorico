@@ -43,11 +43,11 @@ $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] ==
         </div>
         <div class="border my-3 rounded pt-2 ps-2">
             <label>Seleziona la pagina collegata a questa voce del menù (opzionale)</label>
-            <ul class="mt-2 p-0 listPagesContained" style="height: 150px;" id="pagesList${numOfItems}">
+            <ul class="mt-2 p-0 listPagesContained" style="height: 150px;">
             <?php $pages = $dbh->getPages("title");
             foreach ($pages as $page): ?>
                 <li class="form-check">
-                    <input class="form-check-input" type="radio" name="linkToPage" value="<?php echo $page['idPage'] ?>" id="linkToPage" <?php echo $page['idPage'] == $templateParams['content'][0]['page'] ? "checked" : ""?> <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                    <input class="form-check-input" type="radio" name="linkToPage" value="<?php echo $page['idPage'] ?>" <?php echo $page['idPage'] == $templateParams['content'][0]['page'] ? "checked" : ""?> <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
                     <label class="form-check-label" for="linkToPage"><?php echo $page['title'] ?></label>
                 </li>
             <?php endforeach; ?>

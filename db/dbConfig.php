@@ -171,6 +171,22 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function getIndexItemFromID($indexItemID) {
+        $stmt = $this->db->prepare("SELECT orderedPosition as position, targetAnchor as anchor, linkToPage as page, indexItemTitle as title FROM indexitem WHERE idIndexItem = ?");
+        $stmt->bind_param('i', $indexItemID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);  
+    }
+
+    public function getNoteFromID($noteID) {
+        $stmt = $this->db->prepare("SELECT noteText as text, noteAnchor as anchor, page_idPage as page, author FROM note WHERE noteId = ?");
+        $stmt->bind_param('i', $noteID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);  
+    }
+
     public function getArchivePageFromPageID($pageID) {
         $stmt = $this->db->prepare("SELECT chronologyStartYear as start, chronologyEndYear as end FROM archivepage WHERE Page_idPage = ?");
         $stmt->bind_param('i', $pageID);
@@ -462,6 +478,24 @@ class DatabaseHelper{
         $stmt->bind_param('s', $name);
         $stmt->execute();
         return $stmt->insert_id;
+    }
+
+    public function updateIndexItem($indexItemID, $newTitle, $newPosition, $newLinkToPage, $newDestAnchor) {
+        $item = $this->getIndexItemFromID($indexItemID);
+        if ($item[0]['title'] != $newTitle || $item[0]['anchor'] != $newDestAnchor || $item[0]['position'] != $newPosition || $item[0]['page'] != $newLinkToPage) {
+            $stmt = $this->db->prepare("UPDATE indexitem SET orderedPosition = ?, targetAnchor = ?, linkToPage = ?, indexItemTitle = ? WHERE idIndexItem = ?");
+            $stmt->bind_param('isisi', $newPosition, $newDestAnchor, $newLinkToPage, $newTitle, $indexItemID);
+            $stmt->execute();
+        }
+    }
+
+    public function updateNote($noteID, $newText, $newAuthor, $newAnchor) {
+        $note = $this->getNoteFromID($noteID);
+        if ($note[0]['text'] != $newText || $note[0]['anchor'] != $newAnchor || $note[0]['author'] != $newAuthor) {
+            $stmt = $this->db->prepare("UPDATE note SET noteAnchor = ?, noteText = ?, author = ? WHERE noteId = ?");
+            $stmt->bind_param('sssi', $newAnchor, $newText, $newAuthor, $noteID);
+            $stmt->execute();
+        }
     }
 
     public function updateMenu($menuID, $newMenuName) {
