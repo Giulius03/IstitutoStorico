@@ -1,72 +1,51 @@
-const indexItemsTableHeadHtml = `
-<table class="table mt-3">
-    <caption>Voci dell'indice della pagina attualmente presenti</caption>
-    <thead>
-        <tr>
-            <th scope="col">Titolo</th>
-            <th scope="col">Posizione</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
-    <tbody>`;
+const indexItemsTableHeadHtml = getTableHeadHtml(['Titolo', 'Posizione'], "Voci dell'indice");
+const notesTableHeadHtml = getTableHeadHtml(['Testo'], "Note");
+let areButtonsNotEnabled = false;
 
-const notesTableHeadHtml = `
-<table class="table mt-3">
-    <caption>Note della pagina attualmente presenti</caption>
-    <thead>
-        <tr>
-            <th scope="col">Testo</th>
-            <th scope="col"></th>
-            <th scope="col"></th>
-        </tr>
-    </thead>
-    <tbody>`;
-
-let areButtonsNotEnabled = true; //da mettere a false quando aggiungo i file per gli update 
+function getTableHeadHtml(fields, caption) {
+    let html = `
+    <table class="table mt-3">
+        <caption>${caption} attualmente presenti</caption>
+        <thead>
+            <tr>`;
+    fields.forEach(field => {
+        html += `
+                <th scope="col">${field}</th>
+        `;
+    });
+    html += `
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>`;
+    return html;
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     getIndexItems(document.getElementById("idPage").value);
     getNotes(document.getElementById("idPage").value);
-    // areButtonsNotEnabled = document.getElementById("btnsDisab").value;
+    areButtonsNotEnabled = document.getElementById("btnsDisab").value;
 });
 
-function showCurrentIndexItems(items) {
-    let itemsHtml = ``;
-    items.forEach(item => {
-        itemsHtml += `
-        <tr>
-            <td class="align-middle">${item['title']}</td>
-            <td class="align-middle">${item['position']}</td>
+function showTable(rows, tableHeadHtml, fields, divID, editFile, removeFile) {
+    let rowsHtml = `<tr>`;
+    rows.forEach(row => {
+        fields.forEach(field => {
+        rowsHtml += `
+            <td class="align-middle">${row[field]}</td>`;
+        });
+        rowsHtml += `
             <td class="align-middle">
-                <a class="btn btn-secondary px-0 py-1" href="${areButtonsNotEnabled === "false" ? "modifyIndexItem.php?id="+item['ID']+"&idPage="+document.getElementById("idMenu").value : "#"}" role="button">Modifica</a>
+                <a class="btn btn-secondary px-0 py-1" href="${areButtonsNotEnabled === "false" ? editFile+"?id="+row['ID']+"&idPage="+document.getElementById("idPage").value : "#"}" role="button">Modifica</a>
             </td>
             <td class="align-middle">
-                <a class="btn btn-danger px-0 py-1" href="${areButtonsNotEnabled === "false" ? "../elimination/removeIndexItem.php?id="+item['ID']+"&idPage="+document.getElementById("idMenu").value : "#"}"role="button">Cancella</a>
-            </td>
-        </tr>`;
-    }); 
-    itemsHtml += `</tbody></table>`;
-    document.getElementById("indexItemsForms").innerHTML = indexItemsTableHeadHtml + itemsHtml;
-}
-
-function showCurrentNotes(notes) {
-    let notesHtml = ``;
-    notes.forEach(note => {
-        notesHtml += `
-        <tr>
-            <td class="align-middle">${note['text']}</td>
-            <td class="align-middle">
-                <a class="btn btn-secondary px-0 py-1" href="${areButtonsNotEnabled === "false" ? "modifyNote.php?id="+note['ID']+"&idPage="+document.getElementById("idMenu").value : "#"}" role="button">Modifica</a>
-            </td>
-            <td class="align-middle">
-                <a class="btn btn-danger px-0 py-1" href="${areButtonsNotEnabled === "false" ? "../elimination/removeNote.php?id="+note['ID']+"&idPage="+document.getElementById("idMenu").value : "#"}" role="button">Cancella</a>
+                <a class="btn btn-danger px-0 py-1" href="${areButtonsNotEnabled === "false" ? "../elimination/"+removeFile+"?id="+row['ID']+"&idPage="+document.getElementById("idPage").value : "#"}"role="button">Cancella</a>
             </td>
         </tr>`;
     }); 
-    
-    notesHtml += `</tbody></table>`;
-    document.getElementById("notesForms").innerHTML = notesTableHeadHtml + notesHtml;
+    rowsHtml += `</tbody></table>`;
+    document.getElementById(divID).innerHTML = tableHeadHtml + rowsHtml;
 }
 
 async function getIndexItems(pageID) {
@@ -77,7 +56,7 @@ async function getIndexItems(pageID) {
             throw new Error(`Response status: ${response.status}`);
         }
         const json = await response.json();
-        showCurrentIndexItems(json);
+        showTable(json, indexItemsTableHeadHtml, ['title', 'position'], "indexItemsForms", "modifyIndexItem.php", "removeIndexItem.php");
     } catch (error) {
         console.log(error.message);
     }
@@ -91,7 +70,7 @@ async function getNotes(pageID) {
             throw new Error(`Response status: ${response.status}`);
         }
         const json = await response.json();
-        showCurrentNotes(json);
+        showTable(json, notesTableHeadHtml, ['text'], "notesForms", "modifyNote.php", "removeNote.php");    
     } catch (error) {
         console.log(error.message);
     }

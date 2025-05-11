@@ -18,6 +18,9 @@ if (isset($_GET['id'])) {
         $templateParams["archivePage"] = $dbh->getArchivePageFromPageID($_GET['id']);
         $templateParams["referenceTools"] = $dbh->getReferenceToolsFromArchivePageID($_GET['id']);
         $templateParams["inventoryItems"] = $dbh->getInventoryItemsFromArchivePageID($_GET['id']);
+    } else if ($templateParams["page"]["type"] == "Raccolta di Risorse") {
+        $templateParams["resourceCollection"] = $dbh->getResourceCollectionFromPageID($_GET['id']);
+        $templateParams["js"][] = "../../js/ShowCurrentCollectionElements.js";
     }
 }
 
