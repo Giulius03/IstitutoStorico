@@ -15,12 +15,12 @@ if (isset($_GET['id'])) {
     $templateParams["pageTags"] = $dbh->getTagsFromPageID($_GET['id']);
     $templateParams["containedPagesTags"] = $dbh->getContainedPagesTagsFromContainerID($_GET['id']);
     if ($templateParams["page"]["type"] == "Pagina di Archivio") {
-        $templateParams["actionFile"] .= "?type=".$templateParams["page"]["type"];
+        $templateParams["actionFile"] .= "&type=archivio";
         $templateParams["archivePage"] = $dbh->getArchivePageFromPageID($_GET['id']);
         $templateParams["referenceTools"] = $dbh->getReferenceToolsFromArchivePageID($_GET['id']);
         $templateParams["inventoryItems"] = $dbh->getInventoryItemsFromArchivePageID($_GET['id']);
     } else if ($templateParams["page"]["type"] == "Raccolta di Risorse") {
-        $templateParams["actionFile"] .= "?type=".$templateParams["page"]["type"];
+        $templateParams["actionFile"] .= "&type=raccolta";
         $templateParams["resourceCollection"] = $dbh->getResourceCollectionFromPageID($_GET['id']);
         $templateParams["js"][] = "../../js/ShowCurrentCollectionElements.js";
     }

@@ -38,7 +38,7 @@ $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] ==
                 <label for="slug">Slug</label>
             </li>
             <li class="form-floating mb-3">
-                <input name="autore" type="text" class="form-control" id="autore" placeholder="autore" value="<?php echo $editOrDelete ? $templateParams['page']['author'] : "" ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?>/>
+                <input name="autore" type="text" class="form-control" id="autore" placeholder="autore" value="<?php echo $editOrDelete ? $templateParams['page']['author'] : "" ?>" <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?>/>
                 <label for="autore">Autore</label>
             </li>
             <li class="form-check mb-3">

@@ -341,9 +341,11 @@ class DatabaseHelper{
         $displayedPages = $this->getAllDisplayedPagesFromTags($tagsID);
         //inserimento dentro la tabella 'page_displays_page'
         foreach ($displayedPages as $displayedPage) {
-            $stmt = $this->db->prepare("INSERT INTO page_displays_page (page_idPageContainer, page_idPageContained) VALUES (?, ?)");
-            $stmt->bind_param('ii', $viewerPageID, $displayedPage['ID']);
-            $stmt->execute();
+            if ($displayedPage['ID'] != $viewerPageID) {
+                $stmt = $this->db->prepare("INSERT INTO page_displays_page (page_idPageContainer, page_idPageContained) VALUES (?, ?)");
+                $stmt->bind_param('ii', $viewerPageID, $displayedPage['ID']);
+                $stmt->execute();
+            }
         }
     }
 
@@ -482,9 +484,70 @@ class DatabaseHelper{
 
     public function updatePage($pageID, $newTitle, $newSlug, $newContent, $newIsVisible, $newSeoTitle, $newSeoText, $newSeoKeywords, $newAuthor) {
         $page = $this->getPageFromID($pageID);
-        if ($page[0]['title'] != $newTitle || $page[0]['slug'] != $newSlug || $page[0]['text'] != $newContent || $page[0]['isVisibile'] != $newIsVisible || $page[0]['seoTitle'] != $newSeoTitle || $page[0]['seoText'] != $newSeoText || $page[0]['seoKeywords'] != $newSeoKeywords || $page[0]['author'] != $newAuthor) {
+        if ($page['title'] != $newTitle || $page['slug'] != $newSlug || $page['text'] != $newContent || $page['isVisibile'] != $newIsVisible || $page['seoTitle'] != $newSeoTitle || $page['seoText'] != $newSeoText || $page['seoKeywords'] != $newSeoKeywords || $page['author'] != $newAuthor) {
             $stmt = $this->db->prepare("UPDATE page SET title = ?, slug = ?, text = ?, isVisibile = ?, seoTitle = ?, seoText = ?, seoKeywords = ?, author = ? WHERE idPage = ?");
             $stmt->bind_param('sssissssi', $newTitle, $newSlug, $newContent, $newIsVisible, $newSeoTitle, $newSeoText, $newSeoKeywords, $newAuthor, $pageID);
+            $stmt->execute();
+        }
+    }
+
+    public function updatePageTags($pageID, $newTags) {
+        $tags = $this->getTagsFromPageID($pageID);
+        sort($tags);
+        sort($newTags);
+        if ($tags !== $newTags) {
+            $this->deleteContent("page_has_tag", "page_idPage", $pageID);
+            $this->connectTagsToPage($pageID, $newTags);
+        }
+    }
+
+    public function updateDisplayedPages($pageID, $newDisplayedTags) {
+        $displayedTags = $this->getContainedPagesTagsFromContainerID($pageID);
+        sort($displayedTags);
+        sort($newDisplayedTags);
+        if ($displayedTags !== $newDisplayedTags) {
+            $this->deleteContent("page_displays_pages_of_tag", "page_idPage", $pageID);
+            $this->deleteContent("page_displays_page", "page_idPageContainer", $pageID);
+            $this->addDisplayedPages($pageID, $newDisplayedTags);
+        }       
+    }
+
+    public function updateArchivePage($pageID, $newStartYear, $newEndYear) {
+        $archivePage = $this->getArchivePageFromPageID($pageID);
+        if ($archivePage[0]['start'] != $newStartYear || $archivePage[0]['end'] != $newEndYear) {
+            $stmt = $this->db->prepare("UPDATE archivepage SET chronologyStartYear = ?, chronologyEndYear = ? WHERE Page_idPage = ?");
+            $stmt->bind_param('iii', $newStartYear, $newEndYear, $pageID);
+            $stmt->execute();
+        }
+    }
+
+    public function updateArchivePageReferenceTools($pageID, $newReferenceTools) {
+        $refTools = $this->getReferenceToolsFromArchivePageID($pageID);
+        sort($refTools);
+        sort($newReferenceTools);
+        if ($refTools !== $newReferenceTools) {
+            $this->deleteContent("archivepage_has_referencetool", "ArchivePage_Page_idPage", $pageID);
+            $this->connectReferenceToolsToPage($pageID, $newReferenceTools);
+        }
+    }
+
+    public function updateArchivePageInventoryItems($pageID, $newInventoryItems) {
+        $invItems = $this->getInventoryItemsFromArchivePageID($pageID);
+        sort($invItems);
+        var_dump($invItems);
+        sort($newInventoryItems);
+        var_dump($newInventoryItems);
+        if ($invItems !== $newInventoryItems) {
+            $this->deleteContent("archivepage_has_inventoryitem", "ArchivePage_Page_idPage", $pageID);
+            $this->connectInventoryItemsToPage($pageID, $newInventoryItems);
+        }
+    }
+
+    public function updateResourceCollection($pageID, $newCollectionName, $newPath) {
+        $resourceCollection = $this->getResourceCollectionFromPageID($pageID);
+        if ($resourceCollection[0]['nome'] != $newCollectionName || $resourceCollection[0]['path'] != $newPath) {
+            $stmt = $this->db->prepare("UPDATE raccoltadirisorse SET nomeRaccolta = ?, pathRaccolta = ? WHERE Page_idPage = ?");
+            $stmt->bind_param('ssi', $newCollectionName, $newPath, $pageID);
             $stmt->execute();
         }
     }
