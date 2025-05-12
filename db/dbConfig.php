@@ -480,6 +480,15 @@ class DatabaseHelper{
         return $stmt->insert_id;
     }
 
+    public function updatePage($pageID, $newTitle, $newSlug, $newContent, $newIsVisible, $newSeoTitle, $newSeoText, $newSeoKeywords, $newAuthor) {
+        $page = $this->getPageFromID($pageID);
+        if ($page[0]['title'] != $newTitle || $page[0]['slug'] != $newSlug || $page[0]['text'] != $newContent || $page[0]['isVisibile'] != $newIsVisible || $page[0]['seoTitle'] != $newSeoTitle || $page[0]['seoText'] != $newSeoText || $page[0]['seoKeywords'] != $newSeoKeywords || $page[0]['author'] != $newAuthor) {
+            $stmt = $this->db->prepare("UPDATE page SET title = ?, slug = ?, text = ?, isVisibile = ?, seoTitle = ?, seoText = ?, seoKeywords = ?, author = ? WHERE idPage = ?");
+            $stmt->bind_param('sssissssi', $newTitle, $newSlug, $newContent, $newIsVisible, $newSeoTitle, $newSeoText, $newSeoKeywords, $newAuthor, $pageID);
+            $stmt->execute();
+        }
+    }
+
     public function updateIndexItem($indexItemID, $newTitle, $newPosition, $newLinkToPage, $newDestAnchor) {
         $item = $this->getIndexItemFromID($indexItemID);
         if ($item[0]['title'] != $newTitle || $item[0]['anchor'] != $newDestAnchor || $item[0]['position'] != $newPosition || $item[0]['page'] != $newLinkToPage) {

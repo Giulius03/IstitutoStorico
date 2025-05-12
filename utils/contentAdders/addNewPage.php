@@ -3,7 +3,7 @@ require_once '../../bootstrap.php';
 
 $numOfTags = $dbh->getNumOfTags();
 
-$fieldsName = ['pageType', 'titolo', 'slug', 'visible', 'content', 'titoloSEO', 'testoSEO', 'chiaviSEO', 'numVoci', 'numNote'];
+$fieldsName = ['pageType', 'titolo', 'slug', 'autore', 'content', 'titoloSEO', 'testoSEO', 'chiaviSEO', 'numVoci', 'numNote'];
 if (checkIsSet($fieldsName)) {
     try {
         $idNewPage = $dbh->addPage($_POST['titolo'], $_POST['slug'], $_POST['content'], isset($_POST['visible']) ? true : false, $_POST['titoloSEO'], $_POST['testoSEO'], $_POST['chiaviSEO']);

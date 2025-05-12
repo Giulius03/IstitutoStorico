@@ -113,11 +113,11 @@ $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] ==
         <fieldset class="border-top mb-4">
             <legend>Attributi Pagina di Archivio</legend>
             <div class="form-floating mt-3">
-                <input step="1" name="dataInizio" type="number" class="form-control" id="dataInizio" placeholder="dataInizio" value="<?php echo $editOrDelete && isset($templateParams['archivePage']) ? $templateParams['archivePage'][0]['start'] : "" ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                <input step="1" name="dataInizio" type="number" class="form-control" id="dataInizio" placeholder="dataInizio" value="<?php echo $editOrDelete && isset($templateParams['archivePage']) ? $templateParams['archivePage'][0]['start'] : "" ?>" <?php echo $editOrDelete && isset($templateParams['archivePage']) ? "required" : "" ?> <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
                 <label for="dataInizio">Data cronologica di inizio</label>
             </div>
             <div class="form-floating mt-3">
-                <input step="1" name="dataFine" type="number" class="form-control" id="dataFine" placeholder="dataFine" value="<?php echo $editOrDelete && isset($templateParams['archivePage']) ? $templateParams['archivePage'][0]['end'] : "" ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                <input step="1" name="dataFine" type="number" class="form-control" id="dataFine" placeholder="dataFine" value="<?php echo $editOrDelete && isset($templateParams['archivePage']) ? $templateParams['archivePage'][0]['end'] : "" ?>" <?php echo $editOrDelete && isset($templateParams['archivePage']) ? "required" : "" ?> <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
                 <label for="dataFine">Data cronologica di fine</label>
             </div>
         </fieldset>
@@ -161,12 +161,12 @@ $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] ==
     <fieldset id="resourceCollectorInfo" class="border-top mb-4 <?php echo $templateParams['action'] == "I" || (isset($templateParams['page']) && $templateParams['page']['type'] != "Raccolta di Risorse") ? "d-none" : "" ?>">
         <legend>Attributi Raccolta di Risorse</legend>
         <div class="form-floating mb-3">
-            <input name="nomeRaccolta" type="text" class="form-control" id="nomeRaccolta" placeholder="nomeRaccolta" value="<?php echo $editOrDelete ? $templateParams['resourceCollection'][0]['nome'] : "" ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+            <input name="nomeRaccolta" type="text" class="form-control" id="nomeRaccolta" placeholder="nomeRaccolta" value="<?php echo $editOrDelete ? $templateParams['resourceCollection'][0]['nome'] : "" ?>" <?php echo $editOrDelete && isset($templateParams['resourceCollection']) ? "required" : "" ?> <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
             <label for="nomeRaccolta">Nome Raccolta</label>
         </div>
         <div class="mb-3">
             <label for="path">Path Raccolta</label>
-            <input name="path" type="file" webkitdirectory directory class="form-control mt-1" id="path" placeholder="path" value="<?php echo $editOrDelete ? $templateParams['resourceCollection'][0]['path'] : "" ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+            <input name="path" type="file" webkitdirectory directory class="form-control mt-1" id="path" placeholder="path" value="<?php echo $editOrDelete ? $templateParams['resourceCollection'][0]['path'] : "" ?>" <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
         </div>
         <a class="btn btn-dark mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddCollectionElem" role="button">Aggiungi un elemento di raccolta</a>
         <input type="hidden" name="numElems" id="numElems" value="0" />
