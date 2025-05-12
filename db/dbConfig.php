@@ -579,5 +579,13 @@ class DatabaseHelper{
     public function deleteInventoryItem($inventoryItemID) {
         $this->deleteContent("inventoryitem", "idInventoryItem", $inventoryItemID);
     }
+
+    public function deleteIndexItem($indexItemID) {
+        $this->deleteContent("indexitem", "idIndexItem", $indexItemID);
+    }
+
+    public function deleteNote($noteID) {
+        $this->deleteContent("note", "noteId", $noteID);
+    }
 }
 ?>
