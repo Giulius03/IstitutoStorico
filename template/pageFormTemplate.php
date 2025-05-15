@@ -159,18 +159,11 @@ $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] ==
         </fieldset>
     </div>
     <fieldset id="resourceCollectorInfo" class="border-top mb-4 <?php echo $templateParams['action'] == "I" || (isset($templateParams['page']) && $templateParams['page']['type'] != "Raccolta di Risorse") ? "d-none" : "" ?>">
-        <legend>Attributi Raccolta di Risorse</legend>
-        <div class="form-floating mb-3">
-            <input name="nomeRaccolta" type="text" class="form-control" id="nomeRaccolta" placeholder="nomeRaccolta" value="<?php echo $editOrDelete ? $templateParams['resourceCollection'][0]['nome'] : "" ?>" <?php echo $editOrDelete && isset($templateParams['resourceCollection']) ? "required" : "" ?> <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
-            <label for="nomeRaccolta">Nome Raccolta</label>
-        </div>
-        <div class="mb-3">
-            <label for="path">Path Raccolta</label>
-            <input name="path" type="file" webkitdirectory directory class="form-control mt-1" id="path" placeholder="path" value="<?php echo $editOrDelete ? $templateParams['resourceCollection'][0]['path'] : "" ?>" <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
-        </div>
-        <a class="btn btn-dark mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddCollectionElem" role="button">Aggiungi un elemento di raccolta</a>
-        <input type="hidden" name="numElems" id="numElems" value="0" />
-        <div id="collectionElemForms">
+        <legend>Raccolte di Risorse</legend>
+        <p class="fst-italic">Sarà possibile aggiungere elementi alle raccolte una volta creata la pagina.</p>
+        <a class="btn btn-dark mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddCollectionElem" role="button">Aggiungi una raccolta di risorse</a>
+        <input type="hidden" name="numCollections" id="numCollections" value="0" />
+        <div id="collectionsForms">
 
         </div>
     </fieldset>

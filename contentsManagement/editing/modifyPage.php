@@ -6,7 +6,7 @@ $templateParams["titolo"] = "Modifica Pagina";
 $templateParams["nome"] = "../../template/pageFormTemplate.php";
 $templateParams["action"] = "E";
 $templateParams["actionFile"] = "contentEditors/editPage.php";
-$templateParams["js"] = array("../../js/tinymce.js", "../../js/showNewIndexItemFields.js", "../../js/showNewNoteFields.js", "../../js/showNewCollectionElemFields.js", "../../js/showInvItemsQuantityInputs.js", "../../js/showCurrentIndexItemsAndNotes.js");
+$templateParams["js"] = array("../../js/tinymce.js", "../../js/showNewIndexItemFields.js", "../../js/showNewNoteFields.js", "../../js/showNewResourceCollectionFields.js", "../../js/showInvItemsQuantityInputs.js", "../../js/showCurrentIndexItemsAndNotes.js");
 $templateParams["css"] = "../../css/style.css";
 
 if (isset($_GET['id'])) {
@@ -21,8 +21,7 @@ if (isset($_GET['id'])) {
         $templateParams["inventoryItems"] = $dbh->getInventoryItemsFromArchivePageID($_GET['id']);
     } else if ($templateParams["page"]["type"] == "Raccolta di Risorse") {
         $templateParams["actionFile"] .= "&type=raccolta";
-        $templateParams["resourceCollection"] = $dbh->getResourceCollectionFromPageID($_GET['id']);
-        $templateParams["js"][] = "../../js/ShowCurrentCollectionElements.js";
+        $templateParams["js"][] = "../../js/showCurrentResourceCollections.js";
     }
 }
 

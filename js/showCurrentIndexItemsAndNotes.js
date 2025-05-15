@@ -29,8 +29,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function showTable(rows, tableHeadHtml, fields, divID, editFile, removeFile) {
-    let rowsHtml = `<tr>`;
+    let rowsHtml = ``;
     rows.forEach(row => {
+        rowsHtml += `<tr>`;
         fields.forEach(field => {
         rowsHtml += `
             <td class="align-middle">${row[field]}</td>`;

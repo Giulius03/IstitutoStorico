@@ -222,9 +222,17 @@ class DatabaseHelper{
         return $invItemsIds;
     }
 
-    public function getResourceCollectionFromPageID($pageID) {
-        $stmt = $this->db->prepare("SELECT nomeRaccolta as nome, pathRaccolta as path FROM raccoltadirisorse WHERE Page_idPage = ?");
+    public function getResourceCollectionsFromPageID($pageID) {
+        $stmt = $this->db->prepare("SELECT nomeRaccolta as nome, idRaccoltaDiRisorse as ID FROM raccoltadirisorse WHERE Page_idPage = ?");
         $stmt->bind_param('i', $pageID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getResourceCollectionFromID($resourceCollectionID) {
+        $stmt = $this->db->prepare("SELECT nomeRaccolta as nome, pathRaccolta as path FROM raccoltadirisorse WHERE idRaccoltaDiRisorse = ?");
+        $stmt->bind_param('i', $resourceCollectionID);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);

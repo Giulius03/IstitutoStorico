@@ -25,7 +25,7 @@ function getTableHeadHtml(fields, caption) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    getCollectionElements(document.getElementById("idPage").value);
+    getCollectionElements(document.getElementById("idPage").value, document.getElementById("idCollection").value);
     areButtonsNotEnabled = document.getElementById("btnsDisab").value;
 });
 
@@ -37,10 +37,10 @@ function showRows(rows, tableHeadHtml, fields) {
         });
         rowsHtml += `
                 <td class="align-middle">
-                    <a class="btn btn-secondary px-0 py-1" href="${areButtonsNotEnabled === "false" ? "modifyIndexItem.php?id="+row['ID']+"&idPage="+document.getElementById("idPage").value : "#"}" role="button">Modifica</a>
+                    <a class="btn btn-secondary px-0 py-1" href="${areButtonsNotEnabled === "false" ? "modifyCollectionElement.php?id="+row['ID']+"&idCollection="+document.getElementById("idCollection").value : "#"}" role="button">Modifica</a>
                 </td>
                 <td class="align-middle">
-                    <a class="btn btn-danger px-0 py-1" href="${areButtonsNotEnabled === "false" ? "../elimination/removeIndexItem.php?id="+row['ID']+"&idPage="+document.getElementById("idPage").value : "#"}"role="button">Cancella</a>
+                    <a class="btn btn-danger px-0 py-1" href="${areButtonsNotEnabled === "false" ? "../elimination/removeCollectionElement.php?id="+row['ID']+"&idCollection="+document.getElementById("idCollection").value : "#"}"role="button">Cancella</a>
                 </td>
             </tr>`;   
     }); 
@@ -48,8 +48,8 @@ function showRows(rows, tableHeadHtml, fields) {
     document.getElementById("collectionElemForms").innerHTML += tableHeadHtml + rowsHtml;
 }
 
-async function getCollectionElements(pageID) {
-    const url = '../../utils/getters/getCollectionElements.php?id=' + pageID;
+async function getCollectionElements(pageID, collectionID) {
+    const url = '../../utils/getters/getCollectionElements.php?pageID=' + pageID + '&collectionID=' + collectionID;
     try {
         const response = await fetch(url);
         if (!response.ok) {
