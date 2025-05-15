@@ -161,7 +161,7 @@ $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] ==
     <fieldset id="resourceCollectorInfo" class="border-top mb-4 <?php echo $templateParams['action'] == "I" || (isset($templateParams['page']) && $templateParams['page']['type'] != "Raccolta di Risorse") ? "d-none" : "" ?>">
         <legend>Raccolte di Risorse</legend>
         <p class="fst-italic">Sarà possibile aggiungere elementi alle raccolte una volta creata la pagina.</p>
-        <a class="btn btn-dark mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddCollectionElem" role="button">Aggiungi una raccolta di risorse</a>
+        <a class="btn btn-dark mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddCollection" role="button">Aggiungi una raccolta di risorse</a>
         <input type="hidden" name="numCollections" id="numCollections" value="0" />
         <div id="collectionsForms">
 

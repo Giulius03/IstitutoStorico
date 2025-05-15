@@ -1,61 +1,49 @@
 let numOfElems = 0;
+let lastTypeSelected = "";
 
-document.getElementById("btnAddCollectionElem").addEventListener('click', function(event) {
+document.querySelector("#elemTypeList").addEventListener('change', function(event) {
+    if (document.getElementById("btnAddCollectionElem").disabled === true) {
+        lastTypeSelected = event.target.value;
+        document.getElementById("btnAddCollectionElem").disabled = false;
+    }
+});
+
+document.getElementById("btnAddCollectionElem").addEventListener('click', function() {
     showNewCollectionElemFields();
 });
 
-async function showNewCollectionElemFields() {
-    const itemsContainer = document.getElementById("collectionElemForms");
-    itemsContainer.insertAdjacentHTML('afterbegin', `
-    <fieldset class="mb-3 pt-1 border-top">
+function showNewCollectionElemFields() {
+    const elemsContainer = document.getElementById("collectionElemsForms");
+    const currentType = document.querySelector('input[name="elemType"]:checked').value;
+    console.log(lastTypeSelected + " --> " + currentType);
+    if (currentType !== lastTypeSelected) {
+        elemsContainer.innerHTML = ``;
+        lastTypeSelected = currentType;
+    }
+    elemsContainer.insertAdjacentHTML('afterbegin', `
+    <div class="mb-3 pt-1 border-top">
         <legend>Nuovo Elemento di Raccolta</legend>
-        <label>Seleziona il tipo di elemento:</label>
-        <div class="mt-1" id="radioContainer${numOfElems}">
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="elemType${numOfElems}" value="bibliografia" id="bibliografia${numOfElems}" />
-                <label class="form-check-label" for="bibliografia${numOfElems}">Elemento di bibliografia</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="elemType${numOfElems}" value="cronologia" id="cronologia${numOfElems}" />
-                <label class="form-check-label" for="cronologia${numOfElems}">Elemento di cronologia</label>
-            </div>
-            <div class="form-check mt-1">
-                <input class="form-check-input" type="radio" name="elemType${numOfElems}" value="emeroteca" id="emeroteca${numOfElems}" />
-                <label class="form-check-label" for="emeroteca${numOfElems}">Elemento di emeroteca</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="elemType${numOfElems}" value="fototeca" id="fototeca${numOfElems}" />
-                <label class="form-check-label" for="fototeca${numOfElems}">Elemento di fototeca</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="elemType${numOfElems}" value="rete" id="rete${numOfElems}" />
-                <label class="form-check-label" for="rete${numOfElems}">Risorsa in rete</label>
-            </div>
-        </div>
         <div id="specificFieldsForm${numOfElems}">
 
         </div>
-    </fieldset>`);
-    document.querySelector('#radioContainer'+numOfElems).addEventListener('change', function(event) {
-        const number = (event.target.name).split('elemType')[1];
-        switch (event.target.value) {
-            case "bibliografia":
-                showBibliographyElemFields(number);
-                break;
-            case "cronologia":
-                showCronologyElemFields(number);
-                break;
-            case "emeroteca":
-                showNewsPaperLibraryElemFields(number);
-                break;
-            case "fototeca":
-                showNewPhotoLibraryElemFields(number);
-                break;
-            case "rete":
-                showNewNetworkResourceFields(number);
-                break;
-        }
-    });
+    </div>`);
+    switch (currentType) {
+        case "bibliografia":
+            showBibliographyElemFields(numOfElems);
+            break;
+        case "cronologia":
+            showCronologyElemFields(numOfElems);
+            break;
+        case "emeroteca":
+            showNewsPaperLibraryElemFields(numOfElems);
+            break;
+        case "fototeca":
+            showNewPhotoLibraryElemFields(numOfElems);
+            break;
+        case "rete":
+            showNewNetworkResourceFields(numOfElems);
+            break;
+    }
     numOfElems++;
     document.getElementById("numElems").value = numOfElems;
 }

@@ -1,5 +1,5 @@
 <h1 class="text-center fs-1 fw-bold mt-4">
-    <?php echo $templateParams["action"] == "E" ? "Modifica" : "Cancella"." raccolta di risorse" ?>
+    <?php echo ($templateParams["action"] == "E" ? "Modifica" : "Cancella")." raccolta di risorse" ?>
 </h1>
 <form action="../../utils/<?php echo $templateParams["actionFile"] ?>" method="POST" class="mx-5 mt-4" id="resourceCollectionForm">
     <input type="hidden" name="btnsDisab" id="btnsDisab" value="<?php echo $templateParams["action"] == "D" ? "true" : "false" ?>" />
@@ -16,9 +16,34 @@
             <label for="path">Path Raccolta:</label>
             <input name="path" type="file" webkitdirectory directory class="form-control mt-1" id="path" placeholder="path" value="<?php echo $templateParams['collection'][0]['path'] ?>" <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
         </li>
+        <li class="my-3">
+            <label>Seleziona il tipo degli elementi che verranno aggiunti:</label>
+            <ul class="list-unstyled m-0" id="elemTypeList">
+                <li class="form-check">
+                    <input class="form-check-input" type="radio" name="elemType" value="bibliografia" id="bibliografia" />
+                    <label class="form-check-label" for="bibliografia">Elemento di bibliografia</label>
+                </li>
+                <li class="form-check">
+                    <input class="form-check-input" type="radio" name="elemType" value="cronologia" id="cronologia" />
+                    <label class="form-check-label" for="cronologia">Elemento di cronologia</label>
+                </li>
+                <li class="form-check mt-1">
+                    <input class="form-check-input" type="radio" name="elemType" value="emeroteca" id="emeroteca" />
+                    <label class="form-check-label" for="emeroteca">Elemento di emeroteca</label>
+                </li>
+                <li class="form-check">
+                    <input class="form-check-input" type="radio" name="elemType" value="fototeca" id="fototeca" />
+                    <label class="form-check-label" for="fototeca">Elemento di fototeca</label>
+                </li>
+                <li class="form-check">
+                    <input class="form-check-input" type="radio" name="elemType" value="rete" id="rete" />
+                    <label class="form-check-label" for="rete">Risorsa in rete</label>
+                </li>
+            </ul>            
+        </li>
     </ul>
-    <a class="btn btn-dark mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddCollectionElem" role="button">Aggiungi un elemento di raccolta</a>
-    <div id="collectionElemForms">
+    <button class="btn btn-dark mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddCollectionElem" disabled>Aggiungi un elemento di raccolta</button>
+    <div id="collectionElemsForms">
 
     </div>
     <div class="text-center my-4">

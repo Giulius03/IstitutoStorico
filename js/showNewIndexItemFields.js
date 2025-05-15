@@ -7,7 +7,7 @@ document.getElementById("btnAddIndexItem").addEventListener('click', function(ev
 
 async function showNewIndexItemFields() {
     const itemsContainer = document.getElementById("indexItemsForms");
-    itemsContainer.insertAdjacentHTML('afterbegin', `
+    const currentItem = `
     <fieldset class="form-floating mb-3 pt-1 border-top">
         <legend>Nuova Voce</legend>
         <div class="form-floating my-3">
@@ -27,7 +27,12 @@ async function showNewIndexItemFields() {
             <ul class="mt-2 p-0 listPagesContained" style="height: 150px;" id="pagesList${numOfItems}">
             </ul>
         </div>
-    </fieldset>`);
+    </fieldset>`;
+    if (!document.getElementById("novoci")) {
+        itemsContainer.insertAdjacentHTML('afterbegin', currentItem);
+    } else {
+        itemsContainer.innerHTML = currentItem;
+    }
     pages.forEach(page => {
         document.getElementById("pagesList" + numOfItems).innerHTML += `
                 <li class="form-check">

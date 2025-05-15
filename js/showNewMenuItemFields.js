@@ -8,7 +8,7 @@ document.getElementById("btnAddMenuItem").addEventListener('click', function(eve
 
 async function showNewMenuItemFields() {
     const itemsContainer = document.getElementById("menuItemsForms");
-    itemsContainer.insertAdjacentHTML('afterbegin', `
+    const currentMenuItem = `
     <fieldset class="form-floating mb-3 pt-1 border-top">
         <legend>Voce Numero ${numOfItems}</legend>
         <div class="form-floating my-3">
@@ -30,7 +30,12 @@ async function showNewMenuItemFields() {
             <ul class="mt-2 p-0 listPagesContained" style="height: 150px;" id="pagesList${numOfItems}">
             </ul>
         </div>
-    </fieldset>`);
+    </fieldset>`;
+    if (!document.getElementById("noItems")) {
+        itemsContainer.insertAdjacentHTML('afterbegin', currentMenuItem);
+    } else {
+        itemsContainer.innerHTML = currentMenuItem;
+    }
     pages.forEach(page => {
         document.getElementById("pagesList" + numOfItems).innerHTML += `
                 <li class="form-check">

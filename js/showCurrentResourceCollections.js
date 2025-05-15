@@ -17,7 +17,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function showResourceCollections(collections) {
     let collHtml = ``;
-    collections.forEach(collection => {
+    if (collections.length === 0) {
+        collHtml += `
+        <div class="text-center pt-3" id="noColl">
+            <p class="fst-italic">Al momento non sono presenti raccolte.</p>
+        </div>`;
+        document.getElementById("collectionsForms").innerHTML = collHtml;
+    } else {
+        collections.forEach(collection => {
         collHtml += `
         <tr>
             <td class="align-middle">${collection['nome']}</td>
@@ -28,9 +35,10 @@ function showResourceCollections(collections) {
                 <a class="btn btn-danger px-0 py-1" href="${areButtonsNotEnabled === "false" ? "../elimination/removeResourceCollection.php?id="+collection['ID']+"&idPage="+document.getElementById("idPage").value : "#"}" role="button">Cancella</a>
             </td>
         </tr>`;
-    });
-    collHtml += `</tbody></table>`;
-    document.getElementById("collectionsForms").innerHTML = resCollectionsTableHeadHtml + collHtml;
+        });
+        collHtml += `</tbody></table>`;
+        document.getElementById("collectionsForms").innerHTML = resCollectionsTableHeadHtml + collHtml;
+    }
 }
 
 async function getResourceCollections(pageID) {

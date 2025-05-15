@@ -1,12 +1,12 @@
 let numResCollections = 0;
 
-document.getElementById("btnAddCollectionElem").addEventListener('click', function(event) {
+document.getElementById("btnAddCollection").addEventListener('click', function(event) {
     showNewResourseCollectionFields();
 });
 
 async function showNewResourseCollectionFields() {
     const itemsContainer = document.getElementById("collectionsForms");
-    itemsContainer.insertAdjacentHTML('afterbegin', `
+    const currentCollection = `
     <fieldset class="form-floating mb-3 pt-1 border-top">
         <legend>Nuova Raccolta</legend>
         <div class="form-floating my-3">
@@ -17,7 +17,12 @@ async function showNewResourseCollectionFields() {
             <label for="path${numResCollections}">Path Raccolta:</label>
             <input name="path${numResCollections}" type="file" webkitdirectory directory class="form-control mt-1" id="path${numResCollections}" placeholder="path" />
         </div>
-    </fieldset>`);
+    </fieldset>`;
+    if (!document.getElementById("noColl")) {
+        itemsContainer.insertAdjacentHTML('afterbegin', currentCollection);
+    } else {
+        itemsContainer.innerHTML = currentCollection;
+    }
     numResCollections++;
     document.getElementById("numCollections").value = numResCollections;
 }

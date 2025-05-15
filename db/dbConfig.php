@@ -238,9 +238,9 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getBibliographyElementsFromPageID($pageID) {
-        $stmt = $this->db->prepare("SELECT b.elementoDiRaccolta_idelementoDiRaccolta as ID, b.citazioneBibliografia as cit FROM elementobibliografia b INNER JOIN raccoltadirisorse r ON r.idRaccoltaDiRisorse = b.elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse WHERE r.Page_idPage = ?");
-        $stmt->bind_param('i', $pageID);
+    public function getBibliographyElementsFromPageAndCollectionIDs($pageID, $collectionID) {
+        $stmt = $this->db->prepare("SELECT b.elementoDiRaccolta_idelementoDiRaccolta as ID, b.citazioneBibliografia as cit FROM elementobibliografia b INNER JOIN raccoltadirisorse r ON r.idRaccoltaDiRisorse = b.elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse WHERE r.Page_idPage = ? AND r.idRaccoltaDiRisorse = ?");
+        $stmt->bind_param('ii', $pageID, $collectionID);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);

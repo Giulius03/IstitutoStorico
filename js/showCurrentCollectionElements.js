@@ -29,9 +29,17 @@ document.addEventListener('DOMContentLoaded', function() {
     areButtonsNotEnabled = document.getElementById("btnsDisab").value;
 });
 
-function showRows(rows, tableHeadHtml, fields) {
-    let rowsHtml = `<tr>`;
+function showRows(rows, tableHeadHtml, fields, plural) {
+    let rowsHtml = ``;
+    if (rows.length === 0) {
+        collHtml += `
+        <div class="text-center pt-3" id="no${plural}">
+            <p class="fst-italic">Al momento non sono presenti ${plural}.</p>
+        </div>`;
+        document.getElementById("collectionElemForms").innerHTML = collHtml;
+    }
     rows.forEach(row => {
+        rowsHtml = `<tr>`;
         fields.forEach(field => {
             rowsHtml += `<td class="align-middle">${row[field]}</td>`;
         });
@@ -57,11 +65,11 @@ async function getCollectionElements(pageID, collectionID) {
         }
         const json = await response.json();
         console.log(json);
-        showRows(json["bibliografia"], bibliographyElemsTableHeadHtml, ['cit']);
-        showRows(json["cronologia"], chronologyElemsTableHeadHtml, ['data', 'loc']);
-        showRows(json["emeroteca"], newsPaperLibraryElemsTableHeadHtml, ['giornale', 'titolo']);
-        showRows(json["fototeca"], photoLibraryElemsTableHeadHtml, ['descrizione']);
-        showRows(json["rete"], netowrkResourcesTableHeadHtml, ['titolo', 'fonte']);
+        showRows(json["bibliografia"], bibliographyElemsTableHeadHtml, ['cit'], "elementi di bibliografia");
+        showRows(json["cronologia"], chronologyElemsTableHeadHtml, ['data', 'loc'], "elementi di cronologia");
+        showRows(json["emeroteca"], newsPaperLibraryElemsTableHeadHtml, ['giornale', 'titolo'], "elementi di emeroteca");
+        showRows(json["fototeca"], photoLibraryElemsTableHeadHtml, ['descrizione'], "elementi di fototeca");
+        showRows(json["rete"], netowrkResourcesTableHeadHtml, ['titolo', 'fonte'], "risorse in rete");
     } catch (error) {
         console.log(error.message);
     }

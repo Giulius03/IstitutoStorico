@@ -6,7 +6,7 @@ document.getElementById("btnAddNote").addEventListener('click', function(event) 
 
 async function showNewNoteFields() {
     const itemsContainer = document.getElementById("notesForms");
-    itemsContainer.insertAdjacentHTML('afterbegin', `
+    const currentNote = `
     <fieldset class="form-floating mb-3 pt-1 border-top">
         <legend>Nuova Nota</legend>
         <div class="form-floating my-3">
@@ -21,7 +21,12 @@ async function showNewNoteFields() {
             <input name="AncoraNota${numOfNotes}" type="text" class="form-control" id="AncoraNota${numOfNotes}" placeholder="AncoraNota" value="#" required />
             <label for="AncoraNota${numOfNotes}">Ancora Nota (DEVE iniziare con #!)</label>
         </div>
-    </fieldset>`);
+    </fieldset>`;
+    if (!document.getElementById("nonote")) {
+        itemsContainer.insertAdjacentHTML('afterbegin', currentNote);
+    } else {
+        itemsContainer.innerHTML = currentNote;
+    }
     numOfNotes++;
     document.getElementById("numNote").value = numOfNotes;
 }
