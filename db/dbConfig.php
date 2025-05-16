@@ -238,41 +238,41 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getBibliographyElementsFromPageAndCollectionIDs($pageID, $collectionID) {
-        $stmt = $this->db->prepare("SELECT b.elementoDiRaccolta_idelementoDiRaccolta as ID, b.citazioneBibliografia as cit FROM elementobibliografia b INNER JOIN raccoltadirisorse r ON r.idRaccoltaDiRisorse = b.elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse WHERE r.Page_idPage = ? AND r.idRaccoltaDiRisorse = ?");
-        $stmt->bind_param('ii', $pageID, $collectionID);
+    public function getBibliographyElementsFromCollectionID($collectionID) {
+        $stmt = $this->db->prepare("SELECT b.elementoDiRaccolta_idelementoDiRaccolta as ID, b.citazioneBibliografia as cit FROM elementobibliografia b WHERE b.elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse = ?");
+        $stmt->bind_param('i', $collectionID);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getChronologyElementsFromPageID($pageID) {
-        $stmt = $this->db->prepare("SELECT c.elementoDiRaccolta_idelementoDiRaccolta as ID, c.idElementoCronologia as data, c.localita as loc FROM elementocronologia c INNER JOIN raccoltadirisorse r ON r.idRaccoltaDiRisorse = c.elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse WHERE r.Page_idPage = ?");
-        $stmt->bind_param('i', $pageID);
+    public function getChronologyElementsFromCollectionID($collectionID) {
+        $stmt = $this->db->prepare("SELECT c.elementoDiRaccolta_idelementoDiRaccolta as ID, c.idElementoCronologia as data, c.localita as loc FROM elementocronologia c INNER JOIN raccoltadirisorse r ON r.idRaccoltaDiRisorse = c.elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse WHERE r.idRaccoltaDiRisorse = ?");
+        $stmt->bind_param('i', $collectionID);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getNewsPaperLibraryElementsFromPageID($pageID) {
-        $stmt = $this->db->prepare("SELECT e.elementoDiRaccolta_idelementoDiRaccolta as ID, e.nomeTestataGiornalistica as giornale, e.titoloArticolo as titolo FROM elementoemeroteca e INNER JOIN raccoltadirisorse r ON r.idRaccoltaDiRisorse = e.elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse WHERE r.Page_idPage = ?");
-        $stmt->bind_param('i', $pageID);
+    public function getNewsPaperLibraryElementsFromCollectionID($collectionID) {
+        $stmt = $this->db->prepare("SELECT e.elementoDiRaccolta_idelementoDiRaccolta as ID, e.nomeTestataGiornalistica as giornale, e.titoloArticolo as titolo FROM elementoemeroteca e INNER JOIN raccoltadirisorse r ON r.idRaccoltaDiRisorse = e.elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse WHERE r.idRaccoltaDiRisorse = ?");
+        $stmt->bind_param('i', $collectionID);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getPhotoLibraryElementsFromPageID($pageID) {
-        $stmt = $this->db->prepare("SELECT f.elementoDiRaccolta_idelementoDiRaccolta as ID, f.descrizioneElementoFototeca as descrizione FROM elementofototeca f INNER JOIN raccoltadirisorse r ON r.idRaccoltaDiRisorse = f.elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse WHERE r.Page_idPage = ?");
-        $stmt->bind_param('i', $pageID);
+    public function getPhotoLibraryElementsFromCollectionID($collectionID) {
+        $stmt = $this->db->prepare("SELECT f.elementoDiRaccolta_idelementoDiRaccolta as ID, f.descrizioneElementoFototeca as descrizione FROM elementofototeca f INNER JOIN raccoltadirisorse r ON r.idRaccoltaDiRisorse = f.elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse WHERE r.idRaccoltaDiRisorse = ?");
+        $stmt->bind_param('i', $collectionID);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function getNetworkResourcesFromPageID($pageID) {
-        $stmt = $this->db->prepare("SELECT n.elementoDiRaccolta_idelementoDiRaccolta as ID, n.titoloRisorsa as titolo, n.fonte as fonte FROM elementorisorsa n INNER JOIN raccoltadirisorse r ON r.idRaccoltaDiRisorse = n.elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse WHERE r.Page_idPage = ?");
-        $stmt->bind_param('i', $pageID);
+    public function getNetworkResourcesFromCollectionID($collectionID) {
+        $stmt = $this->db->prepare("SELECT n.elementoDiRaccolta_idelementoDiRaccolta as ID, n.titoloRisorsa as titolo, n.fonte as fonte FROM elementorisorsa n INNER JOIN raccoltadirisorse r ON r.idRaccoltaDiRisorse = n.elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse WHERE r.idRaccoltaDiRisorse = ?");
+        $stmt->bind_param('i', $collectionID);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
@@ -551,11 +551,11 @@ class DatabaseHelper{
         }
     }
 
-    public function updateResourceCollection($pageID, $newCollectionName, $newPath) {
-        $resourceCollection = $this->getResourceCollectionFromPageID($pageID);
+    public function updateResourceCollection($resourceCollectionID, $newCollectionName, $newPath) {
+        $resourceCollection = $this->getResourceCollectionFromID($resourceCollectionID);
         if ($resourceCollection[0]['nome'] != $newCollectionName || $resourceCollection[0]['path'] != $newPath) {
-            $stmt = $this->db->prepare("UPDATE raccoltadirisorse SET nomeRaccolta = ?, pathRaccolta = ? WHERE Page_idPage = ?");
-            $stmt->bind_param('ssi', $newCollectionName, $newPath, $pageID);
+            $stmt = $this->db->prepare("UPDATE raccoltadirisorse SET nomeRaccolta = ?, pathRaccolta = ? WHERE idRaccoltaDiRisorse = ?");
+            $stmt->bind_param('ssi', $newCollectionName, $newPath, $resourceCollectionID);
             $stmt->execute();
         }
     }

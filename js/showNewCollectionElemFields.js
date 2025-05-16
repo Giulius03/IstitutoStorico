@@ -15,33 +15,39 @@ document.getElementById("btnAddCollectionElem").addEventListener('click', functi
 function showNewCollectionElemFields() {
     const elemsContainer = document.getElementById("collectionElemsForms");
     const currentType = document.querySelector('input[name="elemType"]:checked').value;
-    console.log(lastTypeSelected + " --> " + currentType);
     if (currentType !== lastTypeSelected) {
         elemsContainer.innerHTML = ``;
         lastTypeSelected = currentType;
+        numOfElems = 0;
     }
     elemsContainer.insertAdjacentHTML('afterbegin', `
     <div class="mb-3 pt-1 border-top">
-        <legend>Nuovo Elemento di Raccolta</legend>
+        <legend></legend>
         <div id="specificFieldsForm${numOfElems}">
 
         </div>
     </div>`);
+    const legend = document.querySelector("legend");
     switch (currentType) {
         case "bibliografia":
             showBibliographyElemFields(numOfElems);
+            legend.textContent = "Nuovo Elemento di Bibliografia";
             break;
         case "cronologia":
             showCronologyElemFields(numOfElems);
+            legend.textContent = "Nuovo Elemento di Cronologia";
             break;
         case "emeroteca":
             showNewsPaperLibraryElemFields(numOfElems);
+            legend.textContent = "Nuovo Elemento di Emeroteca";
             break;
         case "fototeca":
             showNewPhotoLibraryElemFields(numOfElems);
+            legend.textContent = "Nuovo Elemento di Fototeca";
             break;
         case "rete":
             showNewNetworkResourceFields(numOfElems);
+            legend.textContent = "Nuova Risorsa in Rete";
             break;
     }
     numOfElems++;

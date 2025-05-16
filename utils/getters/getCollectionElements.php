@@ -2,12 +2,12 @@
 require_once '../../bootstrap.php';
 
 $collectionElems = [];
-if (isset($_GET['id'])) {
-    $collectionElems["bibliografia"] = $dbh->getBibliographyElementsFromPageID($_GET['id']);
-    $collectionElems["cronologia"] = $dbh->getChronologyElementsFromPageID($_GET['id']);
-    $collectionElems["emeroteca"] = $dbh->getNewsPaperLibraryElementsFromPageID($_GET['id']);
-    $collectionElems["fototeca"] = $dbh->getPhotoLibraryElementsFromPageID($_GET['id']);
-    $collectionElems["rete"] = $dbh->getNetworkResourcesFromPageID($_GET['id']);
+if (isset($_GET['collectionID'])) {
+    $collectionElems["bibliografia"] = $dbh->getBibliographyElementsFromCollectionID($_GET['collectionID']);
+    $collectionElems["cronologia"] = $dbh->getChronologyElementsFromCollectionID($_GET['collectionID']);
+    $collectionElems["emeroteca"] = $dbh->getNewsPaperLibraryElementsFromCollectionID($_GET['collectionID']);
+    $collectionElems["fototeca"] = $dbh->getPhotoLibraryElementsFromCollectionID($_GET['collectionID']);
+    $collectionElems["rete"] = $dbh->getNetworkResourcesFromCollectionID($_GET['collectionID']);
 }
 
 header('Content-Type: application/json');

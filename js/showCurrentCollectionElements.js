@@ -6,7 +6,7 @@ const netowrkResourcesTableHeadHtml = getTableHeadHtml(['Titolo', 'Fonte'], "Ris
 
 function getTableHeadHtml(fields, caption) {
     let html = `
-    <table class="table mt-4">
+    <table class="table mt-2">
         <caption>${caption} attualmente presenti</caption>
         <thead>
             <tr>`;
@@ -25,51 +25,62 @@ function getTableHeadHtml(fields, caption) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    getCollectionElements(document.getElementById("idPage").value, document.getElementById("idCollection").value);
+    getCollectionElements(document.getElementById("idCollection").value);
     areButtonsNotEnabled = document.getElementById("btnsDisab").value;
 });
 
-function showRows(rows, tableHeadHtml, fields, plural) {
+function showRows(rows, tableHeadHtml, fields, value) {
     let rowsHtml = ``;
-    if (rows.length === 0) {
-        collHtml += `
-        <div class="text-center pt-3" id="no${plural}">
-            <p class="fst-italic">Al momento non sono presenti ${plural}.</p>
-        </div>`;
-        document.getElementById("collectionElemForms").innerHTML = collHtml;
+    if (rows.length > 0) {
+        document.querySelector('input[name="elemType"][value='+value+']').checked = true;
+        rows.forEach(row => {
+            rowsHtml += `<tr>`;
+            fields.forEach(field => {
+                rowsHtml += `<td class="align-middle">${row[field]}</td>`;
+            });
+            rowsHtml += `
+                    <td class="align-middle">
+                        <a class="btn btn-secondary px-0 py-1" href="${areButtonsNotEnabled === "false" ? "modifyCollectionElement.php?id="+row['ID']+"&idCollection="+document.getElementById("idCollection").value : "#"}" role="button">Modifica</a>
+                    </td>
+                    <td class="align-middle">
+                        <a class="btn btn-danger px-0 py-1" href="${areButtonsNotEnabled === "false" ? "../elimination/removeCollectionElement.php?id="+row['ID']+"&idCollection="+document.getElementById("idCollection").value : "#"}"role="button">Cancella</a>
+                    </td>
+                </tr>`;   
+        }); 
+        rowsHtml += `</tbody></table>`;
+        document.getElementById("currentElemsTable").innerHTML += tableHeadHtml + rowsHtml;
     }
-    rows.forEach(row => {
-        rowsHtml = `<tr>`;
-        fields.forEach(field => {
-            rowsHtml += `<td class="align-middle">${row[field]}</td>`;
-        });
-        rowsHtml += `
-                <td class="align-middle">
-                    <a class="btn btn-secondary px-0 py-1" href="${areButtonsNotEnabled === "false" ? "modifyCollectionElement.php?id="+row['ID']+"&idCollection="+document.getElementById("idCollection").value : "#"}" role="button">Modifica</a>
-                </td>
-                <td class="align-middle">
-                    <a class="btn btn-danger px-0 py-1" href="${areButtonsNotEnabled === "false" ? "../elimination/removeCollectionElement.php?id="+row['ID']+"&idCollection="+document.getElementById("idCollection").value : "#"}"role="button">Cancella</a>
-                </td>
-            </tr>`;   
-    }); 
-    rowsHtml += `</tbody></table>`;
-    document.getElementById("collectionElemForms").innerHTML += tableHeadHtml + rowsHtml;
 }
 
-async function getCollectionElements(pageID, collectionID) {
-    const url = '../../utils/getters/getCollectionElements.php?pageID=' + pageID + '&collectionID=' + collectionID;
+async function getCollectionElements(collectionID) {
+    const url = '../../utils/getters/getCollectionElements.php?collectionID=' + collectionID;
     try {
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`);
         }
         const json = await response.json();
-        console.log(json);
-        showRows(json["bibliografia"], bibliographyElemsTableHeadHtml, ['cit'], "elementi di bibliografia");
-        showRows(json["cronologia"], chronologyElemsTableHeadHtml, ['data', 'loc'], "elementi di cronologia");
-        showRows(json["emeroteca"], newsPaperLibraryElemsTableHeadHtml, ['giornale', 'titolo'], "elementi di emeroteca");
-        showRows(json["fototeca"], photoLibraryElemsTableHeadHtml, ['descrizione'], "elementi di fototeca");
-        showRows(json["rete"], netowrkResourcesTableHeadHtml, ['titolo', 'fonte'], "risorse in rete");
+        let totElems = 0;
+        for (let type in json) {
+            totElems += json[type].length;
+            console.log(type + ": " + json[type].length);
+        }
+        if (totElems === 0) {
+            document.getElementById("collectionElemsForms").innerHTML = `
+            <div class="text-center pt-3" id="noElems">
+                <p class="fst-italic">Al momento non sono presenti elementi.</p>
+            </div>`;
+        } else {
+            document.querySelectorAll('input[name="elemType"]').forEach (i => {
+                i.disabled = true;
+            });
+            document.getElementById("btnAddCollectionElem").disabled = false;
+            showRows(json["bibliografia"], bibliographyElemsTableHeadHtml, ['cit'], "bibliografia");
+            showRows(json["cronologia"], chronologyElemsTableHeadHtml, ['data', 'loc'], "cronologia");
+            showRows(json["emeroteca"], newsPaperLibraryElemsTableHeadHtml, ['giornale', 'titolo'], "emeroteca");
+            showRows(json["fototeca"], photoLibraryElemsTableHeadHtml, ['descrizione'], "fototeca");
+            showRows(json["rete"], netowrkResourcesTableHeadHtml, ['titolo', 'fonte'], "rete");
+        }
     } catch (error) {
         console.log(error.message);
     }

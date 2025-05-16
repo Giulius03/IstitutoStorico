@@ -42,8 +42,11 @@
             </ul>            
         </li>
     </ul>
-    <button class="btn btn-dark mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddCollectionElem" disabled>Aggiungi un elemento di raccolta</button>
+    <button class="btn btn-dark mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddCollectionElem" disabled type="button">Aggiungi un elemento di raccolta</button>
     <div id="collectionElemsForms">
+
+    </div>
+    <div id="currentElemsTable">
 
     </div>
     <div class="text-center my-4">
