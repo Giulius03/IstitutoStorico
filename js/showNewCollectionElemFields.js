@@ -20,13 +20,18 @@ function showNewCollectionElemFields() {
         lastTypeSelected = currentType;
         numOfElems = 0;
     }
-    elemsContainer.insertAdjacentHTML('afterbegin', `
+    const currentElement = `
     <div class="mb-3 pt-1 border-top">
         <legend></legend>
         <div id="specificFieldsForm${numOfElems}">
 
         </div>
-    </div>`);
+    </div>`;
+    if (document.getElementById("noElems")) {
+        elemsContainer.innerHTML = currentElement;
+    } else {
+        elemsContainer.insertAdjacentHTML('afterbegin', currentElement);
+    }
     const legend = document.querySelector("legend");
     switch (currentType) {
         case "bibliografia":

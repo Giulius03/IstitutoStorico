@@ -278,6 +278,36 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    private function getElementFromID($elementID, $query) {
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $elementID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getCollectionElementFromID($elementID, $type) {
+        $query = "";
+        switch($type) {
+            case "bibliografia":
+                $query = "SELECT citazioneBibliografia as cit, elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse as raccolta, href, DOI FROM elementobibliografia WHERE elementoDiRaccolta_idelementoDiRaccolta = ?";
+                break;
+            case "cronologia":
+                $query = "SELECT idElementoCronologia as data, elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse as raccolta, localita, descrizioneElementoCronologia as descr FROM elementocronologia WHERE elementoDiRaccolta_idelementoDiRaccolta = ?";
+                break;
+            case "emeroteca":
+                $query = "SELECT nomeTestataGiornalistica as giornale, elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse as raccolta, dataPubblicazione as data, href, titoloArticolo as titolo FROM elementoemeroteca WHERE elementoDiRaccolta_idelementoDiRaccolta = ?";
+                break;
+            case "fototeca":
+                $query = "SELECT descrizioneElementoFototeca as descr, elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse as raccolta FROM elementofototeca WHERE elementoDiRaccolta_idelementoDiRaccolta = ?";
+                break;
+            case "rete":
+                $query = "SELECT tipologiaRisorsa as tipo, elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse as raccolta, titoloRisorsa as titolo, hrefRisorsa as href, fonte, DOI FROM elementorisorsa WHERE elementoDiRaccolta_idelementoDiRaccolta = ?";
+                break;
+        };
+        return $this->getElementFromID($elementID, $query);
+    }
+
     private function getNonPageContentFromID($table, $contentID, $idField, $nameField) {
         $query = "SELECT $nameField as name" . ($table == "tag" ? ", tagDescription as description" : "") . " FROM $table WHERE $idField = ?";
         $stmt = $this->db->prepare($query);

@@ -33,6 +33,7 @@ function showRows(rows, tableHeadHtml, fields, value) {
     let rowsHtml = ``;
     if (rows.length > 0) {
         document.querySelector('input[name="elemType"][value='+value+']').checked = true;
+        document.querySelector('input[name="elemType"]').value = value;
         rows.forEach(row => {
             rowsHtml += `<tr>`;
             fields.forEach(field => {
@@ -40,10 +41,10 @@ function showRows(rows, tableHeadHtml, fields, value) {
             });
             rowsHtml += `
                     <td class="align-middle">
-                        <a class="btn btn-secondary px-0 py-1" href="${areButtonsNotEnabled === "false" ? "modifyCollectionElement.php?id="+row['ID']+"&idCollection="+document.getElementById("idCollection").value : "#"}" role="button">Modifica</a>
+                        <a class="btn btn-secondary px-0 py-1" href="${areButtonsNotEnabled === "false" ? "modifyCollectionElement.php?id="+row['ID']+"&idPage="+document.getElementById("idPage").value+"&type="+document.querySelector('input[name="elemType"]').value : "#"}" role="button">Modifica</a>
                     </td>
                     <td class="align-middle">
-                        <a class="btn btn-danger px-0 py-1" href="${areButtonsNotEnabled === "false" ? "../elimination/removeCollectionElement.php?id="+row['ID']+"&idCollection="+document.getElementById("idCollection").value : "#"}"role="button">Cancella</a>
+                        <a class="btn btn-danger px-0 py-1" href="${areButtonsNotEnabled === "false" ? "../elimination/removeCollectionElement.php?id="+row['ID']+"&idPage="+document.getElementById("idPage").value+"&type="+document.querySelector('input[name="elemType"]').value : "#"}" role="button">Cancella</a>
                     </td>
                 </tr>`;   
         }); 
@@ -63,7 +64,6 @@ async function getCollectionElements(collectionID) {
         let totElems = 0;
         for (let type in json) {
             totElems += json[type].length;
-            console.log(type + ": " + json[type].length);
         }
         if (totElems === 0) {
             document.getElementById("collectionElemsForms").innerHTML = `
