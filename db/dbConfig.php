@@ -742,5 +742,28 @@ class DatabaseHelper{
     public function deleteNote($noteID) {
         $this->deleteContent("note", "noteId", $noteID);
     }
+
+    public function deleteCollectionElement($elementID, $type) {
+        $table = "";
+        switch ($type) {
+            case "bibliografia":
+                $table = "elementobibliografia";
+                break;
+            case "cronologia":
+                $table = "elementocronologia";
+                break;
+            case "emeroteca":
+                $table = "elementoemeroteca";
+                break;
+            case "fototeca":
+                $table = "elementofototeca";
+                break;
+            case "rete":
+                $table = "elementorisorsa";
+                break;
+        }
+        $this->deleteContent($table, "elementoDiRaccolta_idElementoDiRaccolta", $elementID);
+        $this->deleteContent("elementodiraccolta", "idelementoDiRaccolta", $elementID);
+    }
 }
 ?>
