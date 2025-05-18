@@ -24,7 +24,7 @@
             <label for="tipo">Tipologia Risorsa</label>
         </li>
         <li class="form-floating mb-3">
-            <input name="fonte" type="text" class="form-control" id="fonte" placeholder="fonte" value="<?php echo $templateParams['element'][0]['fonte'] ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+            <input name="fonte" type="text" class="form-control" id="fonte" placeholder="fonte" value="<?php echo $templateParams['element'][0]['fonte'] ?>" <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
             <label for="fonte">Fonte</label>
         </li>
     <?php endif; ?>
@@ -48,13 +48,13 @@
     <?php endif; ?>
     <?php if ($_GET["type"] == "emeroteca" || $_GET["type"] == "rete" || $_GET["type"] == "bibliografia"): ?>
         <li class="form-floating mb-3">
-            <input name="href" type="text" class="form-control" id="href" placeholder="href" value="<?php echo $templateParams['element'][0]['href'] ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+            <input name="href" type="text" class="form-control" id="href" placeholder="href" value="<?php echo $templateParams['element'][0]['href'] ?>" <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
             <label for="href">HREF</label>
         </li>
     <?php endif; ?>
     <?php if ($_GET["type"] == "rete" || $_GET["type"] == "bibliografia"): ?>
         <li class="form-floating mb-3">
-            <input name="doi" type="text" class="form-control" id="doi" placeholder="doi" value="<?php echo $templateParams['element'][0]['DOI'] ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+            <input name="doi" type="text" class="form-control" id="doi" placeholder="doi" value="<?php echo $templateParams['element'][0]['DOI'] ?>" <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
             <label for="doi">DOI</label>
         </li>
     <?php endif; ?>

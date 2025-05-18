@@ -590,6 +590,51 @@ class DatabaseHelper{
         }
     }
 
+    public function updateBibliographyElement($elementID, $newCit, $newHref, $newDoi) {
+        $element = $this->getCollectionElementFromID($elementID, "bibliografia");
+        if ($element[0]['cit'] != $newCit || $element[0]['href'] != $newHref || $element[0]['DOI'] != $newDoi) {
+            $stmt = $this->db->prepare("UPDATE elementobibliografia SET citazioneBibliografia = ?, href = ?, DOI = ? WHERE elementoDiRaccolta_idelementoDiRaccolta = ?");
+            $stmt->bind_param('sssi', $newCit, $newHref, $newDoi, $elementID);
+            $stmt->execute();
+        }
+    }
+
+    public function updateChronologyElement($elementID, $newDate, $newLocation, $newDescription) {
+        $element = $this->getCollectionElementFromID($elementID, "cronologia");
+        if ($element[0]['data'] != $newDate || $element[0]['localita'] != $newLocation || $element[0]['descr'] != $newDescription) {
+            $stmt = $this->db->prepare("UPDATE elementocronologia SET idElementoCronologia = ?, localita = ?, descrizioneElementoCronologia = ? WHERE elementoDiRaccolta_idelementoDiRaccolta = ?");
+            $stmt->bind_param('sssi', $newDate, $newLocation, $newDescription, $elementID);
+            $stmt->execute();
+        }
+    }
+
+    public function updateNewsPaperLibraryElement($elementID, $newJournal, $newDate, $newHref, $newTitle) {
+        $element = $this->getCollectionElementFromID($elementID, "emeroteca");
+        if ($element[0]['giornale'] != $newJournal || $element[0]['data'] != $newDate || $element[0]['href'] != $newHref || $element[0]['titolo'] != $newTitle) {
+            $stmt = $this->db->prepare("UPDATE elementoemeroteca SET nomeTestataGiornalistica = ?, dataPubblicazione = ?, href = ?, titoloArticolo = ? WHERE elementoDiRaccolta_idelementoDiRaccolta = ?");
+            $stmt->bind_param('ssssi', $newJournal, $newDate, $newHref, $newTitle, $elementID);
+            $stmt->execute();
+        }
+    }
+
+    public function updatePhotoLibraryElement($elementID, $newDescription) {
+        $element = $this->getCollectionElementFromID($elementID, "fototeca");
+        if ($element[0]['descr'] != $newDescription) {
+            $stmt = $this->db->prepare("UPDATE elementofototeca SET descrizioneElementoFototeca = ? WHERE elementoDiRaccolta_idelementoDiRaccolta = ?");
+            $stmt->bind_param('si', $newDescription, $elementID);
+            $stmt->execute();
+        }
+    }
+
+    public function updateNetworkResource($elementID, $newType, $newTitle, $newHref, $newSource, $newDoi) {
+        $element = $this->getCollectionElementFromID($elementID, "rete");
+        if ($element[0]['tipo'] != $newType || $element[0]['titolo'] != $newTitle || $element[0]['href'] != $newHref || $element[0]['fonte'] != $newSource || $element[0]['DOI'] != $newDoi) {
+            $stmt = $this->db->prepare("UPDATE elementorisorsa SET tipologiaRisorsa = ?, titoloRisorsa = ?, hrefRisorsa = ?, fonte = ?, DOI = ? WHERE elementoDiRaccolta_idelementoDiRaccolta = ?");
+            $stmt->bind_param('sssssi', $newType, $newTitle, $newHref, $newSource, $newDoi, $elementID);
+            $stmt->execute();
+        }
+    }
+
     public function updateIndexItem($indexItemID, $newTitle, $newPosition, $newLinkToPage, $newDestAnchor) {
         $item = $this->getIndexItemFromID($indexItemID);
         if ($item[0]['title'] != $newTitle || $item[0]['anchor'] != $newDestAnchor || $item[0]['position'] != $newPosition || $item[0]['page'] != $newLinkToPage) {
