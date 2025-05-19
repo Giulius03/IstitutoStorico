@@ -765,5 +765,14 @@ class DatabaseHelper{
         $this->deleteContent($table, "elementoDiRaccolta_idElementoDiRaccolta", $elementID);
         $this->deleteContent("elementodiraccolta", "idelementoDiRaccolta", $elementID);
     }
+
+    public function deleteResourceCollection($collectionID) {
+        $tables = ["elementobibliografia", "elementocronologia", "elementoemeroteca", "elementofototeca", "elementorisorsa", "elementodiraccolta"];
+        foreach ($tables as $table) {
+            $idField = $table != "elementodiraccolta" ? "elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse" : "RaccoltaDiRisorse_idRaccoltaDiRisorse";
+            $this->deleteContent($table, $idField, $collectionID);
+        }
+        $this->deleteContent("raccoltadirisorse", "idRaccoltaDiRisorse", $collectionID);
+    }
 }
 ?>

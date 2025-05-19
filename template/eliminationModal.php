@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>L'eliminazione di <?php echo $templateParams['modalText'] ?> sarà permanente. Proseguire?</p>
+                <p><?php echo $templateParams['modalText'] ?> Proseguire?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
