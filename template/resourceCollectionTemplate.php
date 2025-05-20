@@ -18,28 +18,28 @@
         </li>
         <li class="my-3">
             <label>Seleziona il tipo degli elementi che verranno aggiunti:</label>
-            <ul class="list-unstyled m-0" id="elemTypeList">
-                <li class="form-check">
+            <fieldset id="elemTypeList">
+                <div class="form-check">
                     <input class="form-check-input" type="radio" name="elemType" value="bibliografia" id="bibliografia" />
                     <label class="form-check-label" for="bibliografia">Elemento di bibliografia</label>
-                </li>
-                <li class="form-check">
+                </div>
+                <div class="form-check">
                     <input class="form-check-input" type="radio" name="elemType" value="cronologia" id="cronologia" />
                     <label class="form-check-label" for="cronologia">Elemento di cronologia</label>
-                </li>
-                <li class="form-check mt-1">
+                </div>
+                <div class="form-check mt-1">
                     <input class="form-check-input" type="radio" name="elemType" value="emeroteca" id="emeroteca" />
                     <label class="form-check-label" for="emeroteca">Elemento di emeroteca</label>
-                </li>
-                <li class="form-check">
+                </div>
+                <div class="form-check">
                     <input class="form-check-input" type="radio" name="elemType" value="fototeca" id="fototeca" />
                     <label class="form-check-label" for="fototeca">Elemento di fototeca</label>
-                </li>
-                <li class="form-check">
+                </div>
+                <div class="form-check">
                     <input class="form-check-input" type="radio" name="elemType" value="rete" id="rete" />
                     <label class="form-check-label" for="rete">Risorsa in rete</label>
-                </li>
-            </ul>            
+                </div>
+            </fieldset>            
         </li>
     </ul>
     <button class="btn btn-dark mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddCollectionElem" disabled type="button">Aggiungi un elemento di raccolta</button>

@@ -1,3 +1,4 @@
+<?php if ($templateParams["action"] == "D"): ?>
 <div class="modal fade" id="confirmElimination" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -15,3 +16,4 @@
         </div>
     </div>
 </div>
+<?php endif; ?>

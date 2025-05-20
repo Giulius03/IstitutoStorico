@@ -6,7 +6,7 @@ $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] ==
 </h1>
 <form action="../../utils/<?php echo $templateParams["actionFile"] ?>" method="POST" class="mx-5 mt-4" id="newPageForm">
     <?php if ($templateParams["action"] == "I"): ?>
-    <div class="d-flex flex-column align-items-center">
+    <fieldset class="d-flex flex-column align-items-center">
         <label>Seleziona il tipo di pagina:</label>
         <div class="mt-2">
             <div class="form-check">
@@ -22,7 +22,7 @@ $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] ==
                 <label class="form-check-label" for="raccolta">Raccolta di Risorse</label>
             </div>
         </div>
-    </div>
+    </fieldset>
     <?php endif; ?>
     <input type="hidden" name="idPage" id="idPage" value="<?php echo $editOrDelete ? $_GET['id'] : "" ?>" />
     <input type="hidden" name="btnsDisab" id="btnsDisab" value="<?php echo $templateParams["action"] == "D" ? "true" : "false" ?>" />
@@ -152,7 +152,8 @@ $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] ==
                         <input class="form-check-input" type="checkbox" value="<?php echo $iItem['ID'] ?>" id="<?php echo "articolo".$iItem['ID'] ?>" name="<?php echo "articolo".$iItem['ID'] ?>" <?php echo $contained ? "checked" : "" ?> <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
                         <label class="form-check-label" for="<?php echo "articolo".$iItem['ID'] ?>"><?php echo $iItem['name'] ?></label>
                     </div>
-                    <input step="1" name="<?php echo "quantita".$iItem['ID'] ?>" type="number" class="form-control py-1 ps-2 pe-0 <?php echo $contained ? "" : "d-none" ?>" id="<?php echo "quantita".$iItem['ID'] ?>" placeholder="Quantità" aria-label="<?php echo "quantitàArticolo".$iItem['ID'] ?>" value="<?php echo $contained ? $templateParams['inventoryItems'][$index]['quantity'] : "" ?>" <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                    <input step="1" name="<?php echo "quantita".$iItem['ID'] ?>" type="number" class="form-control py-1 ps-2 pe-0 <?php echo $contained ? "" : "d-none" ?>" id="<?php echo "quantita".$iItem['ID'] ?>" placeholder="Quantità" value="<?php echo $contained ? $templateParams['inventoryItems'][$index]['quantity'] : "" ?>" <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                    <label class="d-none" for="<?php echo "quantita".$iItem['ID'] ?>"><?php echo "Quantità ".$iItem['name'] ?></label>
                 </li>
                 <?php endforeach; ?>
             </ul>

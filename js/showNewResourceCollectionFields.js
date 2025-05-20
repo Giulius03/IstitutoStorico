@@ -15,7 +15,7 @@ async function showNewResourseCollectionFields() {
         </div>
         <div class="my-3">
             <label for="path${numResCollections}">Path Raccolta:</label>
-            <input name="path${numResCollections}" type="file" webkitdirectory directory class="form-control mt-1" id="path${numResCollections}" placeholder="path" />
+            <input name="path${numResCollections}" type="file" webkitdirectory class="form-control mt-1" id="path${numResCollections}" />
         </div>
     </fieldset>`;
     if (!document.getElementById("noColl")) {
