@@ -49,7 +49,7 @@ td a {
         margin: 0 20%;
     }
 
-    #contentsShower, #selectorContainer, #newNoPageForm, #newPageForm, #resourceCollectionForm {
+    #contentsShower, #selectorContainer, #newNoPageForm, #newPageForm, #resourceCollectionForm, #collectionElemForm, #pageComponentsForm {
         margin-left: 10% !important;
         margin-right: 10% !important;
     }

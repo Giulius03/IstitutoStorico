@@ -1,7 +1,7 @@
 <h1 class="text-center fs-1 fw-bold mt-4">
     <?php echo ($templateParams["action"] == "E" ? "Modifica" : "Cancella")." ".$templateParams["componentName"] ?>
 </h1>
-<form action="../../utils/<?php echo $templateParams["actionFile"] ?>" method="POST" class="mx-5 mt-4">
+<form action="../../utils/<?php echo $templateParams["actionFile"] ?>" method="POST" class="mx-5 mt-4" id="pageComponentsForm">
     <ul class="list-unstyled m-0 mt-5 px-2">
     <?php if ($templateParams["componentName"] == "voce dell'indice"): ?>
         <li class="form-floating mb-3">
