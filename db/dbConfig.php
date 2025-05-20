@@ -388,15 +388,18 @@ class DatabaseHelper{
     }
 
     private function getAllDisplayedPagesFromTags($tagsID) {
-        $query = "SELECT DISTINCT page_idPage as ID FROM page_has_tag WHERE ";
-        for ($i=0; $i < count($tagsID); $i++) { 
-            $query .= $i != 0 ? " OR " : "";
-            $query .= "tag_idTag = " . $tagsID[$i];
+        if (count($tagsID) > 0) {
+            $query = "SELECT DISTINCT page_idPage as ID FROM page_has_tag";
+            for ($i=0; $i < count($tagsID); $i++) { 
+                $query .= $i != 0 ? " OR " : " WHERE ";
+                $query .= "tag_idTag = " . $tagsID[$i];
+            }
+            $stmt = $this->db->prepare($query);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            return $result->fetch_all(MYSQLI_ASSOC);
         }
-        $stmt = $this->db->prepare($query);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_all(MYSQLI_ASSOC);
+        return [];
     }
 
     public function addIndexItem($position, $shownInPageID, $targetAnchor, $linkToPage, $title) {

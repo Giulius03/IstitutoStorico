@@ -11,12 +11,12 @@ if (checkIsSet($fieldsName) && isset($_GET['id'])) {
         addNewPageIndexItems($_GET['id']);
         addNewPageNotes($_GET['id']);
         updateDisplayedPages($_GET['id']);
-        if ($_GET['type'] == "archivio" && checkIsSet(['dataInizio', 'dataFine'])) {
+        if (isset($_GET['type']) && $_GET['type'] == "archivio" && checkIsSet(['dataInizio', 'dataFine'])) {
             $dbh->updateArchivePage($_GET['id'], $_POST['dataInizio'], $_POST['dataFine']);
             updateArchivePageReferenceTools($_GET['id']);
             updateArchivePageInventoryItems($_GET['id']);
         }
-        if ($_GET['type'] == "raccolta" && checkIsSet(['numCollections'])) {
+        if (isset($_GET['type']) && $_GET['type'] == "raccolta" && checkIsSet(['numCollections'])) {
             addResourceCollections($_GET['id']);
         }
         header('Location: ../../admin.php?cont=Pagine');
