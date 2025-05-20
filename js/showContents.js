@@ -13,7 +13,7 @@ function show() {
     switch (contentTypeSelect.value) {
         case "Pagine":
             btnInsertText = "Inserisci una nuova pagina";
-            showContents("getPages.php?ordBy=updatedDate", addContDir + "newPage.php", editContDir + "modifyPage.php", removeContDir + "", btnInsertText, "pagine", [ "Titolo", "Ultima Modifica", "Tipo" ]);
+            showContents("getPages.php?ordBy=updatedDate", addContDir + "newPage.php", editContDir + "modifyPage.php", removeContDir + "removePage.php", btnInsertText, "pagine", [ "Titolo", "Ultima Modifica", "Tipo" ]);
             break;
         case "Menù":
             btnInsertText = "Inserisci un nuovo menù";

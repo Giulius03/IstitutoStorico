@@ -575,9 +575,7 @@ class DatabaseHelper{
     public function updateArchivePageInventoryItems($pageID, $newInventoryItems) {
         $invItems = $this->getInventoryItemsFromArchivePageID($pageID);
         sort($invItems);
-        var_dump($invItems);
         sort($newInventoryItems);
-        var_dump($newInventoryItems);
         if ($invItems !== $newInventoryItems) {
             $this->deleteContent("archivepage_has_inventoryitem", "ArchivePage_Page_idPage", $pageID);
             $this->connectInventoryItemsToPage($pageID, $newInventoryItems);
@@ -776,6 +774,48 @@ class DatabaseHelper{
             $this->deleteContent($table, $idField, $collectionID);
         }
         $this->deleteContent("raccoltadirisorse", "idRaccoltaDiRisorse", $collectionID);
+    }
+
+    private function removeAllTheLinksToAPage($pageID) {
+        $stmt = $this->db->prepare("UPDATE menuitem SET Page_idPage = NULL WHERE Page_idPage = ?");
+        $stmt->bind_param('i', $pageID);
+        $stmt->execute();
+        $stmt = $this->db->prepare("UPDATE indexitem SET linkToPage = NULL WHERE linkToPage = ?");
+        $stmt->bind_param('i', $pageID);
+        $stmt->execute();
+    }
+
+    public function deletePage($pageID) {
+        $pageType = $this->getPageType($pageID);
+        switch ($pageType) {
+            case "Pagina di Archivio":
+                $this->deleteContent("archivepage_has_inventoryitem", "ArchivePage_Page_idPage", $pageID);
+                $this->deleteContent("archivepage_has_referencetool", "ArchivePage_Page_idPage", $pageID);
+                $this->deleteContent("archivepage", "Page_idPage", $pageID);
+                break;
+            case "Raccolta di Risorse":
+                $collections = $this->getResourceCollectionsFromPageID($pageID);
+                foreach ($collections as $collection) {
+                    $this->deleteResourceCollection($collection['ID']);
+                }
+                break;
+            default:
+                break;
+        }
+        $this->updateDisplayedPages($pageID, []);
+        //elimino le righe che specificano in quali pagine è contenuta quella che si sta eliminando
+        $this->deleteContent("page_displays_page", "page_idPageContained", $pageID);
+        $this->updatePageTags($pageID, []);
+        $notes = $this->getNotesFromPageID($pageID);
+        $indexItems = $this->getIndexItemsFromPageID($pageID);
+        foreach ($notes as $note) {
+            $this->deleteNote($note['ID']);
+        }
+        foreach ($indexItems as $item) {
+            $this->deleteIndexItem($item['ID']);
+        }
+        $this->removeAllTheLinksToAPage($pageID);
+        $this->deleteContent("page", "idPage", $pageID);
     }
 }
 ?>
