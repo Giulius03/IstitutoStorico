@@ -725,14 +725,22 @@ class DatabaseHelper{
     }
 
     public function deleteTag($tagID) {
+        $displayedPages = $this->getAllDisplayedPagesFromTags([$tagID]);  
+        $this->deleteContent("page_has_tag", "tag_idTag", $tagID);
+        $this->deleteContent("page_displays_pages_of_tag", "tag_idTag", $tagID);
+        foreach ($displayedPages as $page) {
+            $this->deleteContent("page_displays_page", "page_idPageContained", $page['ID']);
+        }
         $this->deleteContent("tag", "idTag", $tagID);
     }
 
     public function deleteReferenceTool($referenceToolID) {
+        $this->deleteContent("archivepage_has_referencetool", "ReferenceTool_idReferenceTool", $referenceToolID);
         $this->deleteContent("referencetool", "idReferenceTool", $referenceToolID);
     }
 
     public function deleteInventoryItem($inventoryItemID) {
+        $this->deleteContent("archivepage_has_inventoryitem", "inventoryItem_idInventoryItem", $inventoryItemID);
         $this->deleteContent("inventoryitem", "idInventoryItem", $inventoryItemID);
     }
 

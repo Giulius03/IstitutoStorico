@@ -65,7 +65,12 @@ $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] ==
             ? "../editing/modifyMenu.php?id=".$_GET['idMenu'] 
             : "../../admin.php?cont=".$templateParams['noPageType'];?>
         <a class="btn btn-dark w-25 me-4" role="button" href="<?php echo $previousPagePath ?>">Torna indietro</a>
-        <input class="btn btn-dark w-25 ms-4" type="submit" id="btnCreate"
-        value="<?php echo ($templateParams["action"] == "I" ? "Crea" : ($templateParams["action"] == "E" ? "Salva" : "Elimina")) ?>" />
+        <?php if ($templateParams["action"] == "E" || $templateParams["action"] == "I"): ?>
+        <input class="btn btn-dark ms-4 w-25" type="submit" value="<?php echo $templateParams["action"] == "I" ? "Crea" : "Salva" ?>" />
+        <?php else: ?>
+        <button type="button" class="btn btn-dark ms-4 w-25" data-bs-toggle="modal" data-bs-target="#confirmElimination">Elimina</button>
+        <?php endif; ?>    
+    </div>
+    <?php require_once("../../template/eliminationModal.php"); ?>
     </div>
 </form>

@@ -13,6 +13,7 @@ if (isset($_GET['id'])) {
     $templateParams["content"] = $dbh->getTagFromID($_GET['id']);
     $templateParams["actionFile"] .= "?id=".$_GET['id'];
 }
+$templateParams["modalText"] = "L'eliminazione di questo tag sarà permanente.";
 
 require '../../template/base.php';
 ?>

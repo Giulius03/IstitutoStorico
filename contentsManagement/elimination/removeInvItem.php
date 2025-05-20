@@ -13,6 +13,7 @@ if (isset($_GET['id'])) {
     $templateParams["content"] = $dbh->getInventoryItemFromID($_GET['id']);
     $templateParams["actionFile"] .= "?id=".$_GET['id'];
 }
+$templateParams["modalText"] = "L'eliminazione di questo articolo d'inventario sarà permanente.";
 
 require '../../template/base.php';
 ?>

@@ -14,6 +14,7 @@ if (isset($_GET['id'])) {
     $templateParams["content"] = $dbh->getMenuFromID($_GET['id']);
     $templateParams["actionFile"] .= "?id=".$_GET['id'];
 }
+$templateParams["modalText"] = "L'eliminazione di questo menù sarà permanente e comporterà anche la cancellazione di tutte le sue voci.";
 
 require '../../template/base.php';
 ?>
