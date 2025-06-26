@@ -1,3 +1,15 @@
+body {
+    font-family: Roboto, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+header {
+    height: 55px;
+}
+
+span {
+    font-size: 30px;
+}
+
 .form-control:focus, .form-select:focus, .form-check-input {
     box-shadow: none !important;
     border-color: #a2a8ad !important;
