@@ -78,6 +78,20 @@ class DatabaseHelper{
         return $this->getNonPages("menu", "idMenu", "menuName");
     }
 
+    public function getPrimaryMenu() {
+        $stmt = $this->db->prepare("SELECT idMenuItem as ID, menuItemName as name FROM menuitem WHERE Menu_idMenu = 1 AND MenuItem_idMenuItem is NULL ORDER BY menuItemOrderedPosition");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function getMenuItemsByFather($fatherID) {
+        $stmt = $this->db->prepare("SELECT idMenuItem as ID, menuItemName as name, Page_idPage as linkPage FROM menuitem WHERE MenuItem_idMenuItem = ? ORDER BY menuItemOrderedPosition");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
     /**
      * @return array ID e nome di tutti i tag presenti al momento della richiesta
      */

@@ -6,8 +6,9 @@ header {
     height: 55px;
 }
 
-span {
-    font-size: 30px;
+nav span {
+    font-size: 40px;
+    color: black;
 }
 
 .form-control:focus, .form-select:focus, .form-check-input {
