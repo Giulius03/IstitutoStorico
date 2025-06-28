@@ -11,26 +11,36 @@
         <link rel="stylesheet" type="text/css" href="<?php echo $templateParams["css"] ?>" />
         <?php endif; ?>
     </head>
-    <body onload="<?php echo isset($templateParams["onloadFunctions"]) ? $templateParams["onloadFunctions"] : "" ?>">
+    <body class="bg-light" onload="<?php echo isset($templateParams["onloadFunctions"]) ? $templateParams["onloadFunctions"] : "" ?>">
         <main>
-            <?php if (!isset($_SESSION["isAdmin"]) || !$_SESSION["isAdmin"]): ?>
-            <header class="d-flex justify-content-center align-items-center">
+            <header class="d-flex justify-content-center align-items-center bg-white">
                 <a href="." class="fs-4 fw-semibold text-dark text-decoration-none">Istituto storico di Forlì-Cesena</a>
             </header>
-            <nav class="pb-3">
-                <span class="bi bi-list float-start ms-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuPrincipaleMobile" aria-controls="menuPrincipaleMobile"></span>
-                <a href="./login.php" class="float-end pe-3 text-dark"><span class="bi bi-person-circle"></span></a>
-            </nav>
-            <div class="offcanvas offcanvas-start" tabindex="-1" id="menuPrincipaleMobile" aria-labelledby="menu">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="menu">Menù</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                </div>
-                <div class="offcanvas-body">
-                    <ul id="mainMenuItems" class="m-0 p-0 list-unstyled fs-3 fw-semibold">
+            <?php if (!isset($_SESSION["isAdmin"]) || !$_SESSION["isAdmin"]): ?>
+            <div id="mobileNavbar" class="bg-white">
+                <nav class="pb-3">
+                    <span class="bi bi-list float-start ms-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuPrincipaleMobile" aria-controls="menuPrincipaleMobile"></span>
+                    <a href="./login.php" class="float-end pe-3 text-dark"><span class="bi bi-person-circle"></span></a>
+                </nav>
+                <div class="offcanvas offcanvas-start" tabindex="-1" id="menuPrincipaleMobile" aria-labelledby="menu">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="menu">Menù</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul id="mainMenuItems" class="m-0 p-0 list-unstyled fs-3 fw-semibold">
 
-                    </ul>
+                        </ul>
+                    </div>
                 </div>
+            </div>
+            <div id="pcNavbar" class="bg-white">
+                <nav class="navbar pb-3 d-flex justify-content-center align-items-center">
+                    <div class="row pe-5" id="navbarPC">
+
+                    </div>
+                    <a href="./login.php" class="text-dark"><span class="bi bi-person-circle"><span><a>                        
+                </nav>
             </div>
             <?php endif; ?>
             <?php 

@@ -2,7 +2,7 @@ body {
     font-family: Roboto, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-header {
+header, #mobileNavbar {
     height: 55px;
 }
 
@@ -51,9 +51,21 @@ td a {
     font-size: 14px;
 }
 
+@media (max-width: 767px) {
+    #pcNavbar {
+        display: none;
+    }
+}
+
 @media (min-width: 768px) {
     .loginForm {
         margin: 0 10%;
+    }
+    #pcNavbar {
+        display: block;
+    }
+    #mobileNavbar {
+        display: none;
     }
 }
 
