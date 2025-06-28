@@ -6,36 +6,56 @@ async function getMenuItemsByFather(father) {
             throw new Error(`Response status: ${response.status}`);
         }
         const json = await response.json();
-        console.log(json);
         return json;
     } catch (error) {
         console.log(error.message);
     }
 }
 
-function fillDiv(divID) {
-    
+function fillChildrenList(listID, children) {
+    let current = ``;
+    children.forEach(async child => {
+        const href = child['linkPage'] != null ? `href='page.php?id=${child['linkPage']}'` : "";
+        current = `
+        <li class="px-4 py-1">
+            <a type="button" ${href} class="text-dark text-decoration-none dropdown-toggle" id="item${child['ID']}">${child['name']}</a>
+            <ul class="m-0 p-0 list-unstyled fs-3 fw-semibold d-none" id="children${child['ID']}">
+            </ul>
+        </li>`;
+        document.getElementById(listID).insertAdjacentHTML('beforeend', current);
+        const gen = await getMenuItemsByFather(child['ID']);
+        if (gen.length > 0) {
+            fillChildrenList('children'+child['ID'], gen);
+            document.getElementById('item'+child['ID']).addEventListener('click', (event) => {
+                document.getElementById('children'+child['ID']).classList.toggle('d-none');
+            });
+        } else {
+            document.getElementById('item'+child['ID']).classList.toggle('dropdown-toggle');
+        }
+    });
 }
 
 function fillMainMenu(items) {
-    let menuHtml = ``;
+    let current = ``;
     if (items.length > 0) {
         items.forEach(async item => {
-            menuHtml += `
+            current = `
             <li class="p-1">
                 <a type="button" class="text-dark text-decoration-none dropdown-toggle" id="item${item['ID']}">${item['name']}</a>
-                <div class="d-none" id="children${item['ID']}">
-                </div>
+                <ul class="m-0 p-0 list-unstyled fs-3 fw-semibold d-none" id="children${item['ID']}">
+                </ul>
             </li>`;
+            document.getElementById('mainMenuItems').insertAdjacentHTML('beforeend', current);
             const children = await getMenuItemsByFather(item['ID']);
             if (children.length > 0) {
+                fillChildrenList('children'+item['ID'], children);
                 document.getElementById('item'+item['ID']).addEventListener('click', (event) => {
-                    const display = document.getElementById('children'+item['ID']).style.display;
-                    document.getElementById('children'+item['ID']).style.display = display == 'block' ? 'none' : 'block';
-                });
+                    document.getElementById('children'+item['ID']).classList.toggle('d-none');
+                });     
+            } else {
+                document.getElementById('item'+item['ID']).classList.toggle('dropdown-toggle');
             }
         });
-        document.getElementById('mainMenuItems').innerHTML = menuHtml;
     }
 }
 
@@ -47,7 +67,6 @@ async function getPrimaryMenu() {
             throw new Error(`Response status: ${response.status}`);
         }
         const json = await response.json();
-        console.log(json);
         fillMainMenu(json);
     } catch (error) {
         console.log(error.message);
