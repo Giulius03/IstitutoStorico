@@ -12,11 +12,11 @@ async function getMenuItemsByFather(father) {
     }
 }
 
-function fillChildrenList(listIDMobile, listIDPC, children) {
+async function fillChildrenList(listIDMobile, listIDPC, children) {
     let currentForMobile = ``;
     let currentForPC = ``;
-    children.forEach(async child => {
-        const href = child['linkPage'] != null ? `href='page.php?id=${child['linkPage']}'` : "";
+    for (const child of children) {
+        const href = child['linkPage'] != null ? `href='page.php?id=${child['linkPage']}'` : "#";
         currentForMobile = `
         <li class="px-4 py-1">
             <a type="button" ${href} class="text-dark text-decoration-none dropdown-toggle" id="item${child['ID']}">${child['name']}</a>
@@ -26,33 +26,39 @@ function fillChildrenList(listIDMobile, listIDPC, children) {
         document.getElementById(listIDMobile).insertAdjacentHTML('beforeend', currentForMobile);
 
         const gen = await getMenuItemsByFather(child['ID']);
-        const dropString = href === "" ? `data-bs-toggle="dropdown" aria-expanded="false"` : ``;
+        const dropString = href === "#" ? `data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"` : ``;
         currentForPC = `
-        <li class="dropdown-item dropend">
-            <a class="text-dark text-decoration-none dropdown-toggle" ${href} role="button" id="itemPC${child['ID']}" ${dropString}>${child['name']}</a>
-            <ul class="dropdown-menu" id="childrenPC${child['ID']}">
+        <li class="dropdown dropend">
+            <a class="dropdown-item dropdown-toggle text-dark text-decoration-none" ${href} id="itemPC${child['ID']}" role="button" ${dropString}>${child['name']}</a>
+            <ul class="dropdown-menu" aria-labelledby="itemPC${child['ID']}" id="childrenPC${child['ID']}">
             </ul>
         </li>`;
         document.getElementById(listIDPC).insertAdjacentHTML('beforeend', currentForPC);
+        const dropdownToggle = document.getElementById('itemPC' + child['ID']);
+        if (dropdownToggle) {
+            bootstrap.Dropdown.getOrCreateInstance(dropdownToggle);
+            dropdownToggle.addEventListener('click', (event) => {
+                event.stopPropagation(); // importante per non chiudere il padre
+            });
+        }
 
         if (gen.length > 0) {
-            fillChildrenList('children'+child['ID'], 'childrenPC'+child['ID'], gen);
+            await fillChildrenList('children'+child['ID'], 'childrenPC'+child['ID'], gen);
             document.getElementById('item'+child['ID']).addEventListener('click', (event) => {
                 document.getElementById('children'+child['ID']).classList.toggle('d-none');
             });
         } else {
             document.getElementById('item'+child['ID']).classList.toggle('dropdown-toggle');
             document.getElementById('itemPC'+child['ID']).classList.toggle('dropdown-toggle');
-            // document.getElementById('childrenPC'+child['ID']).style.display = 'none';
         }
-    });
+    }
 }
 
-function fillMainMenu(items) {
+async function fillMainMenu(items) {
     let currentForMobile = ``;
     let currentForPC = ``;
     if (items.length > 0) {
-        items.forEach(async item => {
+        for (const item of items) {
             currentForMobile = `
             <li class="p-1">
                 <a type="button" class="text-dark text-decoration-none dropdown-toggle" id="item${item['ID']}">${item['name']}</a>
@@ -73,16 +79,15 @@ function fillMainMenu(items) {
 
             const children = await getMenuItemsByFather(item['ID']);
             if (children.length > 0) {
-                fillChildrenList('children'+item['ID'], 'childrenPC'+item['ID'], children);
+                await fillChildrenList('children'+item['ID'], 'childrenPC'+item['ID'], children);
                 document.getElementById('item'+item['ID']).addEventListener('click', (event) => {
                     document.getElementById('children'+item['ID']).classList.toggle('d-none');
                 });
             } else {
                 document.getElementById('item'+item['ID']).classList.toggle('dropdown-toggle');
                 document.getElementById('itemPC'+item['ID']).classList.toggle('dropdown-toggle');
-                // document.getElementById('childrenPC'+child['ID']).style.display = 'none';
             }
-        });
+        }
     }
 }
 
@@ -94,7 +99,7 @@ async function getPrimaryMenu() {
             throw new Error(`Response status: ${response.status}`);
         }
         const json = await response.json();
-        fillMainMenu(json);
+        await fillMainMenu(json);
     } catch (error) {
         console.log(error.message);
     }
