@@ -1,0 +1,11 @@
+RewriteEngine On
+RewriteBase /IstitutoStorico/
+
+# Se la richiesta non è per un file esistente
+RewriteCond %{REQUEST_FILENAME} !-f
+
+# E se la richiesta non è per una cartella esistente
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Riscrivi URL "slug" in page.php passando lo slug come parametro GET
+RewriteRule ^([a-zA-Z0-9_-]+)$ page.php?slug=$1 [QSA,L]

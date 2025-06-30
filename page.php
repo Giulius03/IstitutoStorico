@@ -5,9 +5,9 @@ require_once 'bootstrap.php';
 $templateParams["nome"] = "pageTemplate.php";
 $templateParams["css"] = "css/style.css";
 $templateParams["js"] = array("js/base.js");
-if (isset($_GET['id'])) {
-    $templateParams["page"] = $dbh->getPageFromID($_GET['id']);
-    $templateParams["titolo"] = $templateParams["page"]["title"];
+if (isset($_GET['slug'])) {
+    $templateParams["page"] = $dbh->getPageFromSlug($_GET['slug']);
+    $templateParams["titolo"] = count($templateParams["page"]) > 0 ? $templateParams["page"][0]["title"] : "Pagina non trovata";
 }
 
 require 'template/base.php';

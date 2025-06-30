@@ -16,10 +16,10 @@ async function fillChildrenList(listIDMobile, listIDPC, children) {
     let currentForMobile = ``;
     let currentForPC = ``;
     for (const child of children) {
-        const href = child['linkPage'] != null ? `href='page.php?id=${child['linkPage']}'` : "#";
+        const href = child['slug'] != null ? child['slug'] : "#";
         currentForMobile = `
         <li class="px-4 py-1">
-            <a type="button" ${href} class="text-dark text-decoration-none dropdown-toggle" id="item${child['ID']}">${child['name']}</a>
+            <a type="button" href="${href}" class="text-dark text-decoration-none dropdown-toggle" id="item${child['ID']}">${child['name']}</a>
             <ul class="m-0 p-0 list-unstyled fs-3 fw-semibold d-none" id="children${child['ID']}">
             </ul>
         </li>`;
@@ -29,7 +29,7 @@ async function fillChildrenList(listIDMobile, listIDPC, children) {
         const dropString = href === "#" ? `data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false"` : ``;
         currentForPC = `
         <li class="dropdown dropend">
-            <a class="dropdown-item dropdown-toggle text-dark text-decoration-none" ${href} id="itemPC${child['ID']}" role="button" ${dropString}>${child['name']}</a>
+            <a class="dropdown-item dropdown-toggle text-dark text-decoration-none" href="${href}" id="itemPC${child['ID']}" role="button" ${dropString}>${child['name']}</a>
             <ul class="dropdown-menu" aria-labelledby="itemPC${child['ID']}" id="childrenPC${child['ID']}">
             </ul>
         </li>`;
@@ -38,7 +38,7 @@ async function fillChildrenList(listIDMobile, listIDPC, children) {
         if (dropdownToggle) {
             bootstrap.Dropdown.getOrCreateInstance(dropdownToggle);
             dropdownToggle.addEventListener('click', (event) => {
-                event.stopPropagation(); // importante per non chiudere il padre
+                event.stopPropagation();
             });
         }
 
@@ -50,15 +50,15 @@ async function fillChildrenList(listIDMobile, listIDPC, children) {
         } else {
             document.getElementById('item'+child['ID']).classList.toggle('dropdown-toggle');
             document.getElementById('itemPC'+child['ID']).classList.toggle('dropdown-toggle');
-        }
+        }   
     }
 }
 
-async function fillMainMenu(items) {
+function fillMainMenu(items) {
     let currentForMobile = ``;
     let currentForPC = ``;
     if (items.length > 0) {
-        for (const item of items) {
+        items.forEach(async item => {
             currentForMobile = `
             <li class="p-1">
                 <a type="button" class="text-dark text-decoration-none dropdown-toggle" id="item${item['ID']}">${item['name']}</a>
@@ -87,7 +87,7 @@ async function fillMainMenu(items) {
                 document.getElementById('item'+item['ID']).classList.toggle('dropdown-toggle');
                 document.getElementById('itemPC'+item['ID']).classList.toggle('dropdown-toggle');
             }
-        }
+        });
     }
 }
 
@@ -99,7 +99,7 @@ async function getPrimaryMenu() {
             throw new Error(`Response status: ${response.status}`);
         }
         const json = await response.json();
-        await fillMainMenu(json);
+        fillMainMenu(json);
     } catch (error) {
         console.log(error.message);
     }

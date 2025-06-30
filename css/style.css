@@ -16,6 +16,10 @@ nav span {
     border-color: #a2a8ad !important;
 }
 
+.dropdown-item:active {
+    background-color: #e2e3e4 !important;
+}
+
 #btnSeePw:hover {
     cursor: pointer;
 }

@@ -86,7 +86,7 @@ class DatabaseHelper{
     }
 
     public function getMenuItemsByFather($fatherID) {
-        $stmt = $this->db->prepare("SELECT idMenuItem as ID, menuItemName as name, Page_idPage as linkPage FROM menuitem WHERE MenuItem_idMenuItem = ? ORDER BY menuItemOrderedPosition");
+        $stmt = $this->db->prepare("SELECT idMenuItem as ID, menuItemName as name, slug FROM menuitem LEFT JOIN page ON Page_idPage = idPage WHERE MenuItem_idMenuItem = ? ORDER BY menuItemOrderedPosition");
         $stmt->bind_param('i', $fatherID);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -144,6 +144,14 @@ class DatabaseHelper{
         $page = $result->fetch_assoc();
         $page['type'] = $this->getPageType($pageID);
         return $page;
+    }
+
+    public function getPageFromSlug($pageSlug) {
+        $stmt = $this->db->prepare("SELECT title, slug, text, isVisibile, author FROM page WHERE slug = ?");
+        $stmt->bind_param('s', $pageSlug);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     public function getTagsFromPageID($pageID) {
