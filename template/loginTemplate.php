@@ -1,4 +1,4 @@
-<h1 class="text-center fs-1 fw-bold my-4">Accedi</h1>
+<h1 class="text-center fs-1 fw-bold my-4">Accedi come amministratore</h1>
 <form class="mx-5" onsubmit="login(event)">
     <ul class="loginForm list-unstyled px-1">
         <li class="form-floating my-4">

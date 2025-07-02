@@ -20,7 +20,7 @@
             <div id="mobileNavbar" class="bg-white">
                 <nav class="pb-3">
                     <span class="bi bi-list float-start ms-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuPrincipaleMobile" aria-controls="menuPrincipaleMobile"></span>
-                    <a href="./login.php" class="float-end pe-3 text-dark"><span class="bi bi-person-circle"></span></a>
+                    <a href="./login.php" class="float-end pe-3 text-dark"><span class="bi bi-person-fill-gear" aria-label="Accedi come amministratore"></span></a>
                 </nav>
                 <div class="offcanvas offcanvas-start" tabindex="-1" id="menuPrincipaleMobile" aria-labelledby="menu">
                     <div class="offcanvas-header">
@@ -39,7 +39,7 @@
                     <div class="row pe-5" id="navbarPC">
 
                     </div>
-                    <a href="./login.php" class="text-dark"><span class="bi bi-person-circle"><span><a>                        
+                    <a href="./login.php" class="text-dark"><span class="bi bi-person-fill-gear" aria-label="Accedi come amministratore"><span><a>                        
                 </nav>
             </div>
             <?php endif; ?>
