@@ -2,8 +2,47 @@ body {
     font-family: Roboto, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font-family: Dosis, sans-serif;
+}
+
 header, #mobileNavbar {
     height: 55px;
+}
+
+footer {
+    background-color: #4c4c4c;
+    font-size: 14px;
+}
+
+footer p, footer h3{
+    color: #ccc;
+}
+
+footer a {
+    color: #7cc576;
+    text-decoration: none;
+    transition: all .3s ease-in-out;
+}
+
+footer img {
+    height: 40px;
+    width: 70%;
+}
+
+footer a:hover {
+    text-decoration: underline;
+    color: white;
+}
+
+footer li span {
+    color: white;
+    font-size: 60px;
+    transition: all .2s ease-in-out;
+}
+
+footer li span:hover {
+    color: rgb(180, 180, 180);
 }
 
 nav span {
@@ -71,6 +110,9 @@ td a {
     #mobileNavbar {
         display: none;
     }
+    footer .row {
+        padding: 0px 16px !important;
+    }
 }
 
 @media (min-width: 992px) {
@@ -81,6 +123,9 @@ td a {
     #contentsShower, #selectorContainer, #newNoPageForm, #newPageForm, #resourceCollectionForm, #collectionElemForm, #pageComponentsForm {
         margin-left: 10% !important;
         margin-right: 10% !important;
+    }
+    footer .row {
+        padding: 0px 30px !important;
     }
 }
 

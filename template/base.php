@@ -42,15 +42,60 @@
                     <a href="./login.php" class="text-dark"><span class="bi bi-person-fill-gear" aria-label="Accedi come amministratore"><span><a>                        
                 </nav>
             </div>
-            <?php endif; ?>
+            <?php endif; ?>            
             <?php 
             if(isset($templateParams["nome"])){
                 require($templateParams["nome"]);
             } 
             ?>
+            <footer>
+                <div class="row px-2">
+                    <div class="col-md-4 text-center py-3">
+                        <p class="m-0 p-0">
+                            Copyright © 2014-2025 Istituto storico della Resistenza e dell'Età contemporanea di Forlì-Cesena<br/>
+                            <strong class="pe-1">Sede di Forlì</strong>:
+                            <a class="pe-1 fs-6" target="_blank" href="https://www.google.com/maps/place/via+Albicini+25,+Forli,+FC,+Italia">Casa Saffi, via Albicini 25, 47121 Forlì (FC)</a>
+                            | tel. <a class="px-1 fs-6" href="tel: +39054328999">+39 0543 28999</a>
+                            | e-mail: <a class="px-1 fs-6" href="mailto: istorecofo@gmail.com">istorecofo@gmail.com</a><br/>
+                            <strong class="pe-1">Sede di Cesena</strong>:
+                            <a class="pe-1 fs-6" target="_blank" href="https://www.google.com/maps/place/Contrada+Dandini,+5,+47521+Cesena+FC,+Italia">Palazzo Nadiani, contrada Dandini 5, 47521 Cesena (FC)</a>
+                        </p>
+                    </div>
+                    <div class="col-md-4 text-center py-3">
+                        <h3 class="fw-semibold">ISCRIVITI ALLA NOSTRA NEWSLETTER</h3>
+                        <form action="" method="POST">
+                            <input class="form-control mb-2" type="text" placeholder="Nome e cognome" name="nomeCognome" id="nomeCognome" required />
+                            <label class="visually-hidden" for="nomeCognome">Inserisci nome e cognome</label>
+                            <input class="form-control mb-2" type="email" placeholder="Indirizzo e-mail" name="email" id="email" required />
+                            <label class="visually-hidden" for="email">Inserisci indirizzo e-mail</label>
+                            <div class="g-recaptcha mb-2" data-sitekey="6LerU3UrAAAAAIR-3Iha5OdEIdqRne8xOvc1uUSf"></div>
+                            <input class="btn btn-success me-4" type="submit" value="Invia" />
+                            <input class="btn btn-light" type="reset" value="Reimposta" />
+                        </form>
+                    </div>
+                    <div class="col-md-4 text-center py-3">
+                        <p>
+                            Le attività dell'Istituto sono realizzate con il contributo della
+                            <a class="fs-6" href="https://www.regione.emilia-romagna.it/" target="_blank">Regione Emilia-Romagna</a>
+                        </p>
+                        <a href="https://www.regione.emilia-romagna.it/" target="_blank">
+                            <img class="img-responsive" src="./upload/LogoEmiliaRomagna.jpg" alt="Regione Emilia-Romagna" />
+                        </a>
+                        <hr class="text-white" />
+                        <ul class="list-unstyled row">
+                            <li class="col-4">
+                                <a href="https://www.facebook.com/istorecofo" target="_blank">
+                                    <span class="bi bi-facebook"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </footer>
         </main>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         <?php
         if(isset($templateParams["js"])):
             foreach($templateParams["js"] as $script):
