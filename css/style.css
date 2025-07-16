@@ -94,6 +94,16 @@ td a {
     font-size: 14px;
 }
 
+.progettiRete {
+    background-color: #f1c40f;
+    color: #555;
+    padding: 70px 0;
+}
+
+.progettiRete img {
+    width: 100%;
+}
+
 @media (max-width: 767px) {
     #pcNavbar {
         display: none;

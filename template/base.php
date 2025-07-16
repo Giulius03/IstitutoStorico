@@ -49,7 +49,7 @@
             } 
             ?>
             <footer>
-                <div class="row">
+                <div class="row p-2">
                     <div class="col-md-4 text-center py-3">
                         <p class="m-0 p-0">
                             Copyright © 2014-2025 Istituto storico della Resistenza e dell'Età contemporanea di Forlì-Cesena<br/>
