@@ -1,0 +1,57 @@
+{
+    "to": "istorecofo@gmail.com",
+    "from_email": "desiderata@istorecofc.it",
+    "from_name": "Modulo di suggerimento libri",
+    "subject": "Suggerimento acquisto nuovo libro",
+    "success_text": "Il modulo è stato inviato",
+    "error_text": "C'è stato qualche problema con l'invio del modulo",
+    "to_user": "email",
+    "elements": [
+        {
+            "name": "email",
+            "label": "E-mail",
+            "placeholder": "E-mail",
+            "type": "text",
+            "is_required": "true",
+            "email": "true"
+        },
+        {
+            "name": "nome",
+            "label": "Nome \/ Cognome",
+            "placeholder": "Nome \/ Cognome",
+            "type": "text",
+            "is_required": "true"
+        },
+        {
+            "name": "titolo",
+            "label": "Titolo del libro",
+            "placeholder": "Titolo del libro",
+            "type": "longtext",
+            "is_required": "true"
+        },
+        {
+            "name": "autore",
+            "label": "Autore",
+            "placeholder": "Autore",
+            "type": "text"
+        },
+        {
+            "name": "editore",
+            "label": "Editore",
+            "placeholder": "Editore",
+            "type": "text"
+        },
+        {
+            "name": "anno",
+            "label": "Anno di pubblicazione",
+            "placeholder": "Anno di pubblicazione",
+            "type": "text"
+        },
+        {
+            "name": "luogo",
+            "label": "Luogo di pubblicazione",
+            "placeholder": "Luogo di pubblicazione",
+            "type": "text"
+        }
+    ]
+}

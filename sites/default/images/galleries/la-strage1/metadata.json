@@ -1,0 +1,44 @@
+{
+    "ginosartini.jpg": {
+        "caption": {
+            "it": "Gino Sartini"
+        },
+        "sort": "6",
+        "href": ""
+    },
+    "leonardiargia.jpg": {
+        "caption": {
+            "it": "Argia Leonardi"
+        },
+        "sort": "5",
+        "href": ""
+    },
+    "leopoldosartini.jpg": {
+        "caption": {
+            "it": "Leopoldo Sartini"
+        },
+        "sort": "4",
+        "href": ""
+    },
+    "mariagabrielli.jpg": {
+        "caption": {
+            "it": "Maria Gabrielli"
+        },
+        "sort": "3",
+        "href": ""
+    },
+    "adrianasartini.jpg": {
+        "caption": {
+            "it": "Adriana Sartini"
+        },
+        "sort": "1",
+        "href": ""
+    },
+    "casanova.jpg": {
+        "caption": {
+            "it": "Casanova"
+        },
+        "sort": "2",
+        "href": ""
+    }
+}

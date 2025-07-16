@@ -49,7 +49,7 @@
             } 
             ?>
             <footer>
-                <div class="row px-2">
+                <div class="row">
                     <div class="col-md-4 text-center py-3">
                         <p class="m-0 p-0">
                             Copyright © 2014-2025 Istituto storico della Resistenza e dell'Età contemporanea di Forlì-Cesena<br/>
@@ -79,7 +79,7 @@
                             <a class="fs-6" href="https://www.regione.emilia-romagna.it/" target="_blank">Regione Emilia-Romagna</a>
                         </p>
                         <a href="https://www.regione.emilia-romagna.it/" target="_blank">
-                            <img class="img-responsive" src="./upload/LogoEmiliaRomagna.jpg" alt="Regione Emilia-Romagna" />
+                            <img class="img-responsive" src="./sites/default/images/css/regione-emilia-romagna.png" alt="Regione Emilia-Romagna" />
                         </a>
                         <hr class="text-white" />
                         <ul class="list-unstyled row">

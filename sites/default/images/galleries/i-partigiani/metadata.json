@@ -1,0 +1,65 @@
+{
+    "osteriarivolpaio.jpg": {
+        "caption": {
+            "it": "Osteria Rivolpaio"
+        },
+        "sort": "9",
+        "href": ""
+    },
+    "mazzoni.jpg": {
+        "caption": {
+            "it": "Mazzoni"
+        },
+        "sort": "8",
+        "href": ""
+    },
+    "ostirivolpaio.jpg": {
+        "caption": {
+            "it": "Osti Rivolpaio"
+        },
+        "sort": "7",
+        "href": ""
+    },
+    "rivolpaio.jpg": {
+        "caption": {
+            "it": "Rivolpaio"
+        },
+        "sort": "6",
+        "href": ""
+    },
+    "partigiani_santasofiesi.jpg": {
+        "caption": {
+            "it": ""
+        },
+        "sort": "1",
+        "href": ""
+    },
+    "f.lli_bimbi.jpg": {
+        "caption": {
+            "it": ""
+        },
+        "sort": "2",
+        "href": ""
+    },
+    "Francesco_Tesei.jpg": {
+        "caption": {
+            "it": "Francesco Tesei"
+        },
+        "sort": "3",
+        "href": ""
+    },
+    "casamanzirivolpaio.jpg": {
+        "caption": {
+            "it": "Rivolpaio"
+        },
+        "sort": "4",
+        "href": ""
+    },
+    "don_vicinio_caminati.jpg": {
+        "caption": {
+            "it": "Don Vinicio Caminati"
+        },
+        "sort": "5",
+        "href": ""
+    }
+}

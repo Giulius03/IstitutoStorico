@@ -1,0 +1,61 @@
+{% if html.getArticlesByTag or html.getArticle(html.getFilterTags[0]) %}
+
+<section class="article-list grey first">
+  <div class="inner">
+    <div class="container">
+      {% if html.getArticle(html.getFilterTags[0]) %}
+        <div class="row">
+          <div class="col-sm-5 col-sm-push-7">
+           <div class="flipInX wow animated">
+             <a href="{{ html.getArticle(html.getFilterTags[0]).url }}"
+                title="{{ html.getArticle(html.getFilterTags[0]).title }}">
+               <img class="img-responsive"
+                    src="{{ html.getArticle(html.getFilterTags[0]).art_img['800x600'] }}"
+                    alt="{{ html.getArticle(html.getFilterTags[0]).title }}"
+                  >
+             </a>
+           </div>
+          </div>
+          <div class="col-sm-7 col-sm-pull-5">
+            <div class="top_left_cont">
+              <h1 class="no-margin-top">{{ html.getArticle(html.getFilterTags[0]).title }}</h1>
+              <div class="intro">
+                {{ html.getArticle(html.getFilterTags[0]).text }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+      {% else %}
+      <h1>{{ html.tr(html.getFilterTags[0]) }}</h1>
+      {% endif %}
+      {% for art in html.getArticlesByTag %}
+      <div class="article-item">
+        <h2 class="no-margin-top">{{ art.title }}</h2>
+        <div class="row">
+          <div class="col-sm-3 col-sm-push-6">
+           <div class="flipInX wow animated">
+             <a href="{{ art.url }}" title="{{ art.title }}">
+               <img class="img-responsive" src="{{ art.art_img['800x600'] }}" alt="">
+             </a>
+           </div>
+          </div>
+
+          <div class="col-sm-5 col-sm-offset-1 col-sm-pull-3">
+            <div class="top_left_cont">
+              {{ art.summary }}
+              <p><a href="{{ art.url }}" class="learn_more2 wow fadeInLeft" title="{{ art.title }}">Leggi tutto</a></p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% else %}
+  {% include 'not_found.twig' %}
+{% endif %}

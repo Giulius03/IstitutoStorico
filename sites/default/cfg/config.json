@@ -1,0 +1,56 @@
+{
+    "name": "Istituto storico della Resistenza e dell’Età contemporanea di Forlì-Cesena",
+    "mission": "Istituto storico della Resistenza e dell’Età contemporanea di Forlì-Cesena",
+    "title": "Istituto storico della Resistenza e dell’Età contemporanea di Forlì-Cesena",
+    "description": "Nato nella prima metà degli anni Settanta, l’Istituto storico di Forlì-Cesena è oggi un imprescindibile punto di riferimento nell’area forlivese e cesenate per ricercatori, studiosi e insegnanti che si occupino di storia contemporanea e per chiunque voglia conoscere e approfondire la storia dell’Otto e del Novecento. I suoi principali settori d’intervento sono la salvaguardia, il riordino e la valorizzazione del patrimonio archivistico e bibliografico; la ricerca storica; la didattica e la formazione; la promozione dei luoghi della memoria; l'educazione alla cittadinanza attiva e alla pace.",
+    "sys_lang": "it",
+    "sys_lang_string": "italiano",
+    "robots": "index, follow",
+    "timezone": "Europe\/Rome",
+    "rewriteBase": "\/",
+    "updatechannel": "master",
+    "cdn": "1",
+    "max_img_size": "2000",
+    "art_img": {
+        "1": "400x300",
+        "2": "800x600"
+    },
+    "img_manager": "gd",
+    "grc_sitekey": "6LfBhfkSAAAAABMZJs1fyYxdJqqGXhuqYHoYpbqd",
+    "grc_secretkey": "6LfBhfkSAAAAAGdVZ3sQ5and4_ShRBB0FQov-jud",
+    "ga_id": "UA-10461068-40",
+    "ga_domain": "istorecofc.it",
+    "users": [
+        {
+            "name": "info@bra_________dypus.net",
+            "pwd": "87acffb3dc870fe629b31acc4cad6d5999caba7c",
+            "admin": "admin"
+        },
+        {
+            "name": "massimo@bo-go.it",
+            "pwd": "ed86f934df65aba41b2e49aab568b9da5d6c36c7",
+            "admin": "admin"
+        },
+        {
+            "name": "carlo.demaria74_______@gmail.com",
+            "pwd": "909ee885f3ed498b5571fd601cda8bed3140c494",
+            "admin": "admin"
+        },
+        {
+            "name": "elena.paoletti87@gmail.com",
+            "pwd": "07c49ce7f8da9a21507a448aecbcd83d00ff59db"
+        },
+        {
+            "name": "istorecofo@gmail.com",
+            "pwd": "5abec7ff29e9032e5b58e0acef7a6a079b739498"
+        },
+        {
+            "name": "morga993@libero.it",
+            "pwd": "8fae808867ae519aefb9b8da3bf5fe04b686dfc2"
+        },
+        {
+            "name": "lidia.celli@studio.unibo.it",
+            "pwd": "d576660032830bb7d1ef50919cbe8556bf3293de"
+        }
+    ]
+}

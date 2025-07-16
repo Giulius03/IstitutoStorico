@@ -1,0 +1,23 @@
+{
+    "to": "istorecofo@gmail.com",
+    "from_email": "modulo-online@istorecofc.it",
+    "from_name": "Modulo newsletter",
+    "subject": "Nuova iscrizione alla newsletter",
+    "success_text": "La sua richiesta è stata inoltrata",
+    "error_text": "Errore. Non è stato possibile inoltrare la sua richiesta",
+    "elements": [
+        {
+            "name": "nome",
+            "placeholder": "Nome e cognome",
+            "type": "text",
+            "is_required": "true"
+        },
+        {
+            "name": "email",
+            "placeholder": "Indirizzo e-mail",
+            "type": "text",
+            "is_required": "true",
+            "email": "true"
+        }
+    ]
+}

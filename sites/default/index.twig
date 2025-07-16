@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+{{ html.metadata }}
+
+{{ html.asset('bootstrap', 'css') }}
+{{ html.asset('font-awesome', 'css') }}
+{{ html.asset('https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css') }}
+{{ html.asset('https://fonts.googleapis.com/css?family=Roboto&display=swap', 'css') }}
+{{ html.asset('https://fonts.googleapis.com/css?family=Dosis:400,500,700,800,600,300,200', 'css') }}
+{{ html.asset('fancybox', 'css') }}
+{{ html.asset('frontend', 'css') }}
+
+</head>
+<body>
+
+
+
+<!--Header_section-->
+<header>
+  <nav class="navbar navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <i class="fa fa-bars"></i>
+        </button>
+        <a class="navbar-brand" href="{{ html.link2('home') }}">
+          Istituto storico di Forlì-Cesena
+        </a>
+      </div>
+      <div id="navbar" class="princ-container collapse navbar-collapse">
+          {{ html.menu('principale', 'nav navbar-nav') }}
+      </div><!--/.nav-collapse -->
+    </div>
+  </nav>
+</header>
+<!--Header_section-->
+
+{% if file_exists('sites/default/' ~ html.getContext ~ '.twig') %}
+  {% include html.getContext ~ '.twig' %}
+{% else %}
+  {% include 'not_found.twig'%}
+{% endif %}
+
+
+
+
+<footer>
+  <div class="container">
+    <div class="row">
+
+      <div class="col-sm-4">
+        <p>Copyright © 2014-{{ 'now'|date('Y' )}} {{ html.getPageData('site_name') }}
+          <br><strong>Sede di Forlì</strong>: <a href="https://www.google.com/maps/place/via+Albicini+25,+Forli,+FC,+Italia" target="_blak">Casa Saffi, via Albicini 25, 47121 Forlì (FC)</a> |
+          tel. <a href="tel:+39054328999">+39 0543 28999</a> |
+          e-mail: <a href="mailto:istorecofo@gmail.com">istorecofo@gmail.com</a><br>
+          <strong>Sede di Cesena</strong>: <a target="_blank" href="https://www.google.com/maps/place/Contrada+Dandini,+5,+47521+Cesena+FC,+Italia">Palazzo Nadiani, contrada Dandini 5, 47521 Cesena (FC)</a>
+		  <!--
+          <hr>
+          <a href="http://bradypus.net">Sito creato da BraDypUS <small>COMMUNICATING CULTURAL HERITAGE.</small></a>
+		  -->
+        </p>
+
+      </div>
+
+
+      <div class="col-sm-4">
+        <h3>Iscriviti alla nostra newsletter</h3>
+        {{ html.ct('userform', {'content': 'newsletter'}) }}
+      </div>
+
+      <div class="col-sm-4">
+        <p>Le attività dell'Istituto sono realizzate con il contributo della 
+            <a href="http://www.regione.emilia-romagna.it/" target="_blank">Regione Emilia-Romagna</a></p>
+        <p><a href="http://www.regione.emilia-romagna.it/" target="_blank" title="Regione Emilia-Romagna">
+           <img src="{{ html.link2('home') }}sites/default/images/css/regione-emilia-romagna.png" 
+                alt="Regione Emilia-Romagna"
+                class="img-responsive" /></a>
+        </p>
+        <hr />
+        <ul class="social-link">
+          <li class="facebook animated bounceIn wow delay-03s">
+            <a href="https://www.facebook.com/istorecofo" target="_blank">
+              <i class="fa fa-facebook"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+{{ html.asset('jquery', 'js') }}
+{{ html.asset('bootstrap', 'js') }}
+{{ html.asset('https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js', 'js') }}
+{{ html.GUA }}
+{{ html.asset('fancybox', 'js') }}
+{{ html.asset('frontend', 'js') }}
+{{ html.queue }}
+
+
+<!--[if lt IE 9]>
+    <script src="js/respond-1.1.0.min.js"></script>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/html5element.js"></script>
+<![endif]-->
+
+
+
+</body>
+</html>

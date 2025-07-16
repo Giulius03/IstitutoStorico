@@ -1,0 +1,29 @@
+{
+    "to": "istorecofo@gmail.com",
+    "from_email": "modulo-online@storecofc.it",
+    "from_name": "Modulo online",
+    "subject": "Contatti",
+    "success_text": "Il messaggio è stato inviato",
+    "error_text": "Errore. Non è stato possibile inviare il messaggio",
+    "elements": [
+        {
+            "name": "nome",
+            "label": "Nome e cognome",
+            "type": "text",
+            "is_required": "true"
+        },
+        {
+            "name": "email",
+            "label": "Indirizzo email",
+            "type": "text",
+            "is_required": "true",
+            "email": "true"
+        },
+        {
+            "name": "messaggio",
+            "label": "Messaggio",
+            "type": "longtext",
+            "is_required": "true"
+        }
+    ]
+}

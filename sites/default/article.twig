@@ -1,0 +1,30 @@
+{% if html.getArticle %}
+
+<section class="article grey first">
+  <div class="inner">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-5 col-sm-push-7">
+         <div class="flipInX wow animated">
+          <img class="img-responsive" src="{{ html.getArticle.art_img['800x600'] }}" alt="">
+         </div>
+        </div>
+        <div class="col-sm-7 col-sm-pull-5">
+          <div class="top_left_cont">
+            <h1 class="no-margin-top">{{ html.getArticle.title }}</h1>
+            {{ html.getArticle.text }}
+          </div>
+        </div>
+      </div>
+
+      {% if html.getGallery(html.getArticle.textid) %}
+      <hr>
+      <h3>Galleria fotografica dell'articolo</h3>
+      {{ html.ct('gallery', { 'content': html.getArticle.textid, 'class':'art-gall' }) }}
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% else %}
+  {% include 'not_found.twig' %}
+{% endif %}
