@@ -8,4 +8,4 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
 # Riscrivi URL "slug" in page.php passando lo slug come parametro GET
-RewriteRule ^([a-zA-Z0-9_-]+)$ page.php?slug=$1 [QSA,L]
+RewriteRule ^([a-zA-Z0-9_.-]+)$ page.php?slug=$1 [QSA,L]
