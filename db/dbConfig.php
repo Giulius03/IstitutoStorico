@@ -848,5 +848,24 @@ class DatabaseHelper{
         $this->removeAllTheLinksToAPage($pageID);
         $this->deleteContent("page", "idPage", $pageID);
     }
+
+    private function isUserAlreadySubscribed($email) {
+        $stmt = $this->db->prepare("SELECT * FROM newsletter_subscribers WHERE subscriberEmail = ?");
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
+        $stmt->store_result();
+        return $stmt->num_rows > 0;
+    }
+
+    public function addToTheNewsletter($nameSurname, $email) {
+        if ($this->isUserAlreadySubscribed($email)) {
+            throw new Exception("Ti sei già registrato con questa mail.");
+        }
+        $registrationDate = date('Y-m-d');
+        $stmt = $this->db->prepare("INSERT INTO newsletter_subscribers (subscriberNameSurname, subscriberEmail, registrationDate) VALUES (?, ?, ?)");
+        $stmt->bind_param('sss', $nameSurname, $email, $registrationDate);
+        $stmt->execute();
+        return $stmt->insert_id;
+    }
 }
 ?>

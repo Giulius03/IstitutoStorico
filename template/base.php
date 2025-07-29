@@ -82,14 +82,17 @@
                     </div>
                     <div class="col-md-4 text-center py-3">
                         <h3 class="fw-semibold">ISCRIVITI ALLA NOSTRA NEWSLETTER</h3>
-                        <form action="" method="POST">
-                            <input class="form-control mb-2" type="text" placeholder="Nome e cognome" name="nomeCognome" id="nomeCognome" required />
+                        <form onsubmit="subscribeToTheNewsletter(event)">
+                            <input class="form-control mb-2" type="text" placeholder="Nome Cognome" name="nomeCognome" id="nomeCognome" required />
                             <label class="visually-hidden" for="nomeCognome">Inserisci nome e cognome</label>
                             <input class="form-control mb-2" type="email" placeholder="Indirizzo e-mail" name="email" id="email" required />
                             <label class="visually-hidden" for="email">Inserisci indirizzo e-mail</label>
                             <div class="g-recaptcha mb-2" data-sitekey="6LerU3UrAAAAAIR-3Iha5OdEIdqRne8xOvc1uUSf"></div>
                             <input class="btn btn-success me-4" type="submit" value="Invia" />
                             <input class="btn btn-light" type="reset" value="Reimposta" />
+                            <div id="newsletterRegResult" class="text-center mb-4">
+
+                            </div>
                         </form>
                     </div>
                     <div class="col-md-4 text-center py-3">

@@ -32,11 +32,17 @@ USE `databaseistitutoperprove`;
 CREATE TABLE `administrators` (
   `adminID` int(11) AUTO_INCREMENT PRIMARY KEY,
   `adminEmail` varchar(100) NOT NULL UNIQUE,
-  `password` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL
 );
 
 INSERT INTO `administrators` (`adminEmail`, `password`) VALUES 
 ('marco.giugliani@studio.unibo.it', 'admin');
+
+CREATE TABLE `newsletter_subscribers` (
+  `subscriberNameSurname` varchar(100) NOT NULL,
+  `subscriberEmail` varchar(100) PRIMARY KEY,
+  `registrationDate` date NOT NULL
+);
 
 CREATE TABLE `archivepage` (
   `chronologyStartYear` year(4) NOT NULL,

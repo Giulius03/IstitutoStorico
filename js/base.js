@@ -105,4 +105,26 @@ async function getPrimaryMenu() {
     }
 }
 
+async function subscribeToTheNewsletter(event) {
+    event.preventDefault();
+
+    const url = 'utils/newsletterRegistration.php';
+    let formData = new FormData();
+    formData.append('nameSurname', document.getElementById('nomeCognome').value);
+    formData.append('email', document.getElementById('email').value);
+    try {
+        const response = await fetch(url, {
+            method: "POST",                   
+            body: formData
+        });
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+        const json = await response.json();
+        document.getElementById('newsletterRegResult').innerHTML = `<p>${json["message"]}</p>`
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
 getPrimaryMenu()
