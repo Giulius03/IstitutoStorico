@@ -18,9 +18,19 @@
             </header>
             <div id="mobileNavbar" class="bg-white">
                 <nav class="pb-3">
+                    <?php if (!isAdminLoggedIn()): ?>
                     <span class="bi bi-list float-start ms-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuPrincipaleMobile" aria-controls="menuPrincipaleMobile"></span>
                     <a href="./login.php" class="float-end pe-3 text-dark"><span class="bi bi-person-fill-gear" aria-label="Accedi come amministratore"></span></a>
+                    <?php else: ?>
+                    <div class="dropdown d-flex justify-content-center">
+                        <a class="text-center pe-3 text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="bi bi-person-fill-gear"><span></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" id="logoutMobile">Logout</a></li>
+                        </ul>
+                    </div>
+                    <?php endif; ?>
                 </nav>
+                <?php if (!isAdminLoggedIn()): ?>
                 <div class="offcanvas offcanvas-start" tabindex="-1" id="menuPrincipaleMobile" aria-labelledby="menu">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="menu">Menù</h5>
@@ -32,6 +42,7 @@
                         </ul>
                     </div>
                 </div>
+                <?php endif; ?>
             </div>
             <div id="pcNavbar" class="bg-white">
                 <nav class="navbar pb-3 d-flex justify-content-center align-items-center">
@@ -44,7 +55,7 @@
                     <div class="dropdown">
                         <a class="text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="bi bi-person-fill-gear"><span></a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#" id="logout">Logout</a></li>
+                            <li><a class="dropdown-item" href="#" id="logoutPC">Logout</a></li>
                         </ul>
                     </div>
                     <?php endif; ?>

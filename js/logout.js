@@ -1,5 +1,7 @@
-document.getElementById('logout').addEventListener('click', (event) => {
-    logout();
+document.querySelectorAll('[id^="logout"]').forEach(element => {
+    element.addEventListener('click', (event) => {
+        logout();
+    })
 });
 
 async function logout() {
