@@ -29,15 +29,14 @@ SET time_zone = "+00:00";
 
 USE `databaseistitutoperprove`;
 
-CREATE TABLE `users` (
-  `userID` int(11) AUTO_INCREMENT PRIMARY KEY,
-  `userEmail` varchar(100) NOT NULL UNIQUE,
+CREATE TABLE `administrators` (
+  `adminID` int(11) AUTO_INCREMENT PRIMARY KEY,
+  `adminEmail` varchar(100) NOT NULL UNIQUE,
   `password` varchar(255) NOT NULL,
-  `adminYN` boolean NOT NULL 
 );
 
-INSERT INTO `users` (`userEmail`, `password`, `adminYN`) VALUES 
-('marco.giugliani@studio.unibo.it', 'admin', true);
+INSERT INTO `administrators` (`adminEmail`, `password`) VALUES 
+('marco.giugliani@studio.unibo.it', 'admin');
 
 CREATE TABLE `archivepage` (
   `chronologyStartYear` year(4) NOT NULL,

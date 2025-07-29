@@ -57,6 +57,7 @@ nav span {
 
 .dropdown-item:active {
     background-color: #e2e3e4 !important;
+    color: black !important;
 }
 
 #btnSeePw:hover {

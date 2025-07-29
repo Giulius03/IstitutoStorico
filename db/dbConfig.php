@@ -11,12 +11,12 @@ class DatabaseHelper{
 
     /**
      * Verifica l'esistenza dell'utente che sta cercando di effettuare il login
-     * @param $userEmail E-Mail dell'utente
+     * @param $adminEmail E-Mail dell'utente
      * @return array E-Mail, password e flag admin dell'utente (se presente)
      */
-    public function checkLogin($userEmail) {
-        $stmt = $this->db->prepare("SELECT userEmail, password, adminYN FROM users WHERE userEmail = ?");
-        $stmt->bind_param('s', $userEmail);
+    public function checkLogin($adminEmail) {
+        $stmt = $this->db->prepare("SELECT adminEmail, password FROM administrators WHERE adminEmail = ?");
+        $stmt->bind_param('s', $adminEmail);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);

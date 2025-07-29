@@ -7,4 +7,8 @@ function checkIsSet(array $vars): bool {
     }
     return true;
 }
+
+function isAdminLoggedIn(): bool {
+    return isset($_SESSION["email"]);
+}
 ?>

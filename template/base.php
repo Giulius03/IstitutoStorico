@@ -14,9 +14,8 @@
     <body class="bg-light" onload="<?php echo isset($templateParams["onloadFunctions"]) ? $templateParams["onloadFunctions"] : "" ?>">
         <main>
             <header class="d-flex justify-content-center align-items-center bg-white">
-                <a href="." class="fs-4 fw-semibold text-dark text-decoration-none">Istituto storico di Forlì-Cesena</a>
+                <a href="<?php echo isAdminLoggedIn() ? "#" : "." ?>" class="fs-4 fw-semibold text-dark text-decoration-none">Istituto storico di Forlì-Cesena</a>
             </header>
-            <?php if (!isset($_SESSION["isAdmin"]) || !$_SESSION["isAdmin"]): ?>
             <div id="mobileNavbar" class="bg-white">
                 <nav class="pb-3">
                     <span class="bi bi-list float-start ms-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuPrincipaleMobile" aria-controls="menuPrincipaleMobile"></span>
@@ -39,15 +38,24 @@
                     <div class="row pe-5" id="navbarPC">
 
                     </div>
-                    <a href="./login.php" class="text-dark"><span class="bi bi-person-fill-gear" aria-label="Accedi come amministratore"><span><a>                        
+                    <?php if (!isAdminLoggedIn()): ?>
+                    <a href="./login.php" class="text-dark"><span class="bi bi-person-fill-gear" aria-label="Accedi come amministratore"><span><a>
+                    <?php else: ?>
+                    <div class="dropdown">
+                        <a class="text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="bi bi-person-fill-gear"><span></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" id="logout">Logout</a></li>
+                        </ul>
+                    </div>
+                    <?php endif; ?>
                 </nav>
             </div>
-            <?php endif; ?>            
             <?php 
             if(isset($templateParams["nome"])){
                 require($templateParams["nome"]);
             } 
             ?>
+            <?php if (!isAdminLoggedIn()): ?>
             <footer>
                 <div class="row p-2">
                     <div class="col-md-4 text-center py-3">
@@ -92,6 +100,7 @@
                     </div>
                 </div>
             </footer>
+            <?php endif; ?>
         </main>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
