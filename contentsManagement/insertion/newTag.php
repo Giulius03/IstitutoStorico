@@ -7,6 +7,7 @@ $templateParams["nome"] = "../../template/noPageFormTemplate.php";
 $templateParams["action"] = "I";
 $templateParams["actionFile"] = "contentAdders/addNewTag.php";
 $templateParams["css"] = "../../css/style.css";
+$templateParams["js"] = array("../../js/logout.js");
 $templateParams["noPageType"] = "tag";
 
 require '../../template/base.php';

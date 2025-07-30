@@ -7,6 +7,7 @@ $templateParams["nome"] = "../../template/noPageFormTemplate.php";
 $templateParams["action"] = "E";
 $templateParams["actionFile"] = "contentEditors/editInvItem.php";
 $templateParams["css"] = "../../css/style.css";
+$templateParams["js"] = array("../../js/logout.js");
 $templateParams["noPageType"] = "articolo d'inventario";
 
 if (isset($_GET['id'])) {

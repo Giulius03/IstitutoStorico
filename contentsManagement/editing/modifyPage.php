@@ -6,7 +6,7 @@ $templateParams["titolo"] = "Modifica Pagina";
 $templateParams["nome"] = "../../template/pageFormTemplate.php";
 $templateParams["action"] = "E";
 $templateParams["actionFile"] = "contentEditors/editPage.php";
-$templateParams["js"] = array("../../js/tinymce.js", "../../js/showNewIndexItemFields.js", "../../js/showNewNoteFields.js", "../../js/showNewResourceCollectionFields.js", "../../js/showInvItemsQuantityInputs.js", "../../js/showCurrentIndexItemsAndNotes.js");
+$templateParams["js"] = array("../../js/logout.js", "../../js/tinymce.js", "../../js/showNewIndexItemFields.js", "../../js/showNewNoteFields.js", "../../js/showNewResourceCollectionFields.js", "../../js/showInvItemsQuantityInputs.js", "../../js/showCurrentIndexItemsAndNotes.js");
 $templateParams["css"] = "../../css/style.css";
 
 if (isset($_GET['id'])) {

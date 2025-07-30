@@ -6,7 +6,7 @@ $templateParams["titolo"] = "Elimina Raccolta di Risorsa";
 $templateParams["nome"] = "../../template/resourceCollectionTemplate.php";
 $templateParams["action"] = "D";
 $templateParams["actionFile"] = "contentRemovers/deleteResourceCollection.php";
-$templateParams["js"] = array("../../js/showCurrentCollectionElements.js");
+$templateParams["js"] = array("../../js/showCurrentCollectionElements.js", "../../js/logout.js");
 $templateParams["css"] = "../../css/style.css";
 if (isset($_GET['id']) && isset($_GET['idPage'])) {
     $templateParams["collection"] = $dbh->getResourceCollectionFromID($_GET['id']);

@@ -6,7 +6,7 @@ $templateParams["titolo"] = "Elimina Menù";
 $templateParams["nome"] = "../../template/noPageFormTemplate.php";
 $templateParams["action"] = "D";
 $templateParams["actionFile"] = "contentRemovers/deleteMenu.php";
-$templateParams["js"] = array("../../js/showCurrentMenuItems.js");
+$templateParams["js"] = array("../../js/showCurrentMenuItems.js", "../../js/logout.js");
 $templateParams["css"] = "../../css/style.css";
 $templateParams["noPageType"] = "menù";
 

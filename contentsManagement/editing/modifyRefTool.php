@@ -7,6 +7,7 @@ $templateParams["nome"] = "../../template/noPageFormTemplate.php";
 $templateParams["action"] = "E";
 $templateParams["actionFile"] = "contentEditors/editRefTool.php";
 $templateParams["css"] = "../../css/style.css";
+$templateParams["js"] = array("../../js/logout.js");
 $templateParams["noPageType"] = "strumento di corredo";
 
 if (isset($_GET['id'])) {

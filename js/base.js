@@ -108,6 +108,13 @@ async function getPrimaryMenu() {
 async function subscribeToTheNewsletter(event) {
     event.preventDefault();
 
+    // Controllo spunta di recaptcha
+    const recaptchaResponse = grecaptcha.getResponse();
+    if (recaptchaResponse.length === 0) {
+        document.getElementById('newsletterRegResult').innerHTML = `<p class="m-0">Devi confermare di non essere un robot per proseguire.</p>`;
+        return;
+    }
+
     const url = 'utils/newsletterRegistration.php';
     let formData = new FormData();
     formData.append('nameSurname', document.getElementById('nomeCognome').value);
@@ -121,7 +128,7 @@ async function subscribeToTheNewsletter(event) {
             throw new Error(`Response status: ${response.status}`);
         }
         const json = await response.json();
-        document.getElementById('newsletterRegResult').innerHTML = `<p>${json["message"]}</p>`
+        document.getElementById('newsletterRegResult').innerHTML = `<p class="m-0">${json["message"]}</p>`
     } catch (error) {
         console.log(error.message);
     }

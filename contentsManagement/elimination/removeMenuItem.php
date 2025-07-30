@@ -7,6 +7,7 @@ $templateParams["nome"] = "../../template/noPageFormTemplate.php";
 $templateParams["action"] = "D";
 $templateParams["actionFile"] = "contentRemovers/deleteMenuItem.php";
 $templateParams["css"] = "../../css/style.css";
+$templateParams["js"] = array("../../js/logout.js");
 $templateParams["noPageType"] = "voce del menù";
 
 if (isset($_GET['id']) && isset($_GET['idMenu'])) {

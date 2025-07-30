@@ -7,6 +7,7 @@ $templateParams["nome"] = "../../template/noPageFormTemplate.php";
 $templateParams["action"] = "I";
 $templateParams["actionFile"] = "contentAdders/addNewRefTool.php";
 $templateParams["css"] = "../../css/style.css";
+$templateParams["js"] = array("../../js/logout.js");
 $templateParams["noPageType"] = "strumento di corredo";
 
 require '../../template/base.php';
