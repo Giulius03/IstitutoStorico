@@ -27,6 +27,7 @@ SET time_zone = "+00:00";
 -- Struttura della tabella `archivepage`
 --
 
+CREATE DATABASE IF NOT EXISTS `databaseistitutoperprove`;
 USE `databaseistitutoperprove`;
 
 CREATE TABLE `administrators` (
