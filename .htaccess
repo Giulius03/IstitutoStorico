@@ -1,5 +1,5 @@
 RewriteEngine On
-RewriteBase /IstitutoStorico/
+RewriteBase /
 
 # Se la richiesta non è per un file esistente
 RewriteCond %{REQUEST_FILENAME} !-f

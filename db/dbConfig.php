@@ -124,7 +124,7 @@ class DatabaseHelper{
      * @return array ID e nome di tutti gli articoli d'inventario presenti al momento della richiesta
      */
     public function getInventoryItems() {
-        return $this->getNonPages("inventoryItem", "idInventoryItem", "inventoryItemName");
+        return $this->getNonPages("inventoryitem", "idInventoryItem", "inventoryItemName");
     }
 
     /**
@@ -351,7 +351,7 @@ class DatabaseHelper{
     }
 
     public function getInventoryItemFromID($inventoryItemID) {
-        return $this->getNonPageContentFromID("inventoryItem", $inventoryItemID, "idInventoryItem", "inventoryItemName");
+        return $this->getNonPageContentFromID("inventoryitem", $inventoryItemID, "idInventoryItem", "inventoryItemName");
     }
 
     public function getReferenceToolFromID($referenceToolID) {
@@ -516,19 +516,18 @@ class DatabaseHelper{
         return $stmt->insert_id;
     }
 
-    public function addMenuItem($name, $position, $menu, $pageToLink, $father) {
-        $stmt = $this->db->prepare("INSERT INTO menuitem (menuItemName, menuItemOrderedPosition, Menu_idMenu, Page_idPage, MenuItem_idMenuItem) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param('siiii', $name, $position, $menu, $pageToLink, $father);
+    public function addMenuItem($id, $name, $position, $menu, $pageToLink, $father) {
+        $stmt = $this->db->prepare("INSERT INTO menuitem (idMenuItem, menuItemName, menuItemOrderedPosition, Menu_idMenu, Page_idPage, MenuItem_idMenuItem) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param('isiiii', $id, $name, $position, $menu, $pageToLink, $father);
         $stmt->execute();
         return $stmt->insert_id;
     }
 
     public function getMenuItemsNextID() {
-        $stmt = $this->db->prepare("SHOW TABLE STATUS LIKE 'menuitem'");
+        $stmt = $this->db->prepare("SELECT MAX(idMenuItem) FROM menuitem");
         $stmt->execute();
         $result = $stmt->get_result();
-        $rows = $result->fetch_all(MYSQLI_ASSOC);
-        return $rows[0]['Auto_increment'];
+        return $result->fetch_row()[0] + 1;
     }
 
     public function addTag($name, $description) {

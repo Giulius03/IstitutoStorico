@@ -12,7 +12,7 @@ if (checkIsSet($fieldsName) && isset($_GET['id'])) {
         for ($i=$_POST['idPartenza']; $i < $_POST['idFine']; $i++) {
             $pageToLink = isset($_POST['linkToPage'.$i]) ? $_POST['linkToPage'.$i] : null;
             $father = (isset($_POST['fatherItem'.$i]) && $_POST['fatherItem'.$i] != "") ? $_POST['fatherItem'.$i] : null;
-            $dbh->addMenuItem($_POST['NomeVoce'.$i], $_POST['PosizioneVoce'.$i], $_GET['id'], $pageToLink, $father);
+            $dbh->addMenuItem($i, $_POST['NomeVoce'.$i], $_POST['PosizioneVoce'.$i], $_GET['id'], $pageToLink, $father);
         }
         header('Location: ../../admin.php?cont=Menù');
     } catch (Exception $e) {

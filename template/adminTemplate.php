@@ -1,5 +1,6 @@
 <?php
 $options = ['Pagine', 'Menù', 'Tag', 'Articoli d\'inventario', 'Strumenti di corredo'];
+if (isAdminLoggedIn()):
 ?>
 <h1 class="text-center fs-1 fw-bold mt-4">Gestione dei Contenuti</h1>
 <div class="mx-4 mt-5">
@@ -16,3 +17,8 @@ $options = ['Pagine', 'Menù', 'Tag', 'Articoli d\'inventario', 'Strumenti di co
 
     </div>
 </div>
+<?php else: ?>
+<div class="text-center pt-3">
+    <p class="fst-italic">Devi essere loggato come amministratore per poter accedere a questa pagina.</p>
+</div>
+<?php endif; ?>

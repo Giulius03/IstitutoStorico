@@ -170,8 +170,8 @@ $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] ==
     </fieldset>
     <div class="text-center my-4">
         <a class="btn btn-dark w-25 me-4" role="button" href="../../admin.php?cont=Pagine">Torna indietro</a>
-        <?php if ($templateParams["action"] == "E"): ?>
-        <input class="btn btn-dark ms-4 w-25" type="submit" value="Salva" />
+        <?php if ($templateParams["action"] == "E" || $templateParams["action"] == "I"): ?>
+        <input class="btn btn-dark ms-4 w-25" type="submit" value="<?php echo $templateParams["action"] == "I" ? "Crea" : "Salva" ?>" />
         <?php else: ?>
         <button type="button" class="btn btn-dark ms-4 w-25" data-bs-toggle="modal" data-bs-target="#confirmElimination">Elimina</button>
         <?php endif; ?>    
