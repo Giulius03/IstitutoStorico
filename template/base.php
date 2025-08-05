@@ -18,37 +18,53 @@
             </header>
             <div id="mobileNavbar" class="bg-white">
                 <nav class="pb-3">
-                    <?php if (!isAdminLoggedIn()): ?>
                     <span class="bi bi-list float-start ms-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuPrincipaleMobile" aria-controls="menuPrincipaleMobile"></span>
+                    <?php if (!isAdminLoggedIn()): ?>
                     <a href="./login.php" class="float-end pe-3 text-dark"><span class="bi bi-person-fill-gear" aria-label="Accedi come amministratore"></span></a>
                     <?php else: ?>
-                    <div class="dropdown d-flex justify-content-center">
-                        <a class="text-center pe-3 text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="bi bi-person-fill-gear"><span></a>
+                        <a class="float-end pe-3 text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="bi bi-person-fill-gear"><span></a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#" id="logoutMobile">Logout</a></li>
                         </ul>
-                    </div>
                     <?php endif; ?>
                 </nav>
-                <?php if (!isAdminLoggedIn()): ?>
                 <div class="offcanvas offcanvas-start" tabindex="-1" id="menuPrincipaleMobile" aria-labelledby="menu">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="menu">Menù</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                     <div class="offcanvas-body">
+                        <?php if (!isAdminLoggedIn()): ?>
                         <ul id="mainMenuItems" class="m-0 p-0 list-unstyled fs-3 fw-semibold">
 
                         </ul>
+                        <?php else: ?>
+                        <ul class="m-0 p-0 list-unstyled fs-3 fw-semibold admin-list">
+                            <li class="p-1"><a href="#" data-content="Pagine" class="text-dark text-decoration-none">Pagine</a></li>
+                            <li class="p-1"><a href="#" data-content="Menù" class="text-dark text-decoration-none">Menù</a></li>
+                            <li class="p-1"><a href="#" data-content="Tag" class="text-dark text-decoration-none">Tag</a></li>
+                            <li class="p-1"><a href="#" data-content="Articoli d'inventario" class="text-dark text-decoration-none">Articoli d'inventario</a></li>
+                            <li class="p-1"><a href="#" data-content="Strumenti di corredo" class="text-dark text-decoration-none">Strumenti di corredo</a></li>
+                        </ul> 
+                        <?php endif; ?>
                     </div>
                 </div>
-                <?php endif; ?>
             </div>
             <div id="pcNavbar" class="bg-white">
                 <nav class="navbar pb-3 d-flex justify-content-center align-items-center">
+                    <?php if (!isAdminLoggedIn()): ?>
                     <div class="row pe-5" id="navbarPC">
-
+                        
                     </div>
+                    <?php else: ?>
+                    <ul class="m-0 p-0 list-unstyled d-flex fs-5 admin-list">
+                        <li class="me-5"><a href="#" data-content="Pagine" class="text-dark">Pagine</a></li>
+                        <li class="me-5"><a href="#" data-content="Menù" class="text-dark">Menù</a></li>
+                        <li class="me-5"><a href="#" data-content="Tag" class="text-dark">Tag</a></li>
+                        <li class="me-5"><a href="#" data-content="Articoli d'inventario" class="text-dark">Articoli d'inventario</a></li>
+                        <li class="me-5"><a href="#" data-content="Strumenti di corredo" class="text-dark">Strumenti di corredo</a></li>
+                    </ul>
+                    <?php endif; ?>
                     <?php if (!isAdminLoggedIn()): ?>
                     <a href="./login.php" class="text-dark"><span class="bi bi-person-fill-gear" aria-label="Accedi come amministratore"><span><a>
                     <?php else: ?>

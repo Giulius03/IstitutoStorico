@@ -45,6 +45,14 @@ footer li span:hover {
     color: rgb(180, 180, 180);
 }
 
+.admin-list a {
+    text-decoration: none;
+}
+
+.admin-list a:hover {
+    text-decoration: underline;
+}
+
 nav span {
     font-size: 40px;
     color: black;

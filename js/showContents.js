@@ -1,16 +1,59 @@
-const contentTypeSelect = document.getElementById("contentType");
+function getContParamName(cont) {
+    switch(cont) {
+        case "Menù":
+            return "menù";
+        case "Tag":
+            return "tag";
+        case "Articoli d'inventario":
+            return "articolo d'inventario";
+        case "Strumenti di corredo":
+            return "strumento di corredo";
+        default:
+            return "Pagine";
+    }
+}
 
-contentTypeSelect.addEventListener('change', function(event) {
-    show();
+document.querySelectorAll('.admin-list').forEach(l => {
+    l.addEventListener('click', function(e) {
+        if (e.target.matches('a[data-content]')) {
+            e.preventDefault();
+            const content = e.target.dataset.content;
+            show(content);
+            history.replaceState(null, "", "/admin.php?cont=" + getContParamName(content));
+        }
+    })
 });
 
-function show() {
+window.addEventListener('DOMContentLoaded', () => {
+    const contParam = new URLSearchParams(window.location.search).get('cont');
+    if (contParam != null) {
+        switch(contParam) {
+            case "menù":
+                show("Menù");
+                break;
+            case "tag":
+                show("Tag");
+                break;
+            case "articolo d'inventario":
+                show("Articoli d'inventario");
+                break;
+            case "strumento di corredo":
+                show("Strumenti di corredo");
+                break;
+            default:
+                //contParam = "Pagine"
+                show(contParam);
+        }
+    }
+})
+
+function show(content) {
     let btnInsertText = "";
     const addContDir = "contentsManagement/insertion/";
     const editContDir = "contentsManagement/editing/";
     const removeContDir = "contentsManagement/elimination/";
     
-    switch (contentTypeSelect.value) {
+    switch (content) {
         case "Pagine":
             btnInsertText = "Inserisci una nuova pagina";
             showContents("getPages.php?ordBy=updatedDate", addContDir + "newPage.php", editContDir + "modifyPage.php", removeContDir + "removePage.php", btnInsertText, "pagine", [ "Titolo", "Ultima Modifica", "Tipo" ]);
@@ -36,6 +79,21 @@ function show() {
 
 async function showContents(getterFile, addLink, editLink, removeLink, btnInsertText, plural, fields) {
     const contents = await getContents(getterFile);
+    let titleArticle = "";
+    switch(plural) {
+        case "pagine":
+            titleArticle = "delle";
+            break;
+        case "menù":
+        case "tag":
+            titleArticle = "dei";
+            break;
+        case "articoli d'inventario":
+        case "strumenti di corredo":
+            titleArticle = "degli";
+            break;
+    }
+    document.getElementById("adminTitle").innerText = "Gestione " + titleArticle + " " + plural;
     let contentsHTML = `<a class="btn btn-dark" href="${addLink}" role="button">${btnInsertText}</a>`;
     if (contents.length === 0) {
         contentsHTML += `
