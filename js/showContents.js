@@ -1,3 +1,10 @@
+const PagesFilter = {
+    NO: "nessuno",
+    NORMAL: "normale",
+    ARCHIVE: "archivio",
+    COLLECTION: "collezione"
+};
+
 function getContParamName(cont) {
     switch(cont) {
         case "Menù":
@@ -47,7 +54,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 })
 
-function show(content) {
+function show(content, pagesFilter = PagesFilter.NO) {
     let btnInsertText = "";
     const addContDir = "contentsManagement/insertion/";
     const editContDir = "contentsManagement/editing/";
@@ -56,7 +63,7 @@ function show(content) {
     switch (content) {
         case "Pagine":
             btnInsertText = "Inserisci una nuova pagina";
-            showContents("getPages.php?ordBy=updatedDate", addContDir + "newPage.php", editContDir + "modifyPage.php", removeContDir + "removePage.php", btnInsertText, "pagine", [ "Titolo", "Ultima Modifica", "Tipo" ]);
+            showContents("getPages.php?ordBy=updatedDate", addContDir + "newPage.php", editContDir + "modifyPage.php", removeContDir + "removePage.php", btnInsertText, "pagine", [ "Titolo", "Ultima Modifica" ], pagesFilter);
             break;
         case "Menù":
             btnInsertText = "Inserisci un nuovo menù";
@@ -77,7 +84,7 @@ function show(content) {
     }
 }
 
-async function showContents(getterFile, addLink, editLink, removeLink, btnInsertText, plural, fields) {
+async function showContents(getterFile, addLink, editLink, removeLink, btnInsertText, plural, fields, pagesFilter = null) {
     const contents = await getContents(getterFile);
     let titleArticle = "";
     switch(plural) {
@@ -103,8 +110,28 @@ async function showContents(getterFile, addLink, editLink, removeLink, btnInsert
         `;
     } else {
         let txtOrdered = plural === "pagine" ? "(ordinate per ultima modifica)" : "";
+        if (plural === "pagine") {
+            contentsHTML += `
+            <div class="mt-4" id="pagesFilters">
+                <label>Filtra per il tipo della pagina che stai cercando:</label>
+                <div class="d-flex gap-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="pagesFilter" id="normal" value="normali" ${pagesFilter === PagesFilter.NORMAL ? "checked" : ""} />
+                        <label class="form-check-label" for="normal">Normale</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="pagesFilter" id="archive" value="archivi" ${pagesFilter === PagesFilter.ARCHIVE ? "checked" : ""} />
+                        <label class="form-check-label" for="archive">Archivio</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="pagesFilter" id="collection" value="collezioni" ${pagesFilter === PagesFilter.COLLECTION ? "checked" : ""} />
+                        <label class="form-check-label" for="collection">Raccolta di risorse</label>
+                    </div>
+                </div>
+            </div>`;
+        }
         contentsHTML += `
-        <table class="table mt-3">
+        <table class="table mt-1">
             <caption>${plural.charAt(0).toUpperCase() + plural.slice(1)} attualmente presenti ${txtOrdered}`;
         contentsHTML += `
             </caption>
@@ -123,22 +150,56 @@ async function showContents(getterFile, addLink, editLink, removeLink, btnInsert
             </thead>
             <tbody>
         `;
-        contentsHTML += plural === "pagine" ? showPages(contents, editLink, removeLink) : showOther(contents, editLink, removeLink);
+        contentsHTML += plural === "pagine" ? showPages(contents, editLink, removeLink, pagesFilter) : showOther(contents, editLink, removeLink);
     }
 
     document.getElementById("contentsShower").innerHTML = contentsHTML;
+    if (plural === "pagine") {
+        document.querySelectorAll('input[name="pagesFilter"]').forEach (rb => {
+            rb.addEventListener('change', () => {
+                switch (rb.value) {
+                    case "normali":
+                        show("Pagine", PagesFilter.NORMAL);
+                        break;
+                    case "archivi":
+                        show("Pagine", PagesFilter.ARCHIVE);
+                        break;
+                    case "collezioni":
+                        show("Pagine", PagesFilter.COLLECTION);
+                        break;
+                    default:
+                        show("Pagine", PagesFilter.NO);
+                        break;
+                }
+            })
+        });
+    }
 }
 
-function showPages(pages, editLink, removeLink) {
+function showPages(pages, editLink, removeLink, filter) {
     let html = ``;
-    pages.forEach(page => {
+    let filteredPages = null;
+    switch (filter) {
+        case PagesFilter.ARCHIVE:
+            filteredPages = pages.filter(p => p['type'] === "Pagina di Archivio");
+            break;
+        case PagesFilter.COLLECTION:
+            filteredPages = pages.filter(p => p['type'] === "Raccolta di Risorse");
+            break;
+        case PagesFilter.NORMAL:
+            filteredPages = pages.filter(p => p['type'] === "");
+            break;
+        default:
+            filteredPages = pages;
+            break;
+    }
+    filteredPages.forEach(page => {
         html += `
             <tr>
                 <td class="align-middle">${page['title']}</td>
                 <td class="align-middle">`;
         html += page['updatedDate'] === null ? `${page['creationDate']}</td>` : `${page['updatedDate']}</td>`
         html += `
-                <td class="align-middle">${page['type']}</td>
                 <td class="align-middle">
                     <a class="btn btn-secondary px-0 py-1" href="${editLink}?id=${page['idPage']}" role="button">Modifica</a>
                 </td>
