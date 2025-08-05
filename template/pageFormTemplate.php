@@ -1,5 +1,6 @@
 <?php
 $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] == "D";
+if (isAdminLoggedIn()):
 ?>
 <h1 class="text-center fs-1 fw-bold mt-4">
     <?php echo ($templateParams["action"] == "I" ? "Inserisci nuova" : ($templateParams["action"] == "E" ? "Modifica" : "Cancella"))." pagina" ?>
@@ -178,3 +179,8 @@ $editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] ==
     </div>
     <?php require_once("../../template/eliminationModal.php"); ?>
 </form>
+<?php else: ?>
+<div class="text-center pt-3">
+    <p class="fst-italic">Devi essere loggato come amministratore per poter accedere a questa pagina.</p>
+</div>
+<?php endif; ?>

@@ -1,5 +1,6 @@
+<?php if (isAdminLoggedIn()): ?>
 <h1 class="text-center fs-1 fw-bold mt-4">
-    <?php echo ($templateParams["action"] == "E" ? "Modifica" : "Cancella")." ".$templateParams["componentName"] ?>
+    <?php echo ($templateParams["action"] == "E" ? "Modifica" : "Cancella")." ".$templateParams["componentName"]; ?>
 </h1>
 <form action="../../utils/<?php echo $templateParams["actionFile"] ?>" method="POST" class="mx-5 mt-4" id="pageComponentsForm">
     <ul class="list-unstyled m-0 mt-5 px-2">
@@ -50,3 +51,8 @@
     </div>
     <?php require_once("../../template/eliminationModal.php"); ?>
 </form>
+<?php else: ?>
+<div class="text-center pt-3">
+    <p class="fst-italic">Devi essere loggato come amministratore per poter accedere a questa pagina.</p>
+</div>
+<?php endif; ?>
