@@ -40,29 +40,27 @@ document.querySelectorAll('.admin-list').forEach(l => {
 
 window.addEventListener('DOMContentLoaded', () => {
     const contParam = new URLSearchParams(window.location.search).get('cont');
-    if (contParam != null) {
-        switch(contParam) {
-            case "menù":
-                show("Menù");
-                underlineRightLink("Menù");
-                break;
-            case "tag":
-                show("Tag");
-                underlineRightLink("Tag");
-                break;
-            case "articolo d'inventario":
-                show("Articoli d'inventario");
-                underlineRightLink("Articoli d'inventario");
-                break;
-            case "strumento di corredo":
-                show("Strumenti di corredo");
-                underlineRightLink("Strumenti di corredo");
-                break;
-            default:
-                //contParam = "Pagine"
-                show(contParam);
-                underlineRightLink("Pagine");
-        }
+    switch(contParam) {
+        case "menù":
+            show("Menù");
+            underlineRightLink("Menù");
+            break;
+        case "tag":
+            show("Tag");
+            underlineRightLink("Tag");
+            break;
+        case "articolo d'inventario":
+            show("Articoli d'inventario");
+            underlineRightLink("Articoli d'inventario");
+            break;
+        case "strumento di corredo":
+            show("Strumenti di corredo");
+            underlineRightLink("Strumenti di corredo");
+            break;
+        case "Pagine":
+        default:
+            show("Pagine");
+            underlineRightLink("Pagine");
     }
 })
 
@@ -75,7 +73,11 @@ function show(content, pagesFilter = PagesFilter.NO) {
     switch (content) {
         case "Pagine":
             btnInsertText = "Inserisci una nuova pagina";
-            showContents("getPages.php?ordBy=updatedDate", addContDir + "newPage.php", editContDir + "modifyPage.php", removeContDir + "removePage.php", btnInsertText, "pagine", [ "Titolo", "Ultima Modifica" ], pagesFilter);
+            const pagesFields = [ "Titolo", "Ultima Modifica" ];
+            if (pagesFilter === PagesFilter.NO) {
+                pagesFields.push("Tipo");
+            }
+            showContents("getPages.php?ordBy=updatedDate", addContDir + "newPage.php", editContDir + "modifyPage.php", removeContDir + "removePage.php", btnInsertText, "pagine", pagesFields, pagesFilter);
             break;
         case "Menù":
             btnInsertText = "Inserisci un nuovo menù";
@@ -127,6 +129,10 @@ async function showContents(getterFile, addLink, editLink, removeLink, btnInsert
             <div class="mt-4" id="pagesFilters">
                 <label>Filtra per il tipo della pagina che stai cercando:</label>
                 <div class="d-flex gap-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="pagesFilter" id="no" value="no" ${pagesFilter === PagesFilter.NO ? "checked" : ""} />
+                        <label class="form-check-label" for="no">Nessun filtro</label>
+                    </div>
                     <div class="form-check">
                         <input class="form-check-input" type="radio" name="pagesFilter" id="normal" value="normali" ${pagesFilter === PagesFilter.NORMAL ? "checked" : ""} />
                         <label class="form-check-label" for="normal">Normale</label>
@@ -210,7 +216,10 @@ function showPages(pages, editLink, removeLink, filter) {
             <tr>
                 <td class="align-middle">${page['title']}</td>
                 <td class="align-middle">`;
-        html += page['updatedDate'] === null ? `${page['creationDate']}</td>` : `${page['updatedDate']}</td>`
+        html += page['updatedDate'] === null ? `${page['creationDate']}</td>` : `${page['updatedDate']}</td>`;
+        if (filter === PagesFilter.NO) {
+            html += `<td class="align-middle">${page['type']}</td>`;
+        }
         html += `
                 <td class="align-middle">
                     <a class="btn btn-secondary px-0 py-1" href="${editLink}?id=${page['idPage']}" role="button">Modifica</a>
@@ -254,5 +263,3 @@ async function getContents(utilFunction) {
         console.log(error.message);
     }
 }
-
-show();
