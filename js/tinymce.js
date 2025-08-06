@@ -3,7 +3,6 @@ tinymce.init({
     plugins: 'lists code image link',
     toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link image | code',
     menubar: false,
-    height: 200,
     content_style: 'body { font-family: monospace; font-size: 14px; }',
 
     /* Configurazione per upload immagini */

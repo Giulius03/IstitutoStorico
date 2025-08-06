@@ -7,7 +7,7 @@ $templateParams["nome"] = "../../template/noPageFormTemplate.php";
 $templateParams["action"] = "D";
 $templateParams["actionFile"] = "contentRemovers/deleteInvItem.php";
 $templateParams["css"] = "../../css/style.css";
-$templateParams["js"] = array("../../js/logout.js");
+$templateParams["js"] = array("../../js/logout.js", "../../js/contentsManagementNavbarLinks.js");
 $templateParams["noPageType"] = "articolo d'inventario";
 
 if (isset($_GET['id'])) {

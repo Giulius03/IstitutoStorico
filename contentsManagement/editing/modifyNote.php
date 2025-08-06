@@ -7,7 +7,7 @@ $templateParams["nome"] = "../../template/pageComponents.php";
 $templateParams["action"] = "E";
 $templateParams["actionFile"] = "contentEditors/editNote.php";
 $templateParams["css"] = "../../css/style.css";
-$templateParams["js"] = array("../../js/logout.js");
+$templateParams["js"] = array("../../js/logout.js", "../../js/contentsManagementNavbarLinks.js");
 $templateParams["componentName"] = "nota";
 
 if (isset($_GET['id']) && isset($_GET['idPage'])) {

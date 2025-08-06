@@ -6,7 +6,7 @@ $templateParams["titolo"] = "Modifica Menù";
 $templateParams["nome"] = "../../template/noPageFormTemplate.php";
 $templateParams["action"] = "E";
 $templateParams["actionFile"] = "contentEditors/editMenu.php";
-$templateParams["js"] = array("../../js/showNewMenuItemFields.js", "../../js/showCurrentMenuItems.js", "../../js/logout.js");
+$templateParams["js"] = array("../../js/showNewMenuItemFields.js", "../../js/showCurrentMenuItems.js", "../../js/logout.js", "../../js/contentsManagementNavbarLinks.js");
 $templateParams["css"] = "../../css/style.css";
 $templateParams["noPageType"] = "menù";
 

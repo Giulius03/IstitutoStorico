@@ -7,7 +7,7 @@ $templateParams["nome"] = "../../template/noPageFormTemplate.php";
 $templateParams["action"] = "E";
 $templateParams["actionFile"] = "contentEditors/editMenuItem.php";
 $templateParams["css"] = "../../css/style.css";
-$templateParams["js"] = array("../../js/logout.js");
+$templateParams["js"] = array("../../js/logout.js", "../../js/contentsManagementNavbarLinks.js");
 $templateParams["noPageType"] = "voce del menù";
 
 if (isset($_GET['id']) && isset($_GET['idMenu'])) {

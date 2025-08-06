@@ -6,7 +6,7 @@ $templateParams["titolo"] = "Elimina Pagina";
 $templateParams["nome"] = "../../template/pageFormTemplate.php";
 $templateParams["action"] = "D";
 $templateParams["actionFile"] = "contentRemovers/deletePage.php";
-$templateParams["js"] = array("../../js/logout.js", "../../js/tinymce.js", "../../js/showInvItemsQuantityInputs.js", "../../js/showCurrentIndexItemsAndNotes.js");
+$templateParams["js"] = array("../../js/logout.js", "../../js/tinymce.js", "../../js/showInvItemsQuantityInputs.js", "../../js/showCurrentIndexItemsAndNotes.js", "../../js/contentsManagementNavbarLinks.js");
 $templateParams["css"] = "../../css/style.css";
 
 if (isset($_GET['id'])) {

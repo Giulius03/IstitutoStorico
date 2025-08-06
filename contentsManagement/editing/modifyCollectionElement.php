@@ -7,7 +7,7 @@ $templateParams["nome"] = "../../template/collectionElementTemplate.php";
 $templateParams["action"] = "E";
 $templateParams["actionFile"] = "contentEditors/editCollectionElement.php";
 $templateParams["css"] = "../../css/style.css";
-$templateParams["js"] = array("../../js/logout.js");
+$templateParams["js"] = array("../../js/logout.js", "../../js/contentsManagementNavbarLinks.js");
 if (isset($_GET['id']) && isset($_GET['type'])) {
     $templateParams["element"] = $dbh->getCollectionElementFromID($_GET['id'], $_GET['type']);
     $templateParams["actionFile"] .= "?id=".$_GET["id"]."&type=".$_GET["type"]."&idCollection=".$templateParams["element"][0]["raccolta"]."&idPage=".$_GET["idPage"]; 

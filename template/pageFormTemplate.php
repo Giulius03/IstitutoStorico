@@ -69,15 +69,15 @@ if (isAdminLoggedIn()):
         <legend>Search Engine Optimization</legend>
         <ul class="list-unstyled mt-5 px-2">
             <li class="form-floating mb-3">
-                <input name="titoloSEO" type="text" class="form-control" id="titoloSEO" placeholder="TitoloSEO" value="<?php echo $editOrDelete ? $templateParams['page']['seoTitle'] : "" ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                <input name="titoloSEO" type="text" class="form-control" id="titoloSEO" placeholder="TitoloSEO" value="<?php echo $editOrDelete ? $templateParams['page']['seoTitle'] : "" ?>" <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
                 <label for="titoloSEO">Titolo SEO</label>
             </li>
             <li class="form-floating mb-3">
-                <input name="testoSEO" type="text" class="form-control" id="testoSEO" placeholder="testoSEO" value="<?php echo $editOrDelete ? $templateParams['page']['seoText'] : "" ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                <input name="testoSEO" type="text" class="form-control" id="testoSEO" placeholder="testoSEO" value="<?php echo $editOrDelete ? $templateParams['page']['seoText'] : "" ?>" <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
                 <label for="testoSEO">Testo SEO</label>
             </li>
             <li class="form-floating mb-3">
-                <input name="chiaviSEO" type="text" class="form-control" id="chiaviSEO" placeholder="ChiaviSEO" value="<?php echo $editOrDelete ? $templateParams['page']['seoKeywords'] : "" ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                <input name="chiaviSEO" type="text" class="form-control" id="chiaviSEO" placeholder="ChiaviSEO" value="<?php echo $editOrDelete ? $templateParams['page']['seoKeywords'] : "" ?>" <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
                 <label for="chiaviSEO">Parole Chiave SEO</label>
             </li>
         </ul>
@@ -178,6 +178,7 @@ if (isAdminLoggedIn()):
         <?php endif; ?>    
     </div>
     <?php require_once("../../template/eliminationModal.php"); ?>
+    <?php require_once("../../template/dontSaveModal.php") ?>
 </form>
 <?php else: ?>
 <div class="text-center pt-3">
