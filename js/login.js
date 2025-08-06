@@ -29,7 +29,7 @@ async function login(event) {
         const json = await response.json();
         console.log(json);
         if (json["successful"] === true) {
-            window.location.href = "admin.php";
+            window.location.href = "admin.php?cont=Pagine";
         } else {
             document.getElementById("loginError").innerHTML = `<p>${json["error"]}</p>`;
         }

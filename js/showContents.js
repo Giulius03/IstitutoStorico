@@ -20,11 +20,18 @@ function getContParamName(cont) {
     }
 }
 
+function underlineRightLink(rightLinkContent) {
+     document.querySelectorAll('#pcNavbar .admin-list a').forEach(a => {
+        a.style.textDecoration = a.dataset.content === rightLinkContent ? "underline" : "none";
+    });
+}
+
 document.querySelectorAll('.admin-list').forEach(l => {
     l.addEventListener('click', function(e) {
         if (e.target.matches('a[data-content]')) {
             e.preventDefault();
             const content = e.target.dataset.content;
+            underlineRightLink(content)
             show(content);
             history.replaceState(null, "", "/admin.php?cont=" + getContParamName(content));
         }
@@ -37,19 +44,24 @@ window.addEventListener('DOMContentLoaded', () => {
         switch(contParam) {
             case "menù":
                 show("Menù");
+                underlineRightLink("Menù");
                 break;
             case "tag":
                 show("Tag");
+                underlineRightLink("Tag");
                 break;
             case "articolo d'inventario":
                 show("Articoli d'inventario");
+                underlineRightLink("Articoli d'inventario");
                 break;
             case "strumento di corredo":
                 show("Strumenti di corredo");
+                underlineRightLink("Strumenti di corredo");
                 break;
             default:
                 //contParam = "Pagine"
                 show(contParam);
+                underlineRightLink("Pagine");
         }
     }
 })
@@ -75,7 +87,7 @@ function show(content, pagesFilter = PagesFilter.NO) {
             break;
         case "Articoli d'inventario":
             btnInsertText = "Inserisci un nuovo articolo d'inventario";
-            showContents("getInventoryItems.php", addContDir + "newInventoryItem.php", editContDir + "modifyInvItem.php", removeContDir + "removeInvItem.php", btnInsertText, "articoli d'inventario", [ "Nome" ]);
+            showContents("getInventoryItems.php", addContDir + "newInvItem.php", editContDir + "modifyInvItem.php", removeContDir + "removeInvItem.php", btnInsertText, "articoli d'inventario", [ "Nome" ]);
             break;
         case "Strumenti di corredo":
             btnInsertText = "Inserisci un nuovo strumento di corredo";

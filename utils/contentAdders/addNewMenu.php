@@ -15,7 +15,7 @@ if (checkIsSet($fieldsName)) {
             $father = (isset($_POST['fatherItem'.$i]) && $_POST['fatherItem'.$i] != "") ? $_POST['fatherItem'.$i] : null;
             $dbh->addMenuItem($i, $_POST['NomeVoce'.$i], $_POST['PosizioneVoce'.$i], $idNewMenu, $pageToLink, $father);
         }
-        header('Location: ../../admin.php?cont=Menù');
+        header('Location: ../../admin.php?cont=menù');
     } catch (Exception $e) {
         echo "Errore: " . $e->getMessage();
     }
