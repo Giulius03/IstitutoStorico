@@ -57,7 +57,7 @@ class DatabaseHelper{
      * presenti al momento della richiesta
      */
     public function getPages($orderedBy) {
-        $stmt = $this->db->prepare("SELECT idPage, title, creationDate, updatedDate FROM page ORDER BY $orderedBy " . ($orderedBy == "updatedDate" ? "DESC" : ""));
+        $stmt = $this->db->prepare("SELECT idPage, title, creationDate, updatedDate FROM page");
         $stmt->execute();
         $result = $stmt->get_result();
         $pages = $result->fetch_all(MYSQLI_ASSOC);
@@ -67,6 +67,38 @@ class DatabaseHelper{
         }
         unset($page);
 
+        return $pages;
+    }
+
+    private function getResearchQuery($content) {
+        switch ($content) {
+            case "pagine":
+                return "SELECT idPage, title, creationDate, updatedDate FROM page WHERE title LIKE CONCAT('%', ?, '%')";
+            case "menù":
+                return "SELECT idMenu as ID, menuName as name FROM menu WHERE menuName LIKE CONCAT('%', ?, '%')";
+            case "tag":
+                return "SELECT idTag as ID, tagName as name FROM tag WHERE tagName LIKE CONCAT('%', ?, '%')";
+            case "articoli d'inventario":
+                return "SELECT idInventoryItem as ID, inventoryItemName as name FROM inventoryitem WHERE inventoryItemName LIKE CONCAT('%', ?, '%')";
+            case "strumenti di corredo":
+                return "SELECT idReferenceTool as ID, nameReferenceTool as name FROM referencetool WHERE nameReferenceTool LIKE CONCAT('%', ?, '%')";
+        }
+    }
+
+    public function getContentByName($content, $researchString) {
+        $query = $this->getResearchQuery($content);
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('s', $researchString);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($content != "pagine") {
+            return $result->fetch_all(MYSQLI_ASSOC);
+        }
+        $pages = $result->fetch_all(MYSQLI_ASSOC);
+        foreach ($pages as &$page) {
+            $page['type'] = $this->getPageType($page['idPage']);
+        }
+        unset($page);
         return $pages;
     }
 

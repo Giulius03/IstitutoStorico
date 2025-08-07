@@ -62,9 +62,9 @@ window.addEventListener('DOMContentLoaded', () => {
             show("Pagine");
             underlineRightLink("Pagine");
     }
-})
+});
 
-function show(content, pagesFilter = PagesFilter.NO) {
+function show(content, searching = false, pagesFilter = PagesFilter.NO) {
     let btnInsertText = "";
     const addContDir = "contentsManagement/insertion/";
     const editContDir = "contentsManagement/editing/";
@@ -77,29 +77,29 @@ function show(content, pagesFilter = PagesFilter.NO) {
             if (pagesFilter === PagesFilter.NO) {
                 pagesFields.push("Tipo");
             }
-            showContents("getPages.php?ordBy=updatedDate", addContDir + "newPage.php", editContDir + "modifyPage.php", removeContDir + "removePage.php", btnInsertText, "pagine", pagesFields, pagesFilter);
+            showContents("getPages.php?ordBy=updatedDate", addContDir + "newPage.php", editContDir + "modifyPage.php", removeContDir + "removePage.php", btnInsertText, "pagine", pagesFields, searching, pagesFilter);
             break;
         case "Menù":
             btnInsertText = "Inserisci un nuovo menù";
-            showContents("getMenus.php", addContDir + "newMenu.php", editContDir + "modifyMenu.php", removeContDir + "removeMenu.php", btnInsertText, "menù", [ "Nome" ]);
+            showContents("getMenus.php", addContDir + "newMenu.php", editContDir + "modifyMenu.php", removeContDir + "removeMenu.php", btnInsertText, "menù", [ "Nome" ], searching);
             break;
         case "Tag":
             btnInsertText = "Inserisci un nuovo tag";
-            showContents("getTags.php", addContDir + "newTag.php", editContDir + "modifyTag.php", removeContDir + "removeTag.php", btnInsertText, "tag", [ "Nome" ]);
+            showContents("getTags.php", addContDir + "newTag.php", editContDir + "modifyTag.php", removeContDir + "removeTag.php", btnInsertText, "tag", [ "Nome" ], searching);
             break;
         case "Articoli d'inventario":
             btnInsertText = "Inserisci un nuovo articolo d'inventario";
-            showContents("getInventoryItems.php", addContDir + "newInvItem.php", editContDir + "modifyInvItem.php", removeContDir + "removeInvItem.php", btnInsertText, "articoli d'inventario", [ "Nome" ]);
+            showContents("getInventoryItems.php", addContDir + "newInvItem.php", editContDir + "modifyInvItem.php", removeContDir + "removeInvItem.php", btnInsertText, "articoli d'inventario", [ "Nome" ], searching);
             break;
         case "Strumenti di corredo":
             btnInsertText = "Inserisci un nuovo strumento di corredo";
-            showContents("getReferenceTools.php", addContDir + "newReferenceTool.php", editContDir + "modifyRefTool.php", removeContDir + "removeRefTool.php", btnInsertText, "strumenti di corredo", [ "Nome" ]);
+            showContents("getReferenceTools.php", addContDir + "newReferenceTool.php", editContDir + "modifyRefTool.php", removeContDir + "removeRefTool.php", btnInsertText, "strumenti di corredo", [ "Nome" ], searching);
             break;
     }
 }
 
-async function showContents(getterFile, addLink, editLink, removeLink, btnInsertText, plural, fields, pagesFilter = null) {
-    const contents = await getContents(getterFile);
+async function showContents(getterFile, addLink, editLink, removeLink, btnInsertText, plural, fields, isSearching, pagesFilter = null) {
+    const contents = isSearching === false ?  await getContents(getterFile) : await searchContents(plural, document.getElementById("txtSearch").value);
     let titleArticle = "";
     switch(plural) {
         case "pagine":
@@ -115,7 +115,14 @@ async function showContents(getterFile, addLink, editLink, removeLink, btnInsert
             break;
     }
     document.getElementById("adminTitle").innerText = "Gestione " + titleArticle + " " + plural;
-    let contentsHTML = `<a class="btn btn-dark" href="${addLink}" role="button">${btnInsertText}</a>`;
+    const searchLabel = plural === "pagine" ? "Cerca per titolo ..." : "Cerca per nome ...";
+    let contentsHTML = `
+        <a class="btn btn-dark" href="${addLink}" role="button">${btnInsertText}</a>
+        <div class="d-flex align-items-center mt-4">
+            <label class="visually-hidden" for="txtSearch">${searchLabel}</label>
+            <input type="text" class="form-control me-2" id="txtSearch" placeholder="${searchLabel}" />
+            <a class="btn btn-dark w-25" href="#" role="button" id="btnSearch">Cerca</a>
+        </div>`;
     if (contents.length === 0) {
         contentsHTML += `
         <div class="text-center pt-5">
@@ -125,8 +132,9 @@ async function showContents(getterFile, addLink, editLink, removeLink, btnInsert
     } else {
         let txtOrdered = plural === "pagine" ? "(ordinate per ultima modifica)" : "";
         if (plural === "pagine") {
+            console.log(pagesFilter);
             contentsHTML += `
-            <div class="mt-4" id="pagesFilters">
+            <div class="mt-2" id="pagesFilters">
                 <label>Filtra per il tipo della pagina che stai cercando:</label>
                 <div class="d-flex gap-3">
                     <div class="form-check">
@@ -177,21 +185,42 @@ async function showContents(getterFile, addLink, editLink, removeLink, btnInsert
             rb.addEventListener('change', () => {
                 switch (rb.value) {
                     case "normali":
-                        show("Pagine", PagesFilter.NORMAL);
+                        show("Pagine", isSearching, PagesFilter.NORMAL);
                         break;
                     case "archivi":
-                        show("Pagine", PagesFilter.ARCHIVE);
+                        show("Pagine", isSearching, PagesFilter.ARCHIVE);
                         break;
                     case "collezioni":
-                        show("Pagine", PagesFilter.COLLECTION);
+                        show("Pagine", isSearching, PagesFilter.COLLECTION);
                         break;
                     default:
-                        show("Pagine", PagesFilter.NO);
+                        show("Pagine", isSearching, PagesFilter.NO);
                         break;
                 }
             })
         });
     }
+
+    document.getElementById("btnSearch").addEventListener('click', function(e) {
+        e.preventDefault();
+        switch (plural) {
+            case "pagine":
+                show("Pagine", true, pagesFilter);
+                break;
+            case "menù":
+                show("Menù", true);
+                break;
+            case "tag":
+                show("Tag", true);
+                break;
+            case "articoli d'inventario":
+                show("Articoli d'inventario", true);
+                break;
+            case "strumenti di corredo":
+                show("Strumenti di corredo", true);
+                break;
+        }
+    });
 }
 
 function showPages(pages, editLink, removeLink, filter) {
@@ -248,6 +277,20 @@ function showOther(contents, editLink, removeLink) {
         `;
     });
     return html;
+}
+
+async function searchContents(type, researchString) {
+    const url = 'utils/getters/getContentResearched.php?cont=' + type + '&string=' + researchString;
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+        const json = await response.json();
+        return json;
+    } catch (error) {
+        console.log(error.message);
+    }
 }
 
 async function getContents(utilFunction) {
