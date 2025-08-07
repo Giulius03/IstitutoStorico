@@ -148,13 +148,13 @@ if (isAdminLoggedIn()):
                 <?php 
                 $index = isset($templateParams["inventoryItems"]) ? array_search($iItem['ID'], array_column($templateParams["inventoryItems"], 'ID')) : false;
                 $contained = $editOrDelete && $index !== false; ?>
-                <li class="addingInvItem">
-                    <div class="form-check me-3 w-100">
+                <li class="addingInvItem d-flex align-items-center">
+                    <div class="form-check me-3">
                         <input class="form-check-input" type="checkbox" value="<?php echo $iItem['ID'] ?>" id="<?php echo "articolo".$iItem['ID'] ?>" name="<?php echo "articolo".$iItem['ID'] ?>" <?php echo $contained ? "checked" : "" ?> <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
                         <label class="form-check-label" for="<?php echo "articolo".$iItem['ID'] ?>"><?php echo $iItem['name'] ?></label>
                     </div>
-                    <input step="1" name="<?php echo "quantita".$iItem['ID'] ?>" type="number" class="form-control py-1 ps-2 pe-0 <?php echo $contained ? "" : "d-none" ?>" id="<?php echo "quantita".$iItem['ID'] ?>" placeholder="Quantità" value="<?php echo $contained ? $templateParams['inventoryItems'][$index]['quantity'] : "" ?>" <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
-                    <label class="d-none" for="<?php echo "quantita".$iItem['ID'] ?>"><?php echo "Quantità ".$iItem['name'] ?></label>
+                    <input step="1" min="1" name="<?php echo "quantita".$iItem['ID'] ?>" type="number" class="form-control py-1 ps-2 pe-0 <?php echo $contained ? "" : "d-none" ?>" id="<?php echo "quantita".$iItem['ID'] ?>" placeholder="Quantità" value="<?php echo $contained ? $templateParams['inventoryItems'][$index]['quantity'] : "" ?>" <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                    <label class="visually-hidden" for="<?php echo "quantita".$iItem['ID'] ?>"><?php echo "Quantità ".$iItem['name'] ?></label>
                 </li>
                 <?php endforeach; ?>
             </ul>

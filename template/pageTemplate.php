@@ -1,4 +1,4 @@
-<div class="mx-4 my-5">
+<div class="container">
 <?php 
 if (count($templateParams["page"]) == 0) {
     echo "<div class='text-center pt-5'>

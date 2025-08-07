@@ -16,7 +16,6 @@
         $baseDir = realpath("../sites/default/images/");
         $currentDir = isset($_GET['path']) ? realpath($baseDir . '/' . $_GET['path']) : $baseDir;
 
-        // Sicurezza: impedisci directory traversal
         if (strpos($currentDir, $baseDir) !== 0) {
             die("Accesso non consentito.");
         }
@@ -28,14 +27,12 @@
             return in_array($ext, ['jpg', 'jpeg', 'png', 'gif', 'webp']);
         }
 
-        // Mostra il percorso relativo per navigare correttamente
         $relativePath = str_replace($baseDir, '', $currentDir);
         ?>
 
         <h3 class="text-center mt-4">Sfoglia immagini:</h3>
         <div class="d-block text-center">
             <?php if ($currentDir !== $baseDir): ?>
-                <!-- Link per tornare indietro -->
                 <a class="text-decoration-none" href="?path=<?php echo urlencode(dirname($relativePath)); ?>">Torna indietro</a>
             <?php endif; ?>
             <div class="gap-2 imageSelectorContainer mt-1">
