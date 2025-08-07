@@ -1,11 +1,15 @@
 <?php
 require_once '../bootstrap.php';
 
-$targetFile = "../upload/" . basename($_FILES['file']['name']);
+// Percorso assoluto dove salvare l'immagine
+$uploadDir = realpath(__DIR__ . '/../sites/default/images') . '/';
+$targetFile = $uploadDir . basename($_FILES['file']['name']);
 $response = [];
 
 if (move_uploaded_file($_FILES['file']['tmp_name'], $targetFile)) {
-    $response['location'] = $targetFile; // Percorso immagine
+    // Percorso relativo per il browser
+    $webPath = '/sites/default/images/' . basename($targetFile);
+    $response['location'] = $webPath;
 } else {
     http_response_code(500);
     $response['error'] = "Errore nel caricamento dell'immagine.";
@@ -13,4 +17,3 @@ if (move_uploaded_file($_FILES['file']['tmp_name'], $targetFile)) {
 
 header('Content-Type: application/json');
 echo json_encode($response);
-?>

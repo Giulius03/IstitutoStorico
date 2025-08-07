@@ -132,7 +132,6 @@ async function showContents(getterFile, addLink, editLink, removeLink, btnInsert
     } else {
         let txtOrdered = plural === "pagine" ? "(ordinate per ultima modifica)" : "";
         if (plural === "pagine") {
-            console.log(pagesFilter);
             contentsHTML += `
             <div class="mt-2" id="pagesFilters">
                 <label>Filtra per il tipo della pagina che stai cercando:</label>

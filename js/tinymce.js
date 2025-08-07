@@ -15,7 +15,7 @@ tinymce.init({
             // Apri popup per selezionare immagine
             var x = window.innerWidth / 2 - 200;
             var y = window.innerHeight / 2 - 200;
-            window.open('imageSelectorTinyMCE.php', 'File Manager', 'width=400,height=400,left=' + x + ',top=' + y);
+            window.open('../imageSelectorTinyMCE.php', 'File Manager', 'width=400,height=400,left=' + x + ',top=' + y);
             
             // Funzione callback globale per selezione immagine
             window.selectImage = function(url) {
