@@ -16,7 +16,7 @@ if (isAdminLoggedIn()):
     <input type="hidden" name="idMenu" id="idMenu" value="<?php echo $editOrDelete ? $templateParams['content'][0]['ID'] : ""?>" />
     <input type="hidden" name="idPartenza" id="idPartenza" />
     <input type="hidden" name="idFine" id="idFine" />
-    <a class="btn btn-dark mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddMenuItem" role="button">Aggiungi una voce al menù</a>
+    <a class="btn btn-dark text-decoration-none mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddMenuItem" role="button">Aggiungi una voce al menù</a>
     <div id="menuItemsForms">
 
     </div>
@@ -65,7 +65,7 @@ if (isAdminLoggedIn()):
         <?php $previousPagePath = $templateParams['noPageType'] == "voce del menù" 
             ? "../editing/modifyMenu.php?id=".$_GET['idMenu'] 
             : "../../admin.php?cont=".$templateParams['noPageType'];?>
-        <a class="btn btn-dark w-25 me-4" role="button" href="<?php echo $previousPagePath ?>">Torna indietro</a>
+        <a class="btn btn-dark w-25 me-4 text-decoration-none" role="button" href="<?php echo $previousPagePath ?>">Torna indietro</a>
         <?php if ($templateParams["action"] == "E" || $templateParams["action"] == "I"): ?>
         <input class="btn btn-dark ms-4 w-25" type="submit" value="<?php echo $templateParams["action"] == "I" ? "Crea" : "Salva" ?>" />
         <?php else: ?>

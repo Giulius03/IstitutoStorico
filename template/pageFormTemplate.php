@@ -84,7 +84,7 @@ if (isAdminLoggedIn()):
     </fieldset>
     <fieldset class="border-top my-4">
         <legend>Indice</legend>
-        <a class="btn btn-dark mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddIndexItem" role="button">Aggiungi una voce all'indice</a>
+        <a class="btn btn-dark text-decoration-none mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddIndexItem" role="button">Aggiungi una voce all'indice</a>
         <input type="hidden" name="numVoci" id="numVoci" value="0" />
         <div id="indexItemsForms">
 
@@ -92,7 +92,7 @@ if (isAdminLoggedIn()):
     </fieldset>
     <fieldset class="border-top my-4">
         <legend>Note</legend>
-        <a class="btn btn-dark mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddNote" role="button">Aggiungi una nota</a>
+        <a class="btn btn-dark text-decoration-none mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddNote" role="button">Aggiungi una nota</a>
         <input type="hidden" name="numNote" id="numNote" value="0" />
         <div id="notesForms">
 
@@ -163,14 +163,14 @@ if (isAdminLoggedIn()):
     <fieldset id="resourceCollectorInfo" class="border-top mb-4 <?php echo $templateParams['action'] == "I" || (isset($templateParams['page']) && $templateParams['page']['type'] != "Raccolta di Risorse") ? "d-none" : "" ?>">
         <legend>Raccolte di Risorse</legend>
         <p class="fst-italic">Sarà possibile aggiungere elementi alle raccolte una volta creata la pagina.</p>
-        <a class="btn btn-dark mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddCollection" role="button">Aggiungi una raccolta di risorse</a>
+        <a class="btn btn-dark text-decoration-none mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddCollection" role="button">Aggiungi una raccolta di risorse</a>
         <input type="hidden" name="numCollections" id="numCollections" value="0" />
         <div id="collectionsForms">
 
         </div>
     </fieldset>
     <div class="text-center my-4">
-        <a class="btn btn-dark w-25 me-4" role="button" href="../../admin.php?cont=Pagine">Torna indietro</a>
+        <a class="btn btn-dark w-25 me-4 text-decoration-none" role="button" href="../../admin.php?cont=Pagine">Torna indietro</a>
         <?php if ($templateParams["action"] == "E" || $templateParams["action"] == "I"): ?>
         <input class="btn btn-dark ms-4 w-25" type="submit" value="<?php echo $templateParams["action"] == "I" ? "Crea" : "Salva" ?>" />
         <?php else: ?>

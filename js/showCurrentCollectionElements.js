@@ -45,10 +45,10 @@ function showRows(rows, tableHeadHtml, fields, value) {
             });
             rowsHtml += `
                     <td class="align-middle">
-                        <a class="btn btn-secondary px-0 py-1" href="${areButtonsNotEnabled === "false" ? "modifyCollectionElement.php?id="+row['ID']+"&idPage="+document.getElementById("idPage").value+"&type="+document.querySelector('input[name="elemType"]:checked').value : "#"}" role="button">Modifica</a>
+                        <a class="btn btn-secondary px-0 py-1 text-decoration-none" href="${areButtonsNotEnabled === "false" ? "modifyCollectionElement.php?id="+row['ID']+"&idPage="+document.getElementById("idPage").value+"&type="+document.querySelector('input[name="elemType"]:checked').value : "#"}" role="button">Modifica</a>
                     </td>
                     <td class="align-middle">
-                        <a class="btn btn-danger px-0 py-1" href="${areButtonsNotEnabled === "false" ? "../elimination/removeCollectionElement.php?id="+row['ID']+"&idPage="+document.getElementById("idPage").value+"&type="+document.querySelector('input[name="elemType"]:checked').value : "#"}" role="button">Cancella</a>
+                        <a class="btn btn-danger px-0 py-1 text-decoration-none" href="${areButtonsNotEnabled === "false" ? "../elimination/removeCollectionElement.php?id="+row['ID']+"&idPage="+document.getElementById("idPage").value+"&type="+document.querySelector('input[name="elemType"]:checked').value : "#"}" role="button">Cancella</a>
                     </td>
                 </tr>`;   
         }); 

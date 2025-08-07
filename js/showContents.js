@@ -117,11 +117,11 @@ async function showContents(getterFile, addLink, editLink, removeLink, btnInsert
     document.getElementById("adminTitle").innerText = "Gestione " + titleArticle + " " + plural;
     const searchLabel = plural === "pagine" ? "Cerca per titolo ..." : "Cerca per nome ...";
     let contentsHTML = `
-        <a class="btn btn-dark" href="${addLink}" role="button">${btnInsertText}</a>
+        <a class="btn btn-dark text-decoration-none" href="${addLink}" role="button">${btnInsertText}</a>
         <div class="d-flex align-items-center mt-4">
             <label class="visually-hidden" for="txtSearch">${searchLabel}</label>
             <input type="text" class="form-control me-2" id="txtSearch" placeholder="${searchLabel}" />
-            <a class="btn btn-dark w-25" href="#" role="button" id="btnSearch">Cerca</a>
+            <a class="btn btn-dark w-25 text-decoration-none" href="#" role="button" id="btnSearch">Cerca</a>
         </div>`;
     if (contents.length === 0) {
         contentsHTML += `
@@ -250,10 +250,10 @@ function showPages(pages, editLink, removeLink, filter) {
         }
         html += `
                 <td class="align-middle">
-                    <a class="btn btn-secondary px-0 py-1" href="${editLink}?id=${page['idPage']}" role="button">Modifica</a>
+                    <a class="btn btn-secondary px-0 py-1 text-decoration-none" href="${editLink}?id=${page['idPage']}" role="button">Modifica</a>
                 </td>
                 <td class="align-middle">
-                    <a class="btn btn-danger px-0 py-1" href="${removeLink}?id=${page['idPage']}" role="button">Cancella</a>
+                    <a class="btn btn-danger px-0 py-1 text-decoration-none" href="${removeLink}?id=${page['idPage']}" role="button">Cancella</a>
                 </td>
             </tr>`;
     });
@@ -267,10 +267,10 @@ function showOther(contents, editLink, removeLink) {
             <tr>
                 <td class="align-middle">${c['name']}</td>
                 <td class="align-middle">
-                    <a class="btn btn-secondary px-0 py-1" href="${editLink}?id=${c['ID']}" role="button">Modifica</a>
+                    <a class="btn btn-secondary px-0 py-1 text-decoration-none" href="${editLink}?id=${c['ID']}" role="button">Modifica</a>
                 </td>
                 <td class="align-middle">
-                    <a class="btn btn-danger px-0 py-1" href="${removeLink}?id=${c['ID']}" role="button">Cancella</a>
+                    <a class="btn btn-danger px-0 py-1 text-decoration-none" href="${removeLink}?id=${c['ID']}" role="button">Cancella</a>
                 </td>
             </tr>
         `;

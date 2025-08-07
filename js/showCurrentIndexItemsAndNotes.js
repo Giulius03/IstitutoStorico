@@ -45,10 +45,10 @@ function showTable(rows, tableHeadHtml, fields, divID, editFile, removeFile, plu
             });
             rowsHtml += `
                 <td class="align-middle">
-                    <a class="btn btn-secondary px-0 py-1" href="${areButtonsNotEnabled === "false" ? editFile+"?id="+row['ID']+"&idPage="+document.getElementById("idPage").value : "#"}" role="button">Modifica</a>
+                    <a class="btn btn-secondary px-0 py-1 text-decoration-none" href="${areButtonsNotEnabled === "false" ? editFile+"?id="+row['ID']+"&idPage="+document.getElementById("idPage").value : "#"}" role="button">Modifica</a>
                 </td>
                 <td class="align-middle">
-                    <a class="btn btn-danger px-0 py-1" href="${areButtonsNotEnabled === "false" ? "../elimination/"+removeFile+"?id="+row['ID']+"&idPage="+document.getElementById("idPage").value : "#"}" role="button">Cancella</a>
+                    <a class="btn btn-danger px-0 py-1 text-decoration-none" href="${areButtonsNotEnabled === "false" ? "../elimination/"+removeFile+"?id="+row['ID']+"&idPage="+document.getElementById("idPage").value : "#"}" role="button">Cancella</a>
                 </td>
             </tr>`;
             }); 

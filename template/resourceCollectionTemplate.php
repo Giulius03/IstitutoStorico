@@ -52,7 +52,7 @@
     </div>
     <div class="text-center my-4">
         <?php $previousPagePath = $templateParams['action'] == "E" ? "" : "../editing/"; ?>
-        <a class="btn btn-dark w-25 me-4" role="button" href="<?php echo $previousPagePath . "modifyPage.php?id=".$_GET['idPage']?>">Torna indietro</a>
+        <a class="btn btn-dark w-25 me-4 text-decoration-none" role="button" href="<?php echo $previousPagePath . "modifyPage.php?id=".$_GET['idPage']?>">Torna indietro</a>
         <?php if ($templateParams["action"] == "E"): ?>
         <input class="btn btn-dark ms-4 w-25" type="submit" value="Salva" />
         <?php else: ?>

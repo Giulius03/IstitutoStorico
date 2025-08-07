@@ -25,7 +25,7 @@
                     <?php else: ?>
                         <a class="float-end pe-3 text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="bi bi-person-fill-gear"><span></a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#" id="logoutMobile">Logout</a></li>
+                            <li><a class="dropdown-item text-decoration-none" href="#" id="logoutMobile">Logout</a></li>
                         </ul>
                     <?php endif; ?>
                 </nav>
@@ -72,7 +72,7 @@
                     <div class="dropdown">
                         <a class="text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="bi bi-person-fill-gear"><span></a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#" id="logoutPC">Logout</a></li>
+                            <li><a class="dropdown-item text-decoration-none" href="#" id="logoutPC">Logout</a></li>
                         </ul>
                     </div>
                     <?php endif; ?>
