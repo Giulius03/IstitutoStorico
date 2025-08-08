@@ -56,7 +56,7 @@ class DatabaseHelper{
      * @return array ID, titolo, data di creazione, ultima data di aggiornamento e tipologia di tutte le pagine
      * presenti al momento della richiesta
      */
-    public function getPages($orderBy) {
+    public function getPages($orderBy = "nessuno") {
         $orderByString = "";
         switch ($orderBy) {
             case "titolo":
@@ -136,7 +136,7 @@ class DatabaseHelper{
     /**
      * @return array ID e nome di tutti i menù presenti al momento della richiesta
      */
-    public function getMenus($orderBy) {
+    public function getMenus($orderBy = "nessuno") {
         return $this->getNonPages("menu", "idMenu", "menuName", $orderBy);
     }
 
@@ -158,7 +158,7 @@ class DatabaseHelper{
     /**
      * @return array ID e nome di tutti i tag presenti al momento della richiesta
      */
-    public function getTags($orderBy) {
+    public function getTags($orderBy = "nessuno") {
         return $this->getNonPages("tag", "idTag", "tagName", $orderBy);
     }
 
@@ -179,14 +179,14 @@ class DatabaseHelper{
     /**
      * @return array ID e nome di tutti gli articoli d'inventario presenti al momento della richiesta
      */
-    public function getInventoryItems($orderBy) {
+    public function getInventoryItems($orderBy = "nessuno") {
         return $this->getNonPages("inventoryitem", "idInventoryItem", "inventoryItemName", $orderBy);
     }
 
     /**
      * @return array ID e nome di tutti gli strumenti di corredo presenti al momento della richiesta
      */
-    public function getReferenceTools($orderBy) {
+    public function getReferenceTools($orderBy = "nessuno") {
         return $this->getNonPages("referencetool", "idReferenceTool", "nameReferenceTool", $orderBy);
     }
 
