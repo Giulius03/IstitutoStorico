@@ -3791,7 +3791,7 @@ CREATE TABLE `page` (
   `slug` varchar(255) NOT NULL,
   `text` longtext DEFAULT NULL,
   `creationDate` datetime NOT NULL DEFAULT current_timestamp(),
-  `updatedDate` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+  `updatedDate` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `isVisibile` tinyint(1) NOT NULL DEFAULT 1,
   `seoTitle` varchar(255) DEFAULT NULL,
   `seoText` varchar(255) DEFAULT NULL,

@@ -56,8 +56,23 @@ class DatabaseHelper{
      * @return array ID, titolo, data di creazione, ultima data di aggiornamento e tipologia di tutte le pagine
      * presenti al momento della richiesta
      */
-    public function getPages($orderedBy) {
-        $stmt = $this->db->prepare("SELECT idPage, title, creationDate, updatedDate FROM page");
+    public function getPages($orderBy) {
+        $orderByString = "";
+        switch ($orderBy) {
+            case "titolo":
+                $orderByString = " ORDER BY title";
+                break;
+            case "titoloDesc":
+                $orderByString = " ORDER BY title DESC";
+                break;
+            case "ultimaModifica":
+                $orderByString = " ORDER BY updatedDate";
+                break;
+            case "ultimaModificaDesc":
+                $orderByString = " ORDER BY updatedDate DESC";
+                break;
+        }
+        $stmt = $this->db->prepare("SELECT idPage, title, creationDate, updatedDate FROM page" . $orderByString);
         $stmt->execute();
         $result = $stmt->get_result();
         $pages = $result->fetch_all(MYSQLI_ASSOC);
@@ -102,8 +117,17 @@ class DatabaseHelper{
         return $pages;
     }
 
-    private function getNonPages($table, $idField, $nameField) {
-        $stmt = $this->db->prepare("SELECT $idField as ID, $nameField as name FROM $table");
+    private function getNonPages($table, $idField, $nameField, $orderBy) {
+        $orderByString = "";
+        switch ($orderBy) {
+            case "nome":
+                $orderByString = " ORDER BY name";
+                break;
+            case "nomeDesc":
+                $orderByString = " ORDER BY name DESC";
+                break;
+        }
+        $stmt = $this->db->prepare("SELECT $idField as ID, $nameField as name FROM $table" . $orderByString);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_all(MYSQLI_ASSOC);
@@ -112,8 +136,8 @@ class DatabaseHelper{
     /**
      * @return array ID e nome di tutti i menù presenti al momento della richiesta
      */
-    public function getMenus() {
-        return $this->getNonPages("menu", "idMenu", "menuName");
+    public function getMenus($orderBy) {
+        return $this->getNonPages("menu", "idMenu", "menuName", $orderBy);
     }
 
     public function getPrimaryMenu() {
@@ -134,8 +158,8 @@ class DatabaseHelper{
     /**
      * @return array ID e nome di tutti i tag presenti al momento della richiesta
      */
-    public function getTags() {
-        return $this->getNonPages("tag", "idTag", "tagName");
+    public function getTags($orderBy) {
+        return $this->getNonPages("tag", "idTag", "tagName", $orderBy);
     }
 
     private function getNumOfContents($table) {
@@ -155,15 +179,15 @@ class DatabaseHelper{
     /**
      * @return array ID e nome di tutti gli articoli d'inventario presenti al momento della richiesta
      */
-    public function getInventoryItems() {
-        return $this->getNonPages("inventoryitem", "idInventoryItem", "inventoryItemName");
+    public function getInventoryItems($orderBy) {
+        return $this->getNonPages("inventoryitem", "idInventoryItem", "inventoryItemName", $orderBy);
     }
 
     /**
      * @return array ID e nome di tutti gli strumenti di corredo presenti al momento della richiesta
      */
-    public function getReferenceTools() {
-        return $this->getNonPages("referencetool", "idReferenceTool", "nameReferenceTool");
+    public function getReferenceTools($orderBy) {
+        return $this->getNonPages("referencetool", "idReferenceTool", "nameReferenceTool", $orderBy);
     }
 
     public function getNumOfReferenceTools() {

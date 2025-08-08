@@ -21,7 +21,7 @@
                 <nav class="pb-3">
                     <span class="bi bi-list float-start ms-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuPrincipaleMobile" aria-controls="menuPrincipaleMobile"></span>
                     <?php if (!isAdminLoggedIn()): ?>
-                    <a href="./login.php" class="float-end pe-3 text-dark"><span class="bi bi-person-fill-gear" aria-label="Accedi come amministratore"></span></a>
+                    <a href="./login.php" class="float-end pe-3 text-dark" title="Accedi come amministratore"><span class="bi bi-person-fill-gear" aria-label="Accedi come amministratore"></span></a>
                     <?php else: ?>
                         <a class="float-end pe-3 text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="bi bi-person-fill-gear"><span></a>
                         <ul class="dropdown-menu">
@@ -67,7 +67,7 @@
                     </ul>
                     <?php endif; ?>
                     <?php if (!isAdminLoggedIn()): ?>
-                    <a href="./login.php" class="text-dark"><span class="bi bi-person-fill-gear" aria-label="Accedi come amministratore"><span><a>
+                    <a href="./login.php" class="text-dark" title="Accedi come amministratore"><span class="bi bi-person-fill-gear" aria-label="Accedi come amministratore"><span><a>
                     <?php else: ?>
                     <div class="dropdown">
                         <a class="text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="bi bi-person-fill-gear"><span></a>

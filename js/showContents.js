@@ -5,6 +5,18 @@ const PagesFilter = {
     COLLECTION: "collezione"
 };
 
+const Sorting = {
+    NO: "nessuno",
+    TITLE: "titolo",
+    TITLE_DESC: "titoloDesc",
+    NAME: "nome",
+    NAME_DESC: "nomeDesc",
+    LAST_EDIT: "ultimaModifica",
+    LAST_EDIT_DESC: "ultimaModificaDesc"
+};
+
+let lastSorting = Sorting.NO;
+
 function getContParamName(cont) {
     switch(cont) {
         case "Menù":
@@ -33,6 +45,7 @@ document.querySelectorAll('.admin-list').forEach(l => {
             const content = e.target.dataset.content;
             underlineRightLink(content)
             show(content);
+            lastSorting = Sorting.NO;
             history.replaceState(null, "", "/admin.php?cont=" + getContParamName(content));
         }
     })
@@ -64,7 +77,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-function show(content, searching = false, pagesFilter = PagesFilter.NO) {
+function show(content, searching = false, sorting = Sorting.NO, pagesFilter = PagesFilter.NO) {
     let btnInsertText = "";
     const addContDir = "contentsManagement/insertion/";
     const editContDir = "contentsManagement/editing/";
@@ -77,29 +90,29 @@ function show(content, searching = false, pagesFilter = PagesFilter.NO) {
             if (pagesFilter === PagesFilter.NO) {
                 pagesFields.push("Tipo");
             }
-            showContents("getPages.php?ordBy=updatedDate", addContDir + "newPage.php", editContDir + "modifyPage.php", removeContDir + "removePage.php", btnInsertText, "pagine", pagesFields, searching, pagesFilter);
+            showContents("getPages.php", addContDir + "newPage.php", editContDir + "modifyPage.php", removeContDir + "removePage.php", btnInsertText, "pagine", pagesFields, searching, sorting, pagesFilter);
             break;
         case "Menù":
             btnInsertText = "Inserisci un nuovo menù";
-            showContents("getMenus.php", addContDir + "newMenu.php", editContDir + "modifyMenu.php", removeContDir + "removeMenu.php", btnInsertText, "menù", [ "Nome" ], searching);
+            showContents("getMenus.php", addContDir + "newMenu.php", editContDir + "modifyMenu.php", removeContDir + "removeMenu.php", btnInsertText, "menù", [ "Nome" ], searching, sorting);
             break;
         case "Tag":
             btnInsertText = "Inserisci un nuovo tag";
-            showContents("getTags.php", addContDir + "newTag.php", editContDir + "modifyTag.php", removeContDir + "removeTag.php", btnInsertText, "tag", [ "Nome" ], searching);
+            showContents("getTags.php", addContDir + "newTag.php", editContDir + "modifyTag.php", removeContDir + "removeTag.php", btnInsertText, "tag", [ "Nome" ], searching, sorting);
             break;
         case "Articoli d'inventario":
             btnInsertText = "Inserisci un nuovo articolo d'inventario";
-            showContents("getInventoryItems.php", addContDir + "newInvItem.php", editContDir + "modifyInvItem.php", removeContDir + "removeInvItem.php", btnInsertText, "articoli d'inventario", [ "Nome" ], searching);
+            showContents("getInventoryItems.php", addContDir + "newInvItem.php", editContDir + "modifyInvItem.php", removeContDir + "removeInvItem.php", btnInsertText, "articoli d'inventario", [ "Nome" ], searching, sorting);
             break;
         case "Strumenti di corredo":
             btnInsertText = "Inserisci un nuovo strumento di corredo";
-            showContents("getReferenceTools.php", addContDir + "newReferenceTool.php", editContDir + "modifyRefTool.php", removeContDir + "removeRefTool.php", btnInsertText, "strumenti di corredo", [ "Nome" ], searching);
+            showContents("getReferenceTools.php", addContDir + "newReferenceTool.php", editContDir + "modifyRefTool.php", removeContDir + "removeRefTool.php", btnInsertText, "strumenti di corredo", [ "Nome" ], searching, sorting);
             break;
     }
 }
 
-async function showContents(getterFile, addLink, editLink, removeLink, btnInsertText, plural, fields, isSearching, pagesFilter = null) {
-    const contents = isSearching === false ?  await getContents(getterFile) : await searchContents(plural, document.getElementById("txtSearch").value);
+async function showContents(getterFile, addLink, editLink, removeLink, btnInsertText, plural, fields, isSearching, sorting, pagesFilter = null) {
+    const contents = isSearching === false ? await getContents(getterFile, sorting) : await searchContents(plural, document.getElementById("txtSearch").value);
     let titleArticle = "";
     switch(plural) {
         case "pagine":
@@ -130,7 +143,6 @@ async function showContents(getterFile, addLink, editLink, removeLink, btnInsert
         </div>
         `;
     } else {
-        let txtOrdered = plural === "pagine" ? "(ordinate per ultima modifica)" : "";
         if (plural === "pagine") {
             contentsHTML += `
             <div class="mt-2" id="pagesFilters">
@@ -157,15 +169,25 @@ async function showContents(getterFile, addLink, editLink, removeLink, btnInsert
         }
         contentsHTML += `
         <table class="table mt-1">
-            <caption>${plural.charAt(0).toUpperCase() + plural.slice(1)} attualmente presenti ${txtOrdered}`;
+            <caption>${plural.charAt(0).toUpperCase() + plural.slice(1)} attualmente presenti (se si vuole un ordinamento, cliccare sull'attributo)`;
         contentsHTML += `
             </caption>
             <thead>
                 <tr>`;
 
         fields.forEach(field => {
+            let arrowIcon = ``;
+            if (field !== "Tipo" && field !== "" && sorting !== Sorting.NO) {
+                if (field === "Titolo" && sorting.includes("titolo")) {
+                    arrowIcon = `<span class="bi bi-caret-${sorting === Sorting.TITLE ? "down" : "up"}-fill"></span>`;
+                } else if (field === "Ultima Modifica" && sorting.includes("ultimaModifica")) {
+                    arrowIcon = `<span class="bi bi-caret-${sorting === Sorting.LAST_EDIT ? "down" : "up"}-fill"></span>`;
+                } else if (field === "Nome" && sorting.includes("nome")) {
+                    arrowIcon = `<span class="bi bi-caret-${sorting === Sorting.NAME ? "down" : "up"}-fill"></span>`;
+                }
+            }
             contentsHTML += `
-                    <th scope="col">${field}</th>
+                    <th scope="col">${field}${arrowIcon}</th>
             `;
         });
         contentsHTML += `
@@ -184,16 +206,16 @@ async function showContents(getterFile, addLink, editLink, removeLink, btnInsert
             rb.addEventListener('change', () => {
                 switch (rb.value) {
                     case "normali":
-                        show("Pagine", isSearching, PagesFilter.NORMAL);
+                        show("Pagine", isSearching, sorting, PagesFilter.NORMAL);
                         break;
                     case "archivi":
-                        show("Pagine", isSearching, PagesFilter.ARCHIVE);
+                        show("Pagine", isSearching, sorting, PagesFilter.ARCHIVE);
                         break;
                     case "collezioni":
-                        show("Pagine", isSearching, PagesFilter.COLLECTION);
+                        show("Pagine", isSearching, sorting, PagesFilter.COLLECTION);
                         break;
                     default:
-                        show("Pagine", isSearching, PagesFilter.NO);
+                        show("Pagine", isSearching, sorting, PagesFilter.NO);
                         break;
                 }
             })
@@ -219,6 +241,66 @@ async function showContents(getterFile, addLink, editLink, removeLink, btnInsert
                 show("Strumenti di corredo", true);
                 break;
         }
+    });
+
+    document.querySelectorAll("th").forEach (th => {
+        th.addEventListener('click', () => {
+            if (plural === "pagine") {
+                switch (th.textContent) {
+                    case "Titolo":
+                        switch (lastSorting) {
+                            case Sorting.TITLE:
+                                lastSorting = Sorting.TITLE_DESC;
+                                break;
+                            case Sorting.TITLE_DESC:
+                            default:
+                                lastSorting = Sorting.TITLE;
+                                break;
+                        }
+                        break;
+                    case "Ultima Modifica":
+                        switch (lastSorting) {
+                            case Sorting.LAST_EDIT:
+                                lastSorting = Sorting.LAST_EDIT_DESC;
+                                break;
+                            case Sorting.LAST_EDIT_DESC:
+                            default:
+                                lastSorting = Sorting.LAST_EDIT;
+                                break;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                show("Pagine", isSearching, lastSorting, pagesFilter);
+            } else if (th.textContent === "Nome") {
+                let cont = "";
+                switch (plural) {
+                    case "menù":
+                        cont = "Menù";
+                        break;
+                    case "tag":
+                        cont = "Tag";
+                        break;
+                    case "articoli d'inventario":
+                        cont = "Articoli d'inventario";
+                        break;
+                    case "strumenti di corredo":
+                        cont = "Strumenti di corredo";
+                        break;
+                }
+                switch (lastSorting) {
+                    case Sorting.NAME:
+                        lastSorting = Sorting.NAME_DESC;
+                        break;
+                    case Sorting.NAME_DESC:
+                    default:
+                        lastSorting = Sorting.NAME;
+                        break;
+                }
+                show(cont, isSearching, lastSorting);
+            }
+        });
     });
 }
 
@@ -292,8 +374,8 @@ async function searchContents(type, researchString) {
     }
 }
 
-async function getContents(utilFunction) {
-    const url = 'utils/getters/' + utilFunction;
+async function getContents(utilFunction, orderBy) {
+    const url = 'utils/getters/' + utilFunction + '?ordBy=' + orderBy;
     try {
         const response = await fetch(url);
         if (!response.ok) {

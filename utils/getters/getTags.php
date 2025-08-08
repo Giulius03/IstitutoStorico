@@ -1,8 +1,9 @@
 <?php
 require_once '../../bootstrap.php';
 
-$tags = $dbh->getTags();
-
+if (isset($_GET['ordBy'])) {
+    $tags = $dbh->getTags($_GET['ordBy']);
+}
 header('Content-Type: application/json');
 echo json_encode($tags);
 ?>
