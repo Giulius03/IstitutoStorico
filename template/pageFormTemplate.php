@@ -177,7 +177,6 @@ if (isAdminLoggedIn()):
         <button type="button" class="btn btn-dark ms-4 w-25" data-bs-toggle="modal" data-bs-target="#confirmElimination">Elimina</button>
         <?php endif; ?>    
     </div>
-    <?php require_once("../../template/eliminationModal.php"); ?>
     <?php require_once("../../template/dontSaveModal.php") ?>
 </form>
 <?php else: ?>

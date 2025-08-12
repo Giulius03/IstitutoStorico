@@ -79,39 +79,45 @@ window.addEventListener('DOMContentLoaded', () => {
 
 function show(content, searching = false, sorting = Sorting.NO, pagesFilter = PagesFilter.NO) {
     let btnInsertText = "";
+    let eliminationMessage = "";
     const addContDir = "contentsManagement/insertion/";
     const editContDir = "contentsManagement/editing/";
-    const removeContDir = "contentsManagement/elimination/";
+    const removeContDir = "utils/contentRemovers/";
     
     switch (content) {
         case "Pagine":
             btnInsertText = "Inserisci una nuova pagina";
+            eliminationMessage = "L'eliminazione di questa pagina sarà permanente e comporterà anche la cancellazione di tutte le note, di tutte le voci del suo indice, di tutti gli eventuali collegamenti con strumenti di corredo, articoli d'inventario, tag, pagine contenute e di tutte le eventuali raccolte di risorse inserite precedentemente (compresi i rispettivi elementi).";
             const pagesFields = [ "Titolo", "Ultima Modifica" ];
             if (pagesFilter === PagesFilter.NO) {
                 pagesFields.push("Tipo");
             }
-            showContents("getPages.php", addContDir + "newPage.php", editContDir + "modifyPage.php", removeContDir + "removePage.php", btnInsertText, "pagine", pagesFields, searching, sorting, pagesFilter);
+            showContents("getPages.php", addContDir + "newPage.php", editContDir + "modifyPage.php", removeContDir + "deletePage.php", eliminationMessage, btnInsertText, "pagine", pagesFields, searching, sorting, pagesFilter);
             break;
         case "Menù":
             btnInsertText = "Inserisci un nuovo menù";
-            showContents("getMenus.php", addContDir + "newMenu.php", editContDir + "modifyMenu.php", removeContDir + "removeMenu.php", btnInsertText, "menù", [ "Nome" ], searching, sorting);
+            eliminationMessage = "L'eliminazione di questo menù sarà permanente e comporterà anche la cancellazione di tutte le sue voci.";
+            showContents("getMenus.php", addContDir + "newMenu.php", editContDir + "modifyMenu.php", removeContDir + "deleteMenu.php", eliminationMessage, btnInsertText, "menù", [ "Nome" ], searching, sorting);
             break;
         case "Tag":
             btnInsertText = "Inserisci un nuovo tag";
-            showContents("getTags.php", addContDir + "newTag.php", editContDir + "modifyTag.php", removeContDir + "removeTag.php", btnInsertText, "tag", [ "Nome" ], searching, sorting);
+            eliminationMessage = "L'eliminazione di questo tag sarà permanente.";
+            showContents("getTags.php", addContDir + "newTag.php", editContDir + "modifyTag.php", removeContDir + "deleteTag.php", eliminationMessage, btnInsertText, "tag", [ "Nome" ], searching, sorting);
             break;
         case "Articoli d'inventario":
             btnInsertText = "Inserisci un nuovo articolo d'inventario";
-            showContents("getInventoryItems.php", addContDir + "newInvItem.php", editContDir + "modifyInvItem.php", removeContDir + "removeInvItem.php", btnInsertText, "articoli d'inventario", [ "Nome" ], searching, sorting);
+            eliminationMessage = "L'eliminazione di questo articolo d'inventario sarà permanente.";
+            showContents("getInventoryItems.php", addContDir + "newInvItem.php", editContDir + "modifyInvItem.php", removeContDir + "deleteInvItem.php", eliminationMessage, btnInsertText, "articoli d'inventario", [ "Nome" ], searching, sorting);
             break;
         case "Strumenti di corredo":
             btnInsertText = "Inserisci un nuovo strumento di corredo";
-            showContents("getReferenceTools.php", addContDir + "newReferenceTool.php", editContDir + "modifyRefTool.php", removeContDir + "removeRefTool.php", btnInsertText, "strumenti di corredo", [ "Nome" ], searching, sorting);
+            eliminationMessage = "L'eliminazione di questo strumento di corredo sarà permanente.";
+            showContents("getReferenceTools.php", addContDir + "newReferenceTool.php", editContDir + "modifyRefTool.php", removeContDir + "deleteRefTool.php", eliminationMessage, btnInsertText, "strumenti di corredo", [ "Nome" ], searching, sorting);
             break;
     }
 }
 
-async function showContents(getterFile, addLink, editLink, removeLink, btnInsertText, plural, fields, isSearching, sorting, pagesFilter = null) {
+async function showContents(getterFile, addLink, editLink, removeLink, eliminationMessage, btnInsertText, plural, fields, isSearching, sorting, pagesFilter = null) {
     const contents = isSearching === false ? await getContents(getterFile, sorting) : await searchContents(plural, document.getElementById("txtSearch").value);
     let titleArticle = "";
     switch(plural) {
@@ -197,7 +203,28 @@ async function showContents(getterFile, addLink, editLink, removeLink, btnInsert
             </thead>
             <tbody>
         `;
-        contentsHTML += plural === "pagine" ? showPages(contents, editLink, removeLink, pagesFilter) : showOther(contents, editLink, removeLink);
+        contentsHTML += plural === "pagine" ? showPages(contents, editLink, pagesFilter) : showOther(contents, editLink);
+        contentsHTML += `
+            </tbody>
+        </table>
+        <div class="modal fade" id="confirmElimination" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+            <div class="modal-dialog">
+                <form action="${removeLink}" id="eliminationForm" method="GET" class="modal-content">
+                    <input type="hidden" name="id" id="contentid" />
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalTitle">Conferma eliminazione</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>${eliminationMessage} Proseguire?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                        <input class="btn btn-danger" type="submit" value="Elimina" />
+                    </div>
+                </form>
+            </div>
+        </div>`;
     }
 
     document.getElementById("contentsShower").innerHTML = contentsHTML;
@@ -302,9 +329,21 @@ async function showContents(getterFile, addLink, editLink, removeLink, btnInsert
             }
         });
     });
+
+    document.querySelectorAll('td').forEach (td => {
+        td.addEventListener('click', function(e) {
+            if (e.target.matches('a[data-contentid]')) {
+                e.preventDefault();
+                const contentID = e.target.dataset.contentid;
+                document.getElementById("contentid").value = contentID;
+                const modal = new bootstrap.Modal(document.getElementById("confirmElimination"));
+                modal.show();
+            }
+        });
+    });
 }
 
-function showPages(pages, editLink, removeLink, filter) {
+function showPages(pages, editLink, filter) {
     let html = ``;
     let filteredPages = null;
     switch (filter) {
@@ -335,14 +374,14 @@ function showPages(pages, editLink, removeLink, filter) {
                     <a class="btn btn-secondary px-0 py-1 text-decoration-none" href="${editLink}?id=${page['idPage']}" role="button">Modifica</a>
                 </td>
                 <td class="align-middle">
-                    <a class="btn btn-danger px-0 py-1 text-decoration-none" href="${removeLink}?id=${page['idPage']}" role="button">Cancella</a>
+                    <a class="btn btn-danger px-0 py-1 text-decoration-none" href="#" role="button" data-contentid="${page['idPage']}" data-bs-toggle="modal" data-bs-target="#confirmElimination">Cancella</a>
                 </td>
             </tr>`;
     });
     return html;
 }
 
-function showOther(contents, editLink, removeLink) {
+function showOther(contents, editLink) {
     let html = ``;
     contents.forEach(c => {
         html += `
@@ -352,7 +391,7 @@ function showOther(contents, editLink, removeLink) {
                     <a class="btn btn-secondary px-0 py-1 text-decoration-none" href="${editLink}?id=${c['ID']}" role="button">Modifica</a>
                 </td>
                 <td class="align-middle">
-                    <a class="btn btn-danger px-0 py-1 text-decoration-none" href="${removeLink}?id=${c['ID']}" role="button">Cancella</a>
+                    <a class="btn btn-danger px-0 py-1 text-decoration-none" href="#" role="button" data-contentid="${c['ID']}" data-bs-toggle="modal" data-bs-target="#confirmElimination">Cancella</a>
                 </td>
             </tr>
         `;

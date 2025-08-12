@@ -69,8 +69,7 @@
         <button type="button" class="btn btn-dark ms-4 w-25" data-bs-toggle="modal" data-bs-target="#confirmElimination">Elimina</button>
         <?php endif; ?>
     </div>
-    <?php require_once("../../template/eliminationModal.php");
-    require_once("../../template/dontSaveModal.php"); ?>
+    <?php require_once("../../template/dontSaveModal.php"); ?>
 </form>
 <?php else: ?>
 <div class="text-center pt-3">
