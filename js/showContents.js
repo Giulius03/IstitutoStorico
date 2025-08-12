@@ -209,20 +209,22 @@ async function showContents(getterFile, addLink, editLink, removeLink, eliminati
         </table>
         <div class="modal fade" id="confirmElimination" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
             <div class="modal-dialog">
-                <form action="${removeLink}" id="eliminationForm" method="GET" class="modal-content">
-                    <input type="hidden" name="id" id="contentid" />
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="modalTitle">Conferma eliminazione</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>${eliminationMessage} Proseguire?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
-                        <input class="btn btn-danger" type="submit" value="Elimina" />
-                    </div>
-                </form>
+                <div class="modal-content">
+                    <form action="${removeLink}" id="eliminationForm" method="GET">
+                        <input type="hidden" name="id" id="contentid" />
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="modalTitle">Conferma eliminazione</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>${eliminationMessage} Proseguire?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                            <input class="btn btn-danger" type="submit" value="Elimina" />
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>`;
     }
@@ -336,8 +338,6 @@ async function showContents(getterFile, addLink, editLink, removeLink, eliminati
                 e.preventDefault();
                 const contentID = e.target.dataset.contentid;
                 document.getElementById("contentid").value = contentID;
-                const modal = new bootstrap.Modal(document.getElementById("confirmElimination"));
-                modal.show();
             }
         });
     });
