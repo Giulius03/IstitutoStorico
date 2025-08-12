@@ -4,6 +4,10 @@ tinymce.init({
     toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | bullist numlist outdent indent | link image | code',
     menubar: false,
     content_style: 'body { font-family: monospace; font-size: 14px; }',
+    document_base_url: 'http://localhost:8080/',
+    relative_urls: false,
+    remove_script_host: false,
+    convert_urls: false,
 
     file_picker_types: 'image',
     file_picker_callback: function(callback, value, meta) {

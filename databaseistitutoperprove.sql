@@ -3823,8 +3823,7 @@ INSERT INTO `page` (`idPage`, `title`, `slug`, `text`, `creationDate`, `updatedD
 <h2 class="no-margin-top">CHIUSURA ESTIVA 2025</h2>
 <div class="row">
 <div class="col-sm-3 col-sm-push-6">
-<div class="flipInX wow  animated" style="visibility: visible; animation-name: flipInX;"><a title="CHIUSURA ESTIVA 2025" href="chiusura-estiva-2025"> <img class="img-responsive" src="https://istorecofc.it/sites/default/images/articles/800x600/547.jpg" alt=""> </a></div>
-</div>
+<a title="CHIUSURA ESTIVA 2025" href="chiusura-estiva-2025"> <img class="img-responsive" src="https://istorecofc.it/sites/default/images/articles/800x600/547.jpg" alt="" width="212" height="160"> </a></div>
 <div class="col-sm-5 col-sm-offset-1 col-sm-pull-3">
 <div class="top_left_cont">
 <p>Si comunica che l\'Istituto storico sar&agrave; chiuso <span style="color: #800000;"><strong>dal 4 agosto al 24 agosto</strong></span> per la pausa estiva. <strong>Riapriamo il 25 agosto</strong> con l\'orario estivo in vigore fino al 12 settembre: da luned&igrave; a gioved&igrave; 9:00-14:00, venerd&igrave; 9:00-13:00.</p>
@@ -3866,8 +3865,7 @@ INSERT INTO `page` (`idPage`, `title`, `slug`, `text`, `creationDate`, `updatedD
 <h2 class="no-margin-top">I giorni di vetro</h2>
 <div class="row">
 <div class="col-sm-3 col-sm-push-6">
-<div class="flipInX wow  animated" style="visibility: visible; animation-name: flipInX;"><a title="I giorni di vetro" href="i-giorni-di-vetro"> <img class="img-responsive" src="https://istorecofc.it/sites/default/images/articles/800x600/516.jpg" alt=""> </a></div>
-</div>
+<a title="I giorni di vetro" href="i-giorni-di-vetro"> <img class="img-responsive" src="sites/default/images/articles/800x600/516.jpg" alt="" width="212" height="160"> </a></div>
 <div class="col-sm-5 col-sm-offset-1 col-sm-pull-3">
 <div class="top_left_cont">
 <p>Presentazione del libro di Nicoletta Verna</p>
