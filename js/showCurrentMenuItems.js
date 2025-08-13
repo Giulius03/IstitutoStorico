@@ -17,7 +17,6 @@ let areButtonsNotEnabled = false;
 
 document.addEventListener('DOMContentLoaded', function() {
     getMenuItems(document.getElementById("idMenu").value);
-    areButtonsNotEnabled = document.getElementById("btnsDisab").value;
 });
 
 function showCurrentItems(items) {
@@ -38,15 +37,27 @@ function showCurrentItems(items) {
                 <td class="align-middle">${item['page'] !== null ? item['page'] : ""}</td>
                 <td class="align-middle">${item['father'] !== null ? item['father'] : ""}</td>
                 <td class="align-middle">
-                    <a class="btn btn-secondary px-0 py-1 text-decoration-none" href="${areButtonsNotEnabled === "false" ? "modifyMenuItem.php?id="+item['ID']+"&idMenu="+document.getElementById("idMenu").value : "#"}" role="button">Modifica</a>
+                    <a class="btn btn-secondary px-0 py-1 text-decoration-none" href="modifyMenuItem.php?id=${item['ID']}&idMenu=${document.getElementById("idMenu").value}" role="button">Modifica</a>
                 </td>
                 <td class="align-middle">
-                    <a class="btn btn-danger px-0 py-1 text-decoration-none" href="${areButtonsNotEnabled === "false" ? "../elimination/removeMenuItem.php?id="+item['ID']+"&idMenu="+document.getElementById("idMenu").value : "#"}" role="button">Cancella</a>
+                    <a class="btn btn-danger px-0 py-1 text-decoration-none" href="#" role="button" data-contentid="${item['ID']}" data-menuid="${document.getElementById("idMenu").value}" data-bs-toggle="modal" data-bs-target="#confirmElimination">Cancella</a>
                 </td>
             </tr>`;
         }); 
         itemsHtml += `</tbody></table>`;
         document.getElementById("menuItemsForms").innerHTML = tableHeadHtml + itemsHtml;
+
+        document.querySelectorAll('td').forEach (td => {
+            td.addEventListener('click', function(e) {
+                if (e.target.matches('a[data-contentid]')) {
+                    e.preventDefault();
+                    const contentID = e.target.dataset.contentid;
+                    const menuID = e.target.dataset.menuid;
+                    document.getElementById("contentid").value = contentID;
+                    document.getElementById("menuid").value = menuID;
+                }
+            });
+        });
     }
 }
 

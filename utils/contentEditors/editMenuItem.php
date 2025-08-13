@@ -1,9 +1,9 @@
 <?php
 require_once '../../bootstrap.php';
 
-$fieldsName = ['Nome', 'father', 'Posizione', 'linkToPage'];
+$fieldsName = ['Nome', 'father', 'Posizione'];
 
-if (checkIsSet($fieldsName) && isset($_GET['id'])) {
+if (checkIsSet($fieldsName) && isset($_GET['id']) && isset($_GET['idMenu'])) {
     try {
         $pageToLink = isset($_POST['linkToPage']) ? $_POST['linkToPage'] : null;
         $father = (isset($_POST['father']) && $_POST['father'] != "") ? $_POST['father'] : null;

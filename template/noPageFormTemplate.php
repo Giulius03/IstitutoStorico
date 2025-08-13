@@ -75,6 +75,29 @@ if (isAdminLoggedIn()):
     <?php require_once("../../template/dontSaveModal.php"); ?>
     </div>
 </form>
+<?php if ($templateParams['noPageType'] == "menù"): ?>
+<div class="modal fade" id="confirmElimination" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="../../utils/contentRemovers/deleteMenuItem.php" id="eliminationForm" method="GET">
+                <input type="hidden" name="id" id="contentid" />
+                <input type="hidden" name="idMenu" id="menuid" />
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="modalTitle">Conferma eliminazione</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>L'eliminazione di questa voce del menù sarà permanente. Proseguire?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                    <input class="btn btn-danger" type="submit" value="Elimina" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
 <?php else: ?>
 <div class="text-center pt-3">
     <p class="fst-italic">Devi essere loggato come amministratore per poter accedere a questa pagina.</p>
