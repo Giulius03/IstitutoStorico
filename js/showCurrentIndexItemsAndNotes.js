@@ -62,8 +62,10 @@ function showTable(rows, tableHeadHtml, fields, divID, editFile, removeFile, plu
                     const pageID = e.target.dataset.pageid;
                     document.getElementById("contentid").value = contentID;
                     document.getElementById("pageid").value = pageID;
-                    document.getElementById("eliminationForm").action = "../../utils/contentRemovers/" + (e.target.dataset.content === "note" ? "deleteNote.php" : "deleteIndexItem.php");
-                    document.querySelector("#confirmElimination p").textContent = "L'eliminazione di questa " + (e.target.dataset.content === "note" ? "nota" : "voce dell'indice") + " sarà permanente. Proseguire?";
+                    if (e.target.dataset.content === "note" || e.target.dataset.content === "voci") {
+                        document.getElementById("eliminationForm").action = "../../utils/contentRemovers/" + (e.target.dataset.content === "note" ? "deleteNote.php" : "deleteIndexItem.php");
+                        document.querySelector("#confirmElimination p").textContent = "L'eliminazione di questa " + (e.target.dataset.content === "note" ? "nota" : "voce dell'indice") + " sarà permanente. Proseguire?";
+                    }
                 }
             });
         });

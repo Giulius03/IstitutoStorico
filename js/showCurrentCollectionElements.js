@@ -55,7 +55,6 @@ function showRows(rows, tableHeadHtml, fields, value) {
             </tbody>
         </table>`;
         document.getElementById("currentElemsTable").innerHTML += tableHeadHtml + rowsHtml;
-        // console.log(tableHeadHtml + rowsHtml);
 
         document.querySelectorAll('td').forEach (td => {
             td.addEventListener('click', function(e) {

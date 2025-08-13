@@ -29,15 +29,31 @@ function showResourceCollections(collections) {
         <tr>
             <td class="align-middle">${collection['nome']}</td>
             <td class="align-middle">
-                <a class="btn btn-secondary px-0 py-1 text-decoration-none" href="${areButtonsNotEnabled === "false" ? "modifyResourceCollection.php?id="+collection['ID']+"&idPage="+document.getElementById("idPage").value : "#"}" role="button">Modifica</a>
+                <a class="btn btn-secondary px-0 py-1 text-decoration-none" href="modifyResourceCollection.php?id=${collection['ID']}&idPage=${document.getElementById("idPage").value}" role="button">Modifica</a>
             </td>
             <td class="align-middle">
-                <a class="btn btn-danger px-0 py-1 text-decoration-none" href="${areButtonsNotEnabled === "false" ? "../elimination/removeResourceCollection.php?id="+collection['ID']+"&idPage="+document.getElementById("idPage").value : "#"}" role="button">Cancella</a>
+                <a class="btn btn-danger px-0 py-1 text-decoration-none" href="#" role="button" data-content="collezione" data-contentid="${collection['ID']}" data-pageid="${document.getElementById("idPage").value}" data-bs-toggle="modal" data-bs-target="#confirmElimination">Cancella</a>
             </td>
         </tr>`;
         });
         collHtml += `</tbody></table>`;
         document.getElementById("collectionsForms").innerHTML = resCollectionsTableHeadHtml + collHtml;
+
+        document.querySelectorAll('td').forEach (td => {
+            td.addEventListener('click', function(e) {
+                if (e.target.matches('a[data-contentid]')) {
+                    e.preventDefault();
+                    const contentID = e.target.dataset.contentid;
+                    const pageID = e.target.dataset.pageid;
+                    document.getElementById("contentid").value = contentID;
+                    document.getElementById("pageid").value = pageID;
+                    if (e.target.dataset.content === "collezione") {
+                        document.getElementById("eliminationForm").action = "../../utils/contentRemovers/deleteResourceCollection.php";
+                        document.querySelector("#confirmElimination p").textContent = "L'eliminazione di questa raccolta sarà permanente e comporterà anche la cancellazione di tutti gli elementi contenuti al suo interno. Proseguire?";
+                    }
+                }
+            });
+        });
     }
 }
 
