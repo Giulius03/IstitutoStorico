@@ -179,6 +179,27 @@ if (isAdminLoggedIn()):
     </div>
     <?php require_once("../../template/dontSaveModal.php"); ?>
 </form>
+<div class="modal fade" id="confirmElimination" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="" id="eliminationForm" method="GET">
+                <input type="hidden" name="id" id="contentid" />
+                <input type="hidden" name="idPage" id="pageid" />
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="modalTitle">Conferma eliminazione</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                    <input class="btn btn-danger" type="submit" value="Elimina" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <?php else: ?>
 <div class="text-center pt-3">
     <p class="fst-italic">Devi essere loggato come amministratore per poter accedere a questa pagina.</p>
