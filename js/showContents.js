@@ -27,8 +27,10 @@ function getContParamName(cont) {
             return "articolo d'inventario";
         case "Strumenti di corredo":
             return "strumento di corredo";
-        default:
+        case "Pagine":
             return "Pagine";
+        case "Newsletter":
+            return "Newsletter";
     }
 }
 
@@ -43,6 +45,7 @@ document.querySelectorAll('.admin-list').forEach(l => {
         if (e.target.matches('a[data-content]')) {
             e.preventDefault();
             const content = e.target.dataset.content;
+            console.log(content);
             underlineRightLink(content)
             show(content);
             lastSorting = Sorting.NO;
@@ -71,9 +74,13 @@ window.addEventListener('DOMContentLoaded', () => {
             underlineRightLink("Strumenti di corredo");
             break;
         case "Pagine":
-        default:
             show("Pagine");
             underlineRightLink("Pagine");
+            break;
+        default:
+            show("Newsletter");
+            underlineRightLink("Newsletter");
+            break;
     }
 });
 
@@ -114,7 +121,26 @@ function show(content, searching = false, sorting = Sorting.NO, pagesFilter = Pa
             eliminationMessage = "L'eliminazione di questo strumento di corredo sarà permanente.";
             showContents("getReferenceTools.php", addContDir + "newReferenceTool.php", editContDir + "modifyRefTool.php", removeContDir + "deleteRefTool.php", eliminationMessage, btnInsertText, "strumenti di corredo", [ "Nome" ], searching, sorting);
             break;
+        case "Newsletter":
+            showNewsletterSendingForm();
+            break;        
     }
+}
+
+function showNewsletterSendingForm() {
+    document.getElementById("adminTitle").innerText = "Invia notifica agli iscritti alla newsletter";
+    document.getElementById("contentsShower").innerHTML = `
+    <form action="utils/sendMessageNewsletter.php" method="POST">
+        <ul class="list-unstyled m-0 mt-5 px-2">
+            <li class="form-floating mb-3">
+                <input name="object" type="text" class="form-control" id="object" placeholder="Oggetto" />
+                <label for="object">Oggetto</label>
+            </li>
+            <li class="form-floating mb-3">
+                Inserire casella con tinymce
+            </li>
+        </ul>
+    </form>`;
 }
 
 async function showContents(getterFile, addLink, editLink, removeLink, eliminationMessage, btnInsertText, plural, fields, isSearching, sorting, pagesFilter = null) {
@@ -207,6 +233,10 @@ async function showContents(getterFile, addLink, editLink, removeLink, eliminati
         contentsHTML += `
             </tbody>
         </table>
+        <form action="" method="POST" class="mt-5 border-top border-secondary">
+            <h1 class="text-center fs-1 fw-bold mt-4">Invia notifica agli iscritti alla newsletter</h1>
+            <input type="text" value="dioporco">
+        </form>
         <div class="modal fade" id="confirmElimination" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">

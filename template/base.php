@@ -46,6 +46,7 @@
                             <li class="p-1"><a href="#" data-content="Tag" class="text-dark text-decoration-none">Tag</a></li>
                             <li class="p-1"><a href="#" data-content="Articoli d'inventario" class="text-dark text-decoration-none">Articoli d'inventario</a></li>
                             <li class="p-1"><a href="#" data-content="Strumenti di corredo" class="text-dark text-decoration-none">Strumenti di corredo</a></li>
+                            <li class="p-1"><a href="#" data-content="Strumenti di corredo" class="text-dark text-decoration-none">Newsletter</a></li>
                         </ul> 
                         <?php endif; ?>
                     </div>
@@ -64,6 +65,7 @@
                         <li class="me-5"><a href="#" data-content="Tag" class="text-dark">Tag</a></li>
                         <li class="me-5"><a href="#" data-content="Articoli d'inventario" class="text-dark">Articoli d'inventario</a></li>
                         <li class="me-5"><a href="#" data-content="Strumenti di corredo" class="text-dark">Strumenti di corredo</a></li>
+                        <li class="me-5"><a href="#" data-content="Newsletter" class="text-dark">Newsletter</a></li>
                     </ul>
                     <?php endif; ?>
                     <?php if (!isAdminLoggedIn()): ?>
