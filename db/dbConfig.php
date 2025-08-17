@@ -928,5 +928,12 @@ class DatabaseHelper{
         $stmt->execute();
         return $stmt->insert_id;
     }
+
+    public function getNewsletterSubscribers() {
+        $stmt = $this->db->prepare("SELECT subscriberEmail as email FROM newsletter_subscribers");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
 }
 ?>

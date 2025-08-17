@@ -45,11 +45,14 @@ document.querySelectorAll('.admin-list').forEach(l => {
         if (e.target.matches('a[data-content]')) {
             e.preventDefault();
             const content = e.target.dataset.content;
-            console.log(content);
-            underlineRightLink(content)
-            show(content);
-            lastSorting = Sorting.NO;
-            history.replaceState(null, "", "/admin.php?cont=" + getContParamName(content));
+            if (content !== "Newsletter") {
+                underlineRightLink(content)
+                show(content);
+                lastSorting = Sorting.NO;
+                history.replaceState(null, "", "/admin.php?cont=" + getContParamName(content));
+            } else {
+                window.location.href = "admin.php?cont=Newsletter";
+            }
         }
     })
 });
@@ -73,13 +76,13 @@ window.addEventListener('DOMContentLoaded', () => {
             show("Strumenti di corredo");
             underlineRightLink("Strumenti di corredo");
             break;
-        case "Pagine":
-            show("Pagine");
-            underlineRightLink("Pagine");
-            break;
-        default:
+        case "Newsletter":
             show("Newsletter");
             underlineRightLink("Newsletter");
+            break;
+        default:
+            show("Pagine");
+            underlineRightLink("Pagine");
             break;
     }
 });
@@ -128,16 +131,21 @@ function show(content, searching = false, sorting = Sorting.NO, pagesFilter = Pa
 }
 
 function showNewsletterSendingForm() {
-    document.getElementById("adminTitle").innerText = "Invia notifica agli iscritti alla newsletter";
+    document.getElementById("adminTitle").innerText = "Invia mail agli iscritti alla newsletter";
     document.getElementById("contentsShower").innerHTML = `
     <form action="utils/sendMessageNewsletter.php" method="POST">
         <ul class="list-unstyled m-0 mt-5 px-2">
             <li class="form-floating mb-3">
-                <input name="object" type="text" class="form-control" id="object" placeholder="Oggetto" />
+                <input name="object" type="text" class="form-control" id="object" placeholder="Oggetto" required />
                 <label for="object">Oggetto</label>
             </li>
-            <li class="form-floating mb-3">
-                Inserire casella con tinymce
+            <li class="mb-3">
+                <label for="mailContent" class="form-label">Inserisci il contenuto HTML della mail:</label>
+                <textarea class="form-control" name="body" id="mailContent" rows="10"></textarea>
+            </li>
+            <li class="text-center mb-3">
+                <input class="btn btn-dark w-25 me-5" type="reset" value="Reimposta" />
+                <input class="btn btn-dark w-25" type="submit" value="Invia" />
             </li>
         </ul>
     </form>`;
@@ -233,10 +241,6 @@ async function showContents(getterFile, addLink, editLink, removeLink, eliminati
         contentsHTML += `
             </tbody>
         </table>
-        <form action="" method="POST" class="mt-5 border-top border-secondary">
-            <h1 class="text-center fs-1 fw-bold mt-4">Invia notifica agli iscritti alla newsletter</h1>
-            <input type="text" value="dioporco">
-        </form>
         <div class="modal fade" id="confirmElimination" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
