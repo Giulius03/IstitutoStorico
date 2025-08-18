@@ -46,7 +46,7 @@
                             <li class="p-1"><a href="#" data-content="Tag" class="text-dark text-decoration-none">Tag</a></li>
                             <li class="p-1"><a href="#" data-content="Articoli d'inventario" class="text-dark text-decoration-none">Articoli d'inventario</a></li>
                             <li class="p-1"><a href="#" data-content="Strumenti di corredo" class="text-dark text-decoration-none">Strumenti di corredo</a></li>
-                            <li class="p-1"><a href="#" data-content="Strumenti di corredo" class="text-dark text-decoration-none">Newsletter</a></li>
+                            <li class="p-1"><a href="#" data-content="Newsletter" class="text-dark text-decoration-none">Newsletter</a></li>
                         </ul> 
                         <?php endif; ?>
                     </div>

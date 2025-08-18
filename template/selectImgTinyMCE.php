@@ -29,7 +29,7 @@
 
         $relativePath = str_replace($baseDir, '', $currentDir);
         ?>
-
+        <?php if (isAdminLoggedIn()): ?>
         <h3 class="text-center mt-4">Sfoglia immagini:</h3>
         <div class="d-block text-center">
             <?php if ($currentDir !== $baseDir): ?>
@@ -59,6 +59,11 @@
                 <?php endforeach; ?>
             </div>
         </div>
+        <?php else: ?>
+        <div class="text-center">
+            <p class="fst-italic mt-5">Devi essere loggato come amministratore per poter accedere a questa pagina.</p>
+        </div>
+        <?php endif; ?>
         <?php
         if(isset($templateParams["js"])):
             foreach($templateParams["js"] as $script):

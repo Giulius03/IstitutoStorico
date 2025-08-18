@@ -6,30 +6,30 @@ use PHPMailer\PHPMailer\Exception;
 
 if (checkIsSet(['object', 'body'])) {
     try {
-        $oggetto = $_POST['object'];
-        $contenuto = $_POST['body'];
+        $object = $_POST['object'];
+        $content = $_POST['body'];
 
         $template = file_get_contents('../template/newsletter_template.html');
 
-        $html = str_replace('{{CONTENUTO_MAIL}}', $contenuto, $template);
+        $html = str_replace('{{CONTENUTO_MAIL}}', $content, $template);
 
         $mail = new PHPMailer(true);
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'newsletter.istorecofc@gmail.com';
+        $mail->Username = getenv('SMTP_USERNAME');
         // password indirizzo gmail: IstitutoStoricoFC2025
         // email di recupero attuale: marco.gi2003@gmail.com
         // numero di telefono attuale per verifica in due passaggi: +39 391 305 8063 (necessario per utilizzare le password per app)
 
         // Password per app "SitoIstitutoStorico"
-        $mail->Password = 'ynyr wsvm gydu tnao';
+        $mail->Password = getenv('SMTP_PASSWORD');
 
         $mail->SMTPSecure = 'tls';
         $mail->Port = 587;
 
         $mail->isHTML(true);
-        $mail->Subject = $oggetto;
+        $mail->Subject = $object;
         $mail->Body = $html;
 
         $subscribers = $dbh->getNewsletterSubscribers();

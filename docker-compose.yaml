@@ -23,7 +23,6 @@ services:
     ports:
       - 8080:80
     volumes:
-      - .:/var/www/html:ro
       - ./sites/default/images:/var/www/html/sites/default/images
     depends_on:
       - db
@@ -32,6 +31,8 @@ services:
       - DB_USER=root
       - DB_PASSWORD=
       - DB_DATABASE=databaseistitutoperprove
+      - SMTP_USERNAME=newsletter.istorecofc@gmail.com
+      - SMTP_PASSWORD=ynyr wsvm gydu tnao
 
 volumes:
   data_db:
