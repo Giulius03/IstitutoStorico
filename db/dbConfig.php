@@ -16,9 +16,9 @@ class DatabaseHelper{
     }
 
     /**
-     * Verifica l'esistenza dell'utente che sta cercando di effettuare il login
-     * @param $adminEmail E-Mail dell'utente
-     * @return array E-Mail, password e flag admin dell'utente (se presente)
+     * Verifica l'esistenza dell'amministratore che sta cercando di effettuare il login.
+     * @param string $adminEmail E-Mail da verificare.
+     * @return string[] Array contentente E-Mail e password dell'admin (se presente)
      */
     public function checkLogin($adminEmail) {
         $stmt = $this->db->prepare("SELECT adminEmail, password FROM administrators WHERE adminEmail = ?");
@@ -53,8 +53,15 @@ class DatabaseHelper{
     }
 
     /**
-     * @return array ID, titolo, data di creazione, ultima data di aggiornamento e tipologia di tutte le pagine
-     * presenti al momento della richiesta
+     * Restituisce tutte le pagine presenti, ordinate secondo un determinato criterio.
+     * @param string $orderBy Specifica per quale attributo devono essere ordinate le pagine. Il valore di default è "nessuno" (utilizzato per non effettuare un ordinamento specifico).
+     * @return array{ idPage: int, title: string, creationDate: string, updatedDate: string, type: string }[]
+     * Array contenente le pagine presenti. Ognuno degli elementi contiene:
+     * - idPage: ID della pagina
+     * - title: titolo della pagina
+     * - creationDate: data di creazione
+     * - updatedDate: data dell'ultima modifica
+     * - type: tipo della pagina
      */
     public function getPages($orderBy = "nessuno") {
         $orderByString = "";
@@ -85,21 +92,33 @@ class DatabaseHelper{
         return $pages;
     }
 
+    /**
+     * In base al tipo di contenuto, viene restituita la query che verrà utilizzata per filtrare gli elementi appartenenti a quest'ultimo.
+     * @param string $content Tipo di contenuto da filtrare.
+     * @return string Query di ricerca appropriata.
+     */
     private function getResearchQuery($content) {
+        $concatString = "LIKE CONCAT('%', ?, '%')";
         switch ($content) {
             case "pagine":
-                return "SELECT idPage, title, creationDate, updatedDate FROM page WHERE title LIKE CONCAT('%', ?, '%')";
+                return "SELECT idPage, title, creationDate, updatedDate FROM page WHERE title " . $concatString;
             case "menù":
-                return "SELECT idMenu as ID, menuName as name FROM menu WHERE menuName LIKE CONCAT('%', ?, '%')";
+                return "SELECT idMenu as ID, menuName as name FROM menu WHERE menuName " . $concatString;
             case "tag":
-                return "SELECT idTag as ID, tagName as name FROM tag WHERE tagName LIKE CONCAT('%', ?, '%')";
+                return "SELECT idTag as ID, tagName as name FROM tag WHERE tagName " . $concatString;
             case "articoli d'inventario":
-                return "SELECT idInventoryItem as ID, inventoryItemName as name FROM inventoryitem WHERE inventoryItemName LIKE CONCAT('%', ?, '%')";
+                return "SELECT idInventoryItem as ID, inventoryItemName as name FROM inventoryitem WHERE inventoryItemName " . $concatString;
             case "strumenti di corredo":
-                return "SELECT idReferenceTool as ID, nameReferenceTool as name FROM referencetool WHERE nameReferenceTool LIKE CONCAT('%', ?, '%')";
+                return "SELECT idReferenceTool as ID, nameReferenceTool as name FROM referencetool WHERE nameReferenceTool " . $concatString;
         }
     }
 
+    /**
+     * Restituisce gli elementi appartenenti a uno specifico tipo di contenuto, filtrati per una stringa di ricerca.
+     * @param string $content Tipo di contenuto da filtrare.
+     * @param string $researchString Stringa di ricerca.
+     * @return array<string, mixed>[] Array degli elementi filtrati appartenenti al tipo di contenuto specificato.
+     */
     public function getContentByName($content, $researchString) {
         $query = $this->getResearchQuery($content);
         $stmt = $this->db->prepare($query);
@@ -117,6 +136,17 @@ class DatabaseHelper{
         return $pages;
     }
 
+    /**
+     * Funzione template per recuperare gli elementi appartenenti a un tipo di contenuti diverso dalle pagine.
+     * @param string $table Tabella su cui si esegue la ricerca nel database.
+     * @param int $idField Nome del campo nella tabella che rappresenta l'ID dell'elemento.
+     * @param int $nameField Nome del campo nella tabella che rappresenta il nome dell'elemento.
+     * @param string $orderBy Criterio di ordinamento degli elementi.
+     * @return array{ ID: int, name: string }[]
+     * Array contenente gli elementi richiesti, ognuno dei quali contiene:
+     * - ID: ID del contenuto
+     * - name: nome del contenuto
+     */
     private function getNonPages($table, $idField, $nameField, $orderBy) {
         $orderByString = "";
         switch ($orderBy) {
@@ -134,12 +164,24 @@ class DatabaseHelper{
     }
 
     /**
-     * @return array ID e nome di tutti i menù presenti al momento della richiesta
+     * Restituisce tutti i menù presenti, eventualmente ordinati secondo uno specifico criterio.
+     * @param string $orderBy Criterio di ordinamento.
+     * @return array{ ID: int, name: string }[]
+     * Array contenente i menù presenti, ognuno dei quali contiene:
+     * - ID: ID del menù
+     * - name: nome del menù
      */
     public function getMenus($orderBy = "nessuno") {
         return $this->getNonPages("menu", "idMenu", "menuName", $orderBy);
     }
 
+    /**
+     * Restituisce le voci del menù principale del sito (ovvero quelle che non hanno un padre all'interno della struttura gerarchica).
+     * @return array{ ID: int, name: string }[]
+     * Array contenente le voci del menù principale, ognuna delle quali contiene:
+     * - ID: ID della voce
+     * - name: nome della voce
+     */
     public function getPrimaryMenu() {
         $stmt = $this->db->prepare("SELECT idMenuItem as ID, menuItemName as name FROM menuitem WHERE Menu_idMenu = 1 AND MenuItem_idMenuItem is NULL ORDER BY menuItemOrderedPosition");
         $stmt->execute();
@@ -147,6 +189,15 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+     * Restituisce le voci di un menù figlie della voce specificata come parametro.
+     * @param int $fatherID ID della voce madre.
+     * @return array{ ID: int, name: string, slug: string }[]
+     * Array contenente le voci del menù figlie della voce specificata, ognuna delle quali contiene:
+     * - ID: ID della voce
+     * - name: nome della voce
+     * - slug: slug della pagina a cui punta la voce (può essere anche null nel caso sia madre di altre voci)
+     */
     public function getMenuItemsByFather($fatherID) {
         $stmt = $this->db->prepare("SELECT idMenuItem as ID, menuItemName as name, slug FROM menuitem LEFT JOIN page ON Page_idPage = idPage WHERE MenuItem_idMenuItem = ? ORDER BY menuItemOrderedPosition");
         $stmt->bind_param('i', $fatherID);
@@ -156,12 +207,22 @@ class DatabaseHelper{
     }
 
     /**
-     * @return array ID e nome di tutti i tag presenti al momento della richiesta
+     * Restituisce tutti i tag presenti, eventualmente ordinati secondo uno specifico criterio.
+     * @param string $orderBy Criterio di ordinamento.
+     * @return array{ ID: int, name: string }[]
+     * Array contenente i tag presenti, ognuno dei quali contiene:
+     * - ID: ID del tag
+     * - name: nome del tag
      */
     public function getTags($orderBy = "nessuno") {
         return $this->getNonPages("tag", "idTag", "tagName", $orderBy);
     }
 
+    /**
+     * Funzione template che restituisce il numero di elementi presenti in una tabella relativa a un tipo di contenuto.
+     * @param string $table Nome della tabella su cui effettuare il conteggio.
+     * @return int Numero degli elementi presenti nella tabella.
+     */
     private function getNumOfContents($table) {
         $stmt = $this->db->prepare("SELECT COUNT(*) FROM $table");
         $stmt->execute();
@@ -170,34 +231,68 @@ class DatabaseHelper{
     }
 
     /**
-     * @return int Il numero di tag presenti
+     * Restituisce quanti tag sono presenti al momento della richiesta.
+     * @return int Il numero di tag presenti.
      */
     public function getNumOfTags() {
         return $this->getNumOfContents("tag");
     }
 
     /**
-     * @return array ID e nome di tutti gli articoli d'inventario presenti al momento della richiesta
+     * Restituisce tutti gli articoli d'inventario presenti, eventualmente ordinati secondo uno specifico criterio.
+     * @param string $orderBy Criterio di ordinamento.
+     * @return array{ ID: int, name: string }[]
+     * Array contenente gli articoli d'inventario presenti, ognuno dei quali contiene:
+     * - ID: ID dell'articolo
+     * - name: nome dell'articolo
      */
     public function getInventoryItems($orderBy = "nessuno") {
         return $this->getNonPages("inventoryitem", "idInventoryItem", "inventoryItemName", $orderBy);
     }
 
     /**
-     * @return array ID e nome di tutti gli strumenti di corredo presenti al momento della richiesta
+     * Restituisce quanti articoli d'inventario sono presenti al momento della richiesta.
+     * @return int Il numero di articoli presenti.
+     */
+    public function getNumOfInventoryItems() {
+        return $this->getNumOfContents("inventoryitem");
+    }
+
+    /**
+     * Restituisce tutti gli strumenti di corredo presenti, eventualmente ordinati secondo uno specifico criterio.
+     * @param string $orderBy Criterio di ordinamento.
+     * @return array{ ID: int, name: string }[]
+     * Array contenente gli strumenti di corredo presenti, ognuno dei quali contiene:
+     * - ID: ID dello strumento
+     * - name: nome dello strumento
      */
     public function getReferenceTools($orderBy = "nessuno") {
         return $this->getNonPages("referencetool", "idReferenceTool", "nameReferenceTool", $orderBy);
     }
 
+    /**
+     * Restituisce quanti strumenti di corredo sono presenti al momento della richiesta.
+     * @return int Il numero di strumenti presenti.
+     */
     public function getNumOfReferenceTools() {
         return $this->getNumOfContents("referencetool");
     }
 
-    public function getNumOfInventoryItems() {
-        return $this->getNumOfContents("inventoryitem");
-    }
-
+    /**
+     * Restituisce le informazioni su una pagina dato il suo ID (funzione utile agli amministratori).
+     * @param int $pageID ID della pagina.
+     * @return array{ title: string, slug: string, text: string|null, isVisibile: boolean, seoTitle: string|null, seoText: string|null, seoKeywords: string|null, author: string|null, type: string }
+     * Array contenente le informazioni sulla pagina richiesta:
+     * - title: titolo della pagina
+     * - slug: slug della pagina
+     * - text: contenuto HTML della pagina
+     * - isVisibile: flag che rappresenta la visibilità della pagina
+     * - seoTitle: titolo della pagina per il Search Of Engine
+     * - seoText: testo per il Search Of Engine
+     * - seoKeywords: parole chiave per il Search Of Engine
+     * - author: autore della pagina
+     * - type: tipo della pagina
+     */
     public function getPageFromID($pageID) {
         $stmt = $this->db->prepare("SELECT title, slug, text, isVisibile, seoTitle, seoText, seoKeywords, author FROM page WHERE idPage = ?");
         $stmt->bind_param('i', $pageID);
@@ -208,6 +303,17 @@ class DatabaseHelper{
         return $page;
     }
 
+    /**
+     * Restituisce le informazioni su una pagina dato il suo slug (funzione utile alla navigazione di utente normale).
+     * @param string $pageSlug Slug della pagina.
+     * @return array{ title: string, slug: string, text: string|null, isVisibile: boolean, author: string|null }
+     * Array contenente le informazioni sulla pagina richiesta:
+     * - title: titolo della pagina
+     * - slug: slug della pagina
+     * - text: contenuto HTML della pagina
+     * - isVisibile: flag che rappresenta la visibilità della pagina
+     * - author: autore della pagina
+     */
     public function getPageFromSlug($pageSlug) {
         $stmt = $this->db->prepare("SELECT title, slug, text, isVisibile, author FROM page WHERE slug = ?");
         $stmt->bind_param('s', $pageSlug);
@@ -216,6 +322,11 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+     * Restituisce tutti i tag posseduti da una specifica pagina.
+     * @param int $pageID ID della pagina di cui si vogliono ottenere i tag.
+     * @return int[] Array contenente tutti gli ID dei tag della pagina.
+     */
     public function getTagsFromPageID($pageID) {
         $stmt = $this->db->prepare("SELECT tag_idTag as tagId FROM page_has_tag WHERE page_idPage = ?");
         $stmt->bind_param('i', $pageID);
@@ -228,6 +339,11 @@ class DatabaseHelper{
         return $tagsIds;
     }
 
+    /**
+     * Restituisce tutti i tag posseduti dalle pagine contenute nella pagina specificata.
+     * @param int $containerID ID della pagina contenitrice.
+     * @return int[] Array contenente tutti gli ID dei tag delle pagine contenute.     
+    */
     public function getContainedPagesTagsFromContainerID($containerID) {
         $stmt = $this->db->prepare("SELECT tag_idTag as tagId FROM page_displays_pages_of_tag WHERE page_idPage = ?");
         $stmt->bind_param('i', $containerID);
@@ -240,6 +356,15 @@ class DatabaseHelper{
         return $tagsIds;
     }
 
+    /**
+     * Restituisce tutte le voci dell'indice contenuto nella pagina specificata.
+     * @param int $pageID ID della pagina.
+     * @return array{ ID: int, title: string, position: int }[]
+     * Array contenente le voci dell'indice contenuto nella pagina richiesta, ognuna delle quali ha:
+     * - ID: ID della voce
+     * - title: titolo della voce
+     * - position: posizione della voce all'interno dell'indice
+    */
     public function getIndexItemsFromPageID($pageID) {
         $stmt = $this->db->prepare("SELECT idIndexItem as ID, indexItemTitle as title, orderedPosition as position FROM indexitem WHERE shownInPageId = ?");
         $stmt->bind_param('i', $pageID);
@@ -248,6 +373,14 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+     * Restituisce tutte le note contenute nella pagina specificata.
+     * @param int $pageID ID della pagina.
+     * @return array{ ID: int, text: string }[]
+     * Array contenente le note contenute nella pagina richiesta, ognuna delle quali ha:
+     * - ID: ID della nota
+     * - text: contenuto della nota
+    */
     public function getNotesFromPageID($pageID) {
         $stmt = $this->db->prepare("SELECT noteId as ID, noteText as text FROM note WHERE page_idPage = ?");
         $stmt->bind_param('i', $pageID);
@@ -256,6 +389,16 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+     * Restituisce le informazioni su una voce dell'indice, dato il suo ID.
+     * @param int $indexItemID ID della voce.
+     * @return array{ position: int, anchor: string|null, page: int|null, title: string }
+     * Array contenente le informazioni sulla voce richiesta:
+     * - position: posizione della voce all'interno dell'indice in cui è contenuta
+     * - anchor: ancora alla quale si lega la voce
+     * - page: pagina alla quale si lega la voce
+     * - title: titolo della voce
+     */
     public function getIndexItemFromID($indexItemID) {
         $stmt = $this->db->prepare("SELECT orderedPosition as position, targetAnchor as anchor, linkToPage as page, indexItemTitle as title FROM indexitem WHERE idIndexItem = ?");
         $stmt->bind_param('i', $indexItemID);
@@ -264,6 +407,16 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);  
     }
 
+    /**
+     * Restituisce le informazioni su una nota, dato il suo ID.
+     * @param int $noteID ID della nota.
+     * @return array{ text: string, anchor: string|null, page: int, author: string|null }
+     * Array contenente le informazioni sulla nota richiesta:
+     * - text: contenuto della nota
+     * - anchor: ancora alla quale si lega la nota
+     * - page: pagina nella quale è contenuta la nota
+     * - author: autore della nota
+     */
     public function getNoteFromID($noteID) {
         $stmt = $this->db->prepare("SELECT noteText as text, noteAnchor as anchor, page_idPage as page, author FROM note WHERE noteId = ?");
         $stmt->bind_param('i', $noteID);
@@ -272,6 +425,14 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);  
     }
 
+    /**
+     * Restituisce le informazioni su una pagina d'archivio, dato il suo ID.
+     * @param int $pageID ID della pagina.
+     * @return array{ start: int, end: int }
+     * Array contenente le informazioni sulla pagina d'archivio richiesta:
+     * - start: data d'inizio della cronologia
+     * - end: data di fine della cronologia
+     */
     public function getArchivePageFromPageID($pageID) {
         $stmt = $this->db->prepare("SELECT chronologyStartYear as start, chronologyEndYear as end FROM archivepage WHERE Page_idPage = ?");
         $stmt->bind_param('i', $pageID);
@@ -280,6 +441,11 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+     * Restituisce tutti gli strumenti di corredo posseduti dalla pagina d'archivio specificata.
+     * @param int $archivePageID ID della pagina.
+     * @return int[] Array contenente tutti gli ID degli strumenti di corredo posseduti dalla pagina.     
+    */
     public function getReferenceToolsFromArchivePageID($archivePageID) {
         $stmt = $this->db->prepare("SELECT ReferenceTool_idReferenceTool as rToolId FROM archivepage_has_referencetool WHERE ArchivePage_Page_idPage = ?");
         $stmt->bind_param('i', $archivePageID);
@@ -292,6 +458,14 @@ class DatabaseHelper{
         return $refToolsIds;
     }
 
+    /**
+     * Restituisce tutti gli articoli d'inventario posseduti dalla pagina d'archivio specificata.
+     * @param int $archivePageID ID della pagina.
+     * @return array{ ID: int, quantity: int }[]
+     * Array contenente gli articoli della pagina d'archivio, ognuna della quale contiene:
+     * - ID: ID dell'articolo
+     * - quantity: quantità presente nell'archivio     
+    */
     public function getInventoryItemsFromArchivePageID($archivePageID) {
         $stmt = $this->db->prepare("SELECT inventoryItem_idInventoryItem as invItemId, itemQuantity FROM archivepage_has_inventoryitem WHERE ArchivePage_Page_idPage = ?");
         $stmt->bind_param('i', $archivePageID);
@@ -307,6 +481,14 @@ class DatabaseHelper{
         return $invItemsIds;
     }
 
+    /**
+     * Restituisce tutte le collezioni di risorse contenute nella pagina specificata.
+     * @param int $pageID ID della pagina.
+     * @return array{ nome: string, ID: int }[]
+     * Array contenente le collezioni della pagina, ognuna della quale contiene:
+     * - nome: nome della collezione
+     * - ID: ID della collezione
+    */
     public function getResourceCollectionsFromPageID($pageID) {
         $stmt = $this->db->prepare("SELECT nomeRaccolta as nome, idRaccoltaDiRisorse as ID FROM raccoltadirisorse WHERE Page_idPage = ?");
         $stmt->bind_param('i', $pageID);
@@ -315,6 +497,14 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+     * Restituisce le informazioni su una collezione di risorse, dato il suo ID.
+     * @param int $resourceCollectionID ID della collezione.
+     * @return array{ nome: string, pathRaccolta: string|null }
+     * Array contenente le informazioni sulla collezione richiesta:
+     * - nome: nome della collezione
+     * - pathRaccolta: percorso della directory dove è contenuta la collezione
+     */
     public function getResourceCollectionFromID($resourceCollectionID) {
         $stmt = $this->db->prepare("SELECT nomeRaccolta as nome, pathRaccolta as path FROM raccoltadirisorse WHERE idRaccoltaDiRisorse = ?");
         $stmt->bind_param('i', $resourceCollectionID);
@@ -323,6 +513,14 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+     * Restituisce gli elementi di bibliografia di una collezione di risorse, dato il suo ID.
+     * @param int $collectionID ID della collezione.
+     * @return array{ ID: int, cit: string }[]
+     * Array contenente gli elementi di bibliografia della collezione richiesta, ognuno dei quali contiene:
+     * - ID: ID dell'elemento
+     * - cit: citazione bibliografica dell'elemento
+     */
     public function getBibliographyElementsFromCollectionID($collectionID) {
         $stmt = $this->db->prepare("SELECT b.elementoDiRaccolta_idelementoDiRaccolta as ID, b.citazioneBibliografia as cit FROM elementobibliografia b WHERE b.elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse = ?");
         $stmt->bind_param('i', $collectionID);
@@ -331,6 +529,15 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+     * Restituisce gli elementi di cronologia di una collezione di risorse, dato il suo ID.
+     * @param int $collectionID ID della collezione.
+     * @return array{ ID: int, data: string, loc: string|null }[]
+     * Array contenente gli elementi di cronologia della collezione richiesta, ognuno dei quali contiene:
+     * - ID: ID dell'elemento
+     * - data: data di riferimento dell'elemento
+     * - loc: località di riferimento dell'elemento
+     */
     public function getChronologyElementsFromCollectionID($collectionID) {
         $stmt = $this->db->prepare("SELECT c.elementoDiRaccolta_idelementoDiRaccolta as ID, c.idElementoCronologia as data, c.localita as loc FROM elementocronologia c INNER JOIN raccoltadirisorse r ON r.idRaccoltaDiRisorse = c.elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse WHERE r.idRaccoltaDiRisorse = ?");
         $stmt->bind_param('i', $collectionID);
@@ -339,6 +546,15 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+     * Restituisce gli elementi di emeroteca di una collezione di risorse, dato il suo ID.
+     * @param int $collectionID ID della collezione.
+     * @return array{ ID: int, giornale: string, titolo: string }[]
+     * Array contenente gli elementi di emeroteca della collezione richiesta, ognuno dei quali contiene:
+     * - ID: ID dell'elemento
+     * - giornale: testata giornalistica che ha scritto l'articolo dell'elemento
+     * - titolo: titolo dell'articolo
+     */
     public function getNewsPaperLibraryElementsFromCollectionID($collectionID) {
         $stmt = $this->db->prepare("SELECT e.elementoDiRaccolta_idelementoDiRaccolta as ID, e.nomeTestataGiornalistica as giornale, e.titoloArticolo as titolo FROM elementoemeroteca e INNER JOIN raccoltadirisorse r ON r.idRaccoltaDiRisorse = e.elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse WHERE r.idRaccoltaDiRisorse = ?");
         $stmt->bind_param('i', $collectionID);
@@ -347,6 +563,14 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+     * Restituisce gli elementi di fototeca di una collezione di risorse, dato il suo ID.
+     * @param int $collectionID ID della collezione.
+     * @return array{ ID: int, descrizione: string }[]
+     * Array contenente gli elementi di fototeca della collezione richiesta, ognuno dei quali contiene:
+     * - ID: ID dell'elemento
+     * - descrizione: descrizione dell'elemento
+     */
     public function getPhotoLibraryElementsFromCollectionID($collectionID) {
         $stmt = $this->db->prepare("SELECT f.elementoDiRaccolta_idelementoDiRaccolta as ID, f.descrizioneElementoFototeca as descrizione FROM elementofototeca f INNER JOIN raccoltadirisorse r ON r.idRaccoltaDiRisorse = f.elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse WHERE r.idRaccoltaDiRisorse = ?");
         $stmt->bind_param('i', $collectionID);
@@ -355,6 +579,15 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+     * Restituisce le risorse di rete di una collezione di risorse, dato il suo ID.
+     * @param int $collectionID ID della collezione.
+     * @return array{ ID: int, titolo: string|null, fonte: string|null }[]
+     * Array contenente le risorse di rete della collezione richiesta, ognuna delle quali contiene:
+     * - ID: ID della risorsa
+     * - titolo: titolo della risorsa
+     * - fonte: fonte della risorsa
+     */
     public function getNetworkResourcesFromCollectionID($collectionID) {
         $stmt = $this->db->prepare("SELECT n.elementoDiRaccolta_idelementoDiRaccolta as ID, n.titoloRisorsa as titolo, n.fonte as fonte FROM elementorisorsa n INNER JOIN raccoltadirisorse r ON r.idRaccoltaDiRisorse = n.elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse WHERE r.idRaccoltaDiRisorse = ?");
         $stmt->bind_param('i', $collectionID);
@@ -363,6 +596,12 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+     * Funzione template per restituire un elemento di raccolta, dato il suo ID e la query appropriata.
+     * @param int $elementID ID dell'elemento.
+     * @param string $query Query per ricavare l'elemento desiderato.
+     * @return array<string, mixed> Array contenente le informazioni sull'elemento richiesto.
+     */
     private function getElementFromID($elementID, $query) {
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('i', $elementID);
@@ -371,6 +610,12 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+     * Restituisce un elemento di raccolta, dato il suo ID e il suo tipo.
+     * @param int $elementID ID dell'elemento.
+     * @param string $type Tipo dell'elemento desiderato, indispensabile per ricavare la query corretta.
+     * @return array<string, mixed> Array contenente le informazioni sull'elemento richiesto.
+     */
     public function getCollectionElementFromID($elementID, $type) {
         $query = "";
         switch($type) {
@@ -393,6 +638,14 @@ class DatabaseHelper{
         return $this->getElementFromID($elementID, $query);
     }
 
+    /**
+     * Funzione template per restituire le informazioni su un contenuto diverso da menù e pagina.
+     * @param string $table Tabella su cui viene effettuata la ricerca.
+     * @param int $contentID ID del contenuto.
+     * @param string $idField Nome del campo all'interno della tabella che rappresenta l'ID del contenuto.
+     * @param string $nameField Nome del campo all'interno della tabella che rappresenta il nome del contenuto.
+     * @return array<string, mixed> Array contenente le informazioni sul contenuto richiesto.
+     */
     private function getNonPageContentFromID($table, $contentID, $idField, $nameField) {
         $query = "SELECT $nameField as name" . ($table == "tag" ? ", tagDescription as description" : "") . " FROM $table WHERE $idField = ?";
         $stmt = $this->db->prepare($query);
@@ -402,18 +655,48 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+     * Restituisce le informazioni su un tag, dato il suo ID.
+     * @param int $tagID ID del tag.
+     * @return array{ name: string, description: string|null }
+     * Array contenente le informazioni sul tag richiesto:
+     * - name: nome del tag
+     * - description: descrizione del tag
+     */
     public function getTagFromID($tagID) {
         return $this->getNonPageContentFromID("tag", $tagID, "idTag", "tagName");
     }
 
+    /**
+     * Restituisce le informazioni su un articolo d'inventario, dato il suo ID.
+     * @param int $inventoryItemID ID dell'articolo.
+     * @return array{ name: string }
+     * Array contenente le informazioni sull'articolo richiesto:
+     * - name: nome dell'articolo
+     */
     public function getInventoryItemFromID($inventoryItemID) {
         return $this->getNonPageContentFromID("inventoryitem", $inventoryItemID, "idInventoryItem", "inventoryItemName");
     }
 
+    /**
+     * Restituisce le informazioni su uno strumento di corredo, dato il suo ID.
+     * @param int $referenceToolID ID dello strumento.
+     * @return array{ name: string }
+     * Array contenente le informazioni sullo strumento richiesto:
+     * - name: nome dello strumento
+     */
     public function getReferenceToolFromID($referenceToolID) {
         return $this->getNonPageContentFromID("referencetool", $referenceToolID, "idReferenceTool", "nameReferenceTool");
     }
 
+    /**
+     * Restituisce le informazioni su un menù, dato il suo ID.
+     * @param int $menuID ID del menù.
+     * @return array{ ID: int, name: string }
+     * Array contenente le informazioni sul menù richiesto:
+     * - ID: ID del menù
+     * - name: nome del menù
+     */
     public function getMenuFromID($menuID) {
         $stmt = $this->db->prepare("SELECT idMenu as ID, menuName as name FROM menu WHERE idMenu = ?");
         $stmt->bind_param('i', $menuID);
@@ -422,6 +705,17 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+     * Restituisce le voci di un menù, dato il suo ID.
+     * @param int $menuID ID del menù.
+     * @return array{ ID: int, name: string, position: int, page: int|null, father: int|null }[]
+     * Array contenente le voci del menù richiesto, ognuna delle quali contiene:
+     * - ID: ID della voce
+     * - name: nome della voce
+     * - position: posizione della voce all'interno del menù
+     * - page: ID della pagina legata alla voce
+     * - father: ID della voce madre
+     */
     public function getMenuItems($menuID) {
         $stmt = $this->db->prepare("SELECT idMenuItem as ID, menuItemName as name, menuItemOrderedPosition as position, Page_idPage as page, MenuItem_idMenuItem as father FROM menuitem WHERE Menu_idMenu = ?");
         $stmt->bind_param('i', $menuID);
@@ -430,6 +724,17 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+     * Restituisce le informazioni su una voce del menù, dato il suo ID.
+     * @param int $menuItemID ID della voce.
+     * @return array{ ID: int, name: string, position: int, page: int|null, father: int|null }
+     * Array contenente le informazioni sulla voce del menù richiesta:
+     * - ID: ID della voce
+     * - name: nome della voce
+     * - position: posizione della voce all'interno del menù
+     * - page: ID della pagina legata alla voce
+     * - father: ID della voce madre
+     */
     public function getMenuItemFromID($menuItemID) {
         $stmt = $this->db->prepare("SELECT idMenuItem as ID, menuItemName as name, menuItemOrderedPosition as position, Page_idPage as page, MenuItem_idMenuItem as father FROM menuitem WHERE idMenuItem = ?");
         $stmt->bind_param('i', $menuItemID);
@@ -438,6 +743,17 @@ class DatabaseHelper{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
+    /**
+     * Aggiunge una nuova pagina.
+     * @param string $title Titolo della nuova pagina.
+     * @param string $slug Slug della nuova pagina.
+     * @param string $html Contenuto HTML della nuova pagina.
+     * @param boolean $isVisibile Flag che rappresenta la visibilità della nuova pagina.
+     * @param string $seoTitle Titolo per la Search Of Engine della nuova pagina.
+     * @param string $seoText Testo per la Search Of Engine della nuova pagina.
+     * @param string $seoKeywords Parole chiave per la Search Of Engine della nuova pagina.
+     * @return int ID della nuova pagina.
+     */
     public function addPage($title, $slug, $html, $isVisible, $seoTitle, $seoText, $seoKeywords) {
         $creationDate = date('Y-m-d H:i:s');
         $stmt = $this->db->prepare("INSERT INTO page (title, slug, text, creationDate, updatedDate, isVisibile, seoTitle, seoText, seoKeywords) VALUES (?, ?, ?, '$creationDate', '$creationDate', ?, ?, ?, ?)");
@@ -446,6 +762,11 @@ class DatabaseHelper{
         return $stmt->insert_id;
     }
 
+    /**
+     * Aggiunge dei tag a una pagina, dato il suo ID.
+     * @param int $pageID ID della pagina.
+     * @param int[] $tagsID ID dei tag da collegare alla pagina.
+     */
     public function connectTagsToPage($pageID, $tagsID) {
         foreach ($tagsID as $tagID) {
             $stmt = $this->db->prepare("INSERT INTO page_has_tag (page_idPage, tag_idTag) VALUES (?, ?)");
@@ -454,6 +775,11 @@ class DatabaseHelper{
         }
     }
 
+    /**
+     * Aggiunge le pagine che devono essere contenute in una pagina, dato il suo ID.
+     * @param int $viewerPageID ID della pagina contenitrice.
+     * @param int[] $tagsID ID dei tag le cui pagine saranno contenute nella pagina specificata.
+     */
     public function addDisplayedPages($viewerPageID, $tagsID) {
         //inserimento dentro la tabella 'page_displays_pages_of_tag'
         foreach ($tagsID as $tagID) {
@@ -472,6 +798,11 @@ class DatabaseHelper{
         }
     }
 
+    /**
+     * Restituisce tutti gli ID delle pagine che appartengono ad almeno uno dei tag passati come parametro.
+     * @param int[] $tagsID ID dei tag.
+     * @return array{ ID: int }[] Array delle pagine restituite, ognuna delle quali contiene solo il proprio ID.
+     */
     private function getAllDisplayedPagesFromTags($tagsID) {
         if (count($tagsID) > 0) {
             $query = "SELECT DISTINCT page_idPage as ID FROM page_has_tag";
@@ -487,24 +818,50 @@ class DatabaseHelper{
         return [];
     }
 
+    /**
+     * Aggiunge una nuova voce a un indice.
+     * @param int $position Posizione della nuova voce all'interno dell'indice.
+     * @param int $shownInPageID ID della pagina dove è contenuto l'indice.
+     * @param string|null $targetAnchor Ancora alla quale è legata la nuova voce.
+     * @param int|null $linkToPage ID della pagina alla quale è legata la nuova voce.
+     * @param string $title Titolo della nuova voce.
+     */
     public function addIndexItem($position, $shownInPageID, $targetAnchor, $linkToPage, $title) {
         $stmt = $this->db->prepare("INSERT INTO indexitem (orderedPosition, shownInPageId, targetAnchor, linkToPage, indexItemTitle) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param('iisis', $position, $shownInPageID, $targetAnchor, $linkToPage, $title);
         $stmt->execute();
     }
 
+    /**
+     * Aggiunge una nuova voce a un indice.
+     * @param string|null $anchor Ancora alla quale è legata la nuova nota.
+     * @param string $text Contenuto della nuova nota.
+     * @param int $pageID ID della pagina in cui è contenuta la nuova nota.
+     * @param string|null $author Autore della nuova nota.
+     */
     public function addNote($anchor, $text, $pageID, $author) {
         $stmt = $this->db->prepare("INSERT INTO note (noteAnchor, noteText, page_idPage, author) VALUES (?, ?, ?, ?)");
         $stmt->bind_param('ssis', $anchor, $text, $pageID, $author);
         $stmt->execute();
     }
 
+    /**
+     * Aggiunge le informazioni di archivio a una pagina.
+     * @param int $chronologyStartYear Data di inizio cronologico del nuovo archivio.
+     * @param int $chronologyEndYear Data di fine cronologica del nuovo archivio.
+     * @param int $pageID ID della pagina.
+    */
     public function addArchivePage($chronologyStartYear, $chronologyEndYear, $pageID) {
         $stmt = $this->db->prepare("INSERT INTO archivepage (chronologyStartYear, chronologyEndYear, Page_idPage) VALUES (?, ?, ?)");
         $stmt->bind_param('ssi', $chronologyStartYear, $chronologyEndYear, $pageID);
         $stmt->execute();
     }
 
+    /**
+     * Aggiunge degli strumenti di corredo a una pagina, dato il suo ID.
+     * @param int $pageID ID della pagina.
+     * @param int[] $referenceToolsID ID degli struemnti di corredo da collegare alla pagina.
+     */
     public function connectReferenceToolsToPage($pageID, $referenceToolsID) {
         foreach ($referenceToolsID as $referenceToolID) {
             $stmt = $this->db->prepare("INSERT INTO archivepage_has_referencetool (ArchivePage_Page_idPage, ReferenceTool_idReferenceTool) VALUES (?, ?)");
@@ -513,6 +870,12 @@ class DatabaseHelper{
         }
     }
 
+    /**
+     * Aggiunge degli articoli d'inventario a una pagina, dato il suo ID.
+     * @param int $pageID ID della pagina.
+     * @param array{ articolo: int, quantita: int }[] $inventoryItems 
+     * Array contenente l'ID e la quantità presente nella pagina degli articoli d'inventario da collegare a quest'ultima.
+     */
     public function connectInventoryItemsToPage($pageID, $inventoryItems) {
         foreach ($inventoryItems as $inventoryItem) {
             $stmt = $this->db->prepare("INSERT INTO archivepage_has_inventoryitem (ArchivePage_Page_idPage, inventoryItem_idInventoryItem, itemQuantity) VALUES (?, ?, ?)");
@@ -521,6 +884,13 @@ class DatabaseHelper{
         }
     }
 
+    /**
+     * Aggiunge una nuova raccolta di risorse.
+     * @param string $collectionName Nome della nuova collezione.
+     * @param string|null $path Percorso della nuova collezione.
+     * @param int $pageID ID della pagina nella quale sarà contenuta.
+     * @return int ID della nuova collezione.
+     */
     public function addResourceCollection($collectionName, $path, $pageID) {
         $stmt = $this->db->prepare("INSERT INTO raccoltadirisorse (nomeRaccolta, pathRaccolta, Page_idPage) VALUES (?, ?, ?)");
         $stmt->bind_param('ssi', $collectionName, $path, $pageID);
@@ -528,6 +898,11 @@ class DatabaseHelper{
         return $stmt->insert_id;
     }
 
+    /**
+     * Aggiunge un nuovo elemento di raccolta ad una collezione di risorse.
+     * @param int $resourceCollectionID ID della collezione.
+     * @return int ID del nuovo elemento.
+     */
     public function addCollectionElement($resourceCollectionID) {
         $stmt = $this->db->prepare("INSERT INTO elementodiraccolta (RaccoltaDiRisorse_idRaccoltaDiRisorse) VALUES (?)");
         $stmt->bind_param('i', $resourceCollectionID);
@@ -535,36 +910,82 @@ class DatabaseHelper{
         return $stmt->insert_id;
     }
 
+    /**
+     * Aggiunge un nuovo elemento di bibliografia.
+     * @param string|null $cit Citazione bibliografica del nuovo elemento.
+     * @param int $elementID ID dell'elemento di raccolta a cui si collega il nuovo elemento.
+     * @param int $collectionID ID della collezione nella quale sarà contenuto il nuovo elemento.
+     * @param string|null $href Link di collegamento del nuovo elemento.
+     * @param string|null $doi Digital Object Identifier del nuovo elemento.
+     */
     public function addBibliographyElement($cit, $elementID, $collectionID, $href, $doi) {
         $stmt = $this->db->prepare("INSERT INTO elementobibliografia (citazioneBibliografia, elementoDiRaccolta_idelementoDiRaccolta, elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse, href, DOI) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param('siiss', $cit, $elementID, $collectionID, $href, $doi);
         $stmt->execute();
     }
 
+    /**
+     * Aggiunge un nuovo elemento di cronologia.
+     * @param string $date Data cronologica del nuovo elemento.
+     * @param int $elementID ID dell'elemento di raccolta a cui si collega il nuovo elemento.
+     * @param int $collectionID ID della collezione nella quale sarà contenuto il nuovo elemento.
+     * @param string|null $location Località di riferimento del nuovo elemento.
+     * @param string|null $description Descrizione del nuovo elemento.
+     */
     public function addChronologyElement($date, $elementID, $collectionID, $location, $description) {
         $stmt = $this->db->prepare("INSERT INTO elementocronologia (idElementoCronologia, elementoDiRaccolta_idelementoDiRaccolta, elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse, localita, descrizioneElementoCronologia) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param('siiss', $date, $elementID, $collectionID, $location, $description);
         $stmt->execute();
     }
 
+    /**
+     * Aggiunge un nuovo elemento di emeroteca.
+     * @param string $journal Testata giornalistica che ha scritto l'articolo del nuovo elemento.
+     * @param string $publicationDate Data di pubblicazione dell'articolo del nuovo elemento.
+     * @param int $elementID ID dell'elemento di raccolta a cui si collega il nuovo elemento.
+     * @param int $collectionID ID della collezione nella quale sarà contenuto il nuovo elemento.
+     * @param string $title Titolo dell'articolo del nuovo elemento.
+     * @param string|null $href Link di collegamento del nuovo elemento.
+     */
     public function addNewsPaperLibraryElement($journal, $publicationDate, $elementID, $collectionID, $title, $href) {
         $stmt = $this->db->prepare("INSERT INTO elementoemeroteca (nomeTestataGiornalistica, elementoDiRaccolta_idelementoDiRaccolta, elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse, href, dataPubblicazione, titoloArticolo) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bind_param('siisss', $journal, $elementID, $collectionID, $href, $publicationDate, $title);
         $stmt->execute();
     }
 
+    /**
+     * Aggiunge un nuovo elemento di fototeca.
+     * @param string $description Descrizione del nuovo elemento.
+     * @param int $elementID ID dell'elemento di raccolta a cui si collega il nuovo elemento.
+     * @param int $collectionID ID della collezione nella quale sarà contenuto il nuovo elemento.
+     */
     public function addPhotoLibraryElement($description, $elementID, $collectionID) {
         $stmt = $this->db->prepare("INSERT INTO elementofototeca (descrizioneElementoFototeca, elementoDiRaccolta_idelementoDiRaccolta, elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse) VALUES (?, ?, ?)");
         $stmt->bind_param('sii', $description, $elementID, $collectionID);
         $stmt->execute();
     }
 
+    /**
+     * Aggiunge una nuova risorsa di rete.
+     * @param string $type Tipo della nuova risorsa.
+     * @param int $elementID ID dell'elemento di raccolta a cui si collega la nuova risorsa.
+     * @param int $collectionID ID della collezione nella quale sarà contenuta la nuova risorsa.
+     * @param string|null $title Titolo della nuova risorsa.
+     * @param string $href Link di collegamento della nuova risorsa.
+     * @param string|null $source Fonte della nuova risorsa.
+     * @param string|null $doi Digital Object Identifier della nuova risorsa.
+     */
     public function addNetworkResource($type, $elementID, $collectionID, $title, $href, $source, $doi) {
         $stmt = $this->db->prepare("INSERT INTO elementorisorsa (tipologiaRisorsa, elementoDiRaccolta_idelementoDiRaccolta, elementoDiRaccolta_RaccoltaDiRisorse_idRaccoltaDiRisorse, titoloRisorsa, hrefRisorsa, fonte, DOI) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $stmt->bind_param('siissss', $type, $elementID, $collectionID, $title, $href, $source, $doi);
         $stmt->execute();
     }
 
+    /**
+     * Aggiunge un nuovo menù.
+     * @param string $name Nome del nuovo menù.
+     * @return int ID del nuovo menù.
+     */
     public function addMenu($name) {
         $stmt = $this->db->prepare("INSERT INTO menu (menuName) VALUES (?)");
         $stmt->bind_param('s', $name);
