@@ -10,6 +10,10 @@ function changePwProp(button, input) {
     button.className = clName;
 }
 
+/**
+ * Verifica il login di un amministratore tramite AJAX e script PHP, comunicando eventuali errori.
+ * @param {*} event 
+ */
 async function login(event) {
     event.preventDefault();
 

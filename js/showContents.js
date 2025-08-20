@@ -34,6 +34,10 @@ function getContParamName(cont) {
     }
 }
 
+/**
+ * Sottolinea la voce del menù dell'amministratore una volta eseguito un click su di essa.
+ * @param {string} rightLinkContent Contenuto sul quale si è cliccato.
+ */
 function underlineRightLink(rightLinkContent) {
      document.querySelectorAll('#pcNavbar .admin-list a').forEach(a => {
         a.style.textDecoration = a.dataset.content === rightLinkContent ? "underline" : "none";
@@ -87,6 +91,13 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+/**
+ * Funzione "tramite", che richiama la funzione ShowContents passando i giusti parametri in base al contenuto che si vuole gestire.
+ * @param {string} content Tipo di contenuto di cui si vogliono visualizzare gli elementi.
+ * @param {boolean} searching True se si sta eseguendo un filtro tramite la barra di ricerca, False altrimenti. 
+ * @param {string} sorting Criterio di ordinamento dei contenuti. Di default non si esegue un ordinamento specifico.
+ * @param {string} pagesFilter Utile solo se il contenuto è "Pagine": le pagine vengono filtrate in base al tipo selezionato (archivio, raccolta, ecc.)
+ */
 function show(content, searching = false, sorting = Sorting.NO, pagesFilter = PagesFilter.NO) {
     let btnInsertText = "";
     let eliminationMessage = "";
@@ -130,6 +141,9 @@ function show(content, searching = false, sorting = Sorting.NO, pagesFilter = Pa
     }
 }
 
+/**
+ * Visualizza il form per l'invio di notifiche per gli iscritti alla newsletter.
+ */
 function showNewsletterSendingForm() {
     document.getElementById("adminTitle").innerText = "Invia mail agli iscritti alla newsletter";
     document.getElementById("contentsShower").innerHTML = `
@@ -151,6 +165,20 @@ function showNewsletterSendingForm() {
     </form>`;
 }
 
+/**
+ * Crea la struttura HTML tramite la quale sarà possibile visualizzare, aggiungere, filtrare, modificare ed eliminare un contenuto, di qualsiasi tipo.
+ * @param {string} getterFile Stringa che rappresenta il percorso per raggiungere lo script utile a ricavare gli elementi del tipo di contenuto selezionato.
+ * @param {string} addLink Stringa che rappresenta il percorso per raggiungere la pagina nella quale si può inserire un nuovo elemento del tipo di contenuto selezionato.
+ * @param {string} editLink Stringa che rappresenta il percorso per raggiungere la pagina nella quale si può modificare un elemento del tipo di contenuto selezionato.
+ * @param {string} removeLink Stringa che rappresenta il percorso per raggiungere lo script utile ad eliminare un elemento del tipo di contenuto selezionato.
+ * @param {string} eliminationMessage Stringa che verrà mostrata nel modale di conferma eliminazione (varia per ogni contenuto).
+ * @param {string} btnInsertText Testo che verrà mostrato nel bottone per raggiungere la pagina di inserimento.
+ * @param {string} plural Stringa utile per varie label e controlli. 
+ * @param {string[]} fields Campi che verranno mostrati nella tabella contenente gli elementi del contenuto selezionato.
+ * @param {boolean} isSearching True se si sta eseguendo un filtro tramite la barra di ricerca, False altrimenti. 
+ * @param {string} sorting Criterio di ordinamento degli elementi.
+ * @param {string} pagesFilter Utile solo se il contenuto è "Pagine": le pagine vengono filtrate in base al tipo selezionato (archivio, raccolta, ecc.)
+ */
 async function showContents(getterFile, addLink, editLink, removeLink, eliminationMessage, btnInsertText, plural, fields, isSearching, sorting, pagesFilter = null) {
     const contents = isSearching === false ? await getContents(getterFile, sorting) : await searchContents(plural, document.getElementById("txtSearch").value);
     let titleArticle = "";
@@ -377,6 +405,13 @@ async function showContents(getterFile, addLink, editLink, removeLink, eliminati
     });
 }
 
+/**
+ * Crea le celle della tabella in cui vengono visualizzate le pagine.
+ * @param {*} pages 
+ * @param {*} editLink 
+ * @param {*} filter 
+ * @returns 
+ */
 function showPages(pages, editLink, filter) {
     let html = ``;
     let filteredPages = null;

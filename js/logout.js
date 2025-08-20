@@ -4,6 +4,12 @@ document.querySelectorAll('[id^="logout"]').forEach(element => {
     })
 });
 
+/**
+ * Esegue il logout di un amministratore tramite AJAX e script PHP.
+ * @param {string} url Percorso dello script PHP (dipende da quale pagina si vuole eseguire il logout).
+ * @param {string} newLocation Pagina in cui si verrà reindirizzati dopo aver eseguito il logout.
+ * @returns 
+ */
 async function logout(url = 'utils/logout.php', newLocation = 'index.php') {
     try {
         const response = await fetch(url);
@@ -15,7 +21,6 @@ async function logout(url = 'utils/logout.php', newLocation = 'index.php') {
             throw new Error(`Response status: ${response.status}`);
         }
         const json = await response.json();
-        console.log(json);
         if (json["successful"] === true) {
             window.location.href = newLocation;
         }
@@ -24,6 +29,9 @@ async function logout(url = 'utils/logout.php', newLocation = 'index.php') {
     }
 }
 
+/**
+ * Funzione utile per sottolineare le voci del menù dell'amministratore anche se non ci si trova nella pagina admin.php
+ */
 function fixUnderlinedLinks() {
     const currentWindow = window.location.href;
     if (!currentWindow.includes("admin")) {
