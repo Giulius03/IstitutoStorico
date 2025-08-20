@@ -462,7 +462,7 @@ class DatabaseHelper{
      * Restituisce tutti gli articoli d'inventario posseduti dalla pagina d'archivio specificata.
      * @param int $archivePageID ID della pagina.
      * @return array{ ID: int, quantity: int }[]
-     * Array contenente gli articoli della pagina d'archivio, ognuna della quale contiene:
+     * Array contenente gli articoli della pagina d'archivio, ognuno dei quali contiene:
      * - ID: ID dell'articolo
      * - quantity: quantità presente nell'archivio     
     */
@@ -993,6 +993,16 @@ class DatabaseHelper{
         return $stmt->insert_id;
     }
 
+    /**
+     * Aggiunge una nuova voce del menù.
+     * @param int $id ID della nuova voce.
+     * @param string $name Nome della nuova voce.
+     * @param int $position Posizione della nuova voce all'interno del menù.
+     * @param int $menu Menù nel quale sarà inserita la nuova voce.
+     * @param int|null $pageToLink Pagina alla quale sarà legata la nuova voce (null se sarà madre di altre voci).
+     * @param int|null $father ID della voce madre (null se la nuova voce appartiene al menù principale).
+     * @return int ID della nuova voce.
+     */
     public function addMenuItem($id, $name, $position, $menu, $pageToLink, $father) {
         $stmt = $this->db->prepare("INSERT INTO menuitem (idMenuItem, menuItemName, menuItemOrderedPosition, Menu_idMenu, Page_idPage, MenuItem_idMenuItem) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bind_param('isiiii', $id, $name, $position, $menu, $pageToLink, $father);
@@ -1000,6 +1010,10 @@ class DatabaseHelper{
         return $stmt->insert_id;
     }
 
+    /**
+     * Restituisce l'ID che verrà assegnato alla prossima voce del menù.
+     * @return int Prossimo ID da assegnare.
+     */
     public function getMenuItemsNextID() {
         $stmt = $this->db->prepare("SELECT MAX(idMenuItem) FROM menuitem");
         $stmt->execute();
@@ -1007,6 +1021,11 @@ class DatabaseHelper{
         return $result->fetch_row()[0] + 1;
     }
 
+    /**
+     * Aggiunge un nuovo tag.
+     * @param string $name Nome del nuovo tag.
+     * @param string|null $description Descrizione del nuovo tag.
+     */
     public function addTag($name, $description) {
         $stmt = $this->db->prepare("INSERT INTO tag (tagName, tagDescription) VALUES (?, ?)");
         $stmt->bind_param('ss', $name, $description);
@@ -1014,6 +1033,10 @@ class DatabaseHelper{
         return $stmt->insert_id;
     }
 
+    /**
+     * Aggiunge un nuovo strumento di corredo.
+     * @param string $name Nome del nuovo strumento.
+     */
     public function addReferenceTool($name) {
         $stmt = $this->db->prepare("INSERT INTO referencetool (nameReferenceTool) VALUES (?)");
         $stmt->bind_param('s', $name);
@@ -1021,6 +1044,10 @@ class DatabaseHelper{
         return $stmt->insert_id;
     }
 
+    /**
+     * Aggiunge un nuovo articolo d'inventario.
+     * @param string $name Nome del nuovo articolo.
+     */
     public function addInventoryItem($name) {
         $stmt = $this->db->prepare("INSERT INTO inventoryitem (inventoryItemName) VALUES (?)");
         $stmt->bind_param('s', $name);
@@ -1028,6 +1055,18 @@ class DatabaseHelper{
         return $stmt->insert_id;
     }
 
+    /**
+     * Modifica gli attributi di una pagina. Ognuno di questi viene confrontato con quello corrispondente passato come parametro e, se almeno uno è diverso, viene eseguita la query di update.
+     * @param int $pageID ID della pagina.
+     * @param string $newTitle (Nuovo) Titolo della pagina.
+     * @param string $newSlug (Nuovo) Slug della pagina.
+     * @param string $newContent (Nuovo) Contenuto HTML della pagina.
+     * @param boolean $newIsVisibile (Nuovo) Flag che rappresenta la visibilità della pagina.
+     * @param string $newSeoTitle (Nuovo) Titolo per la Search Of Engine della pagina.
+     * @param string $newSeoText (Nuovo) Testo per la Search Of Engine della pagina.
+     * @param string $newSeoKeywords (Nuove) Parole chiave per la Search Of Engine della pagina.
+     * @param string $newAuthor (Nuovo) Autore della pagina.
+     */
     public function updatePage($pageID, $newTitle, $newSlug, $newContent, $newIsVisible, $newSeoTitle, $newSeoText, $newSeoKeywords, $newAuthor) {
         $page = $this->getPageFromID($pageID);
         if ($page['title'] != $newTitle || $page['slug'] != $newSlug || $page['text'] != $newContent || $page['isVisibile'] != $newIsVisible || $page['seoTitle'] != $newSeoTitle || $page['seoText'] != $newSeoText || $page['seoKeywords'] != $newSeoKeywords || $page['author'] != $newAuthor) {
@@ -1037,6 +1076,11 @@ class DatabaseHelper{
         }
     }
 
+    /**
+     * Modifica i tag collegati a una pagina. Vengono confrontati quelli correnti con quelli passati come parametro e, se gli array non contengono gli stessi ID, viene eseguito l'update.
+     * @param int $pageID ID della pagina.
+     * @param int[] $newTags ID dei (nuovi) tag da collegare alla pagina.
+     */
     public function updatePageTags($pageID, $newTags) {
         $tags = $this->getTagsFromPageID($pageID);
         sort($tags);
@@ -1047,6 +1091,11 @@ class DatabaseHelper{
         }
     }
 
+    /**
+     * Modifica le pagine contenute in una pagina.
+     * @param int $pageID ID della pagina contenitrice.
+     * @param int[] $newDisplayedTags Array contenente gli ID dei tag delle pagine contenute.
+     */
     public function updateDisplayedPages($pageID, $newDisplayedTags) {
         $displayedTags = $this->getContainedPagesTagsFromContainerID($pageID);
         sort($displayedTags);
@@ -1058,6 +1107,12 @@ class DatabaseHelper{
         }       
     }
 
+    /**
+     * Modifica le informazioni di archivio di una pagina. Vengono confrontate le info correnti con quelle passate come parametro e, se almeno una è diversa, viene eseguito l'update.
+     * @param int $pageID ID della pagina di archivio.
+     * @param int $newStartYear (Nuovo) Anno di inizio cronologico.
+     * @param int $newEndYear (Nuovo) Anno di fine cronologica.
+     */
     public function updateArchivePage($pageID, $newStartYear, $newEndYear) {
         $archivePage = $this->getArchivePageFromPageID($pageID);
         if ($archivePage[0]['start'] != $newStartYear || $archivePage[0]['end'] != $newEndYear) {
@@ -1067,6 +1122,11 @@ class DatabaseHelper{
         }
     }
 
+    /**
+     * Modifica gli strumenti di corredo collegati a una pagina d'archivio. Vengono confrontati quelli correnti con quelli passati come parametro e, se gli array non contengono gli stessi ID, viene eseguito l'update.
+     * @param int $pageID ID della pagina.
+     * @param int[] $newReferenceTools ID dei (nuovi) strumenti di corredo da collegare alla pagina.
+     */
     public function updateArchivePageReferenceTools($pageID, $newReferenceTools) {
         $refTools = $this->getReferenceToolsFromArchivePageID($pageID);
         sort($refTools);
@@ -1077,6 +1137,14 @@ class DatabaseHelper{
         }
     }
 
+    /**
+     * Modifica gli articoli d'inventario collegati a una pagina d'archivio. Vengono confrontati quelli correnti con quelli passati come parametro e, se gli array non contengono gli stessi ID, viene eseguito l'update.
+     * @param int $pageID ID della pagina.
+     * @return array{ ID: int, quantity: int }[] $newInventoryItems
+     * Array contenente i (nuovi) articoli della pagina d'archivio, ognuno dei quali contiene:
+     * - ID: ID dell'articolo
+     * - quantity: quantità presente nell'archivio 
+     */
     public function updateArchivePageInventoryItems($pageID, $newInventoryItems) {
         $invItems = $this->getInventoryItemsFromArchivePageID($pageID);
         sort($invItems);
@@ -1087,6 +1155,12 @@ class DatabaseHelper{
         }
     }
 
+    /**
+     * Modifica le informazioni di una raccolta di risorse. Vengono confrontate le info correnti con quelle passate come parametro e, se almeno una è diversa, viene eseguito l'update.
+     * @param int $resourceCollectionID ID della raccolta.
+     * @param string $newCollectionName (Nuovo) Nome della raccolta.
+     * @param string $newPath (Nuovo) Percorso della raccolta.
+     */
     public function updateResourceCollection($resourceCollectionID, $newCollectionName, $newPath) {
         $resourceCollection = $this->getResourceCollectionFromID($resourceCollectionID);
         if ($resourceCollection[0]['nome'] != $newCollectionName || $resourceCollection[0]['path'] != $newPath) {
@@ -1096,6 +1170,13 @@ class DatabaseHelper{
         }
     }
 
+    /**
+     * Modifica le informazioni di un elemento di bibliografia. Vengono confrontate le info correnti con quelle passate come parametro e, se almeno una è diversa, viene eseguito l'update.
+     * @param int $elementID ID dell'elemento di raccolta.
+     * @param string|null $newCit (Nuova) Citazione bibliografica dell'elemento.
+     * @param string|null $newHref (Nuovo) Link di collegamento dell'elemento.
+     * @param string|null $newDoi (Nuovo) Digital Object Identifier dell'elemento.
+     */
     public function updateBibliographyElement($elementID, $newCit, $newHref, $newDoi) {
         $element = $this->getCollectionElementFromID($elementID, "bibliografia");
         if ($element[0]['cit'] != $newCit || $element[0]['href'] != $newHref || $element[0]['DOI'] != $newDoi) {
@@ -1105,6 +1186,13 @@ class DatabaseHelper{
         }
     }
 
+    /**
+     * Modifica le informazioni di un elemento di cronologia. Vengono confrontate le info correnti con quelle passate come parametro e, se almeno una è diversa, viene eseguito l'update.
+     * @param int $elementID ID dell'elemento di raccolta.
+     * @param string $newDate (Nuova) Data cronologica dell'elemento.
+     * @param string|null $newLocation (Nuova) Località di riferimento dell'elemento.
+     * @param string|null $newDescription (Nuova) Descrizione dell'elemento.
+     */
     public function updateChronologyElement($elementID, $newDate, $newLocation, $newDescription) {
         $element = $this->getCollectionElementFromID($elementID, "cronologia");
         if ($element[0]['data'] != $newDate || $element[0]['localita'] != $newLocation || $element[0]['descr'] != $newDescription) {
@@ -1114,6 +1202,14 @@ class DatabaseHelper{
         }
     }
 
+    /**
+     * Modifica le informazioni di un elemento di emeroteca. Vengono confrontate le info correnti con quelle passate come parametro e, se almeno una è diversa, viene eseguito l'update.
+     * @param int $elementID ID dell'elemento di raccolta.
+     * @param string $newJournal (Nuova) Testata giornalistica che ha scritto l'articolo dell'elemento.
+     * @param string $newDate (Nuova) Data di pubblicazione dell'articolo dell'elemento.
+     * @param string|null $newHref (Nuovo) Link di collegamento dell'elemento.
+     * @param string $newTitle (Nuovo) Titolo dell'articolo dell'elemento.
+     */
     public function updateNewsPaperLibraryElement($elementID, $newJournal, $newDate, $newHref, $newTitle) {
         $element = $this->getCollectionElementFromID($elementID, "emeroteca");
         if ($element[0]['giornale'] != $newJournal || $element[0]['data'] != $newDate || $element[0]['href'] != $newHref || $element[0]['titolo'] != $newTitle) {
@@ -1123,6 +1219,11 @@ class DatabaseHelper{
         }
     }
 
+    /**
+     * Modifica le informazioni di un elemento di fototeca. Vengono confrontate le info correnti con quelle passate come parametro e, se almeno una è diversa, viene eseguito l'update.
+     * @param int $elementID ID dell'elemento di raccolta.
+     * @param string $newDescription (Nuova) Descrizione dell'elemento.
+     */
     public function updatePhotoLibraryElement($elementID, $newDescription) {
         $element = $this->getCollectionElementFromID($elementID, "fototeca");
         if ($element[0]['descr'] != $newDescription) {
@@ -1132,6 +1233,15 @@ class DatabaseHelper{
         }
     }
 
+    /**
+     * Modifica le informazioni di una risorsa di rete. Vengono confrontate le info correnti con quelle passate come parametro e, se almeno una è diversa, viene eseguito l'update.
+     * @param int $elementID ID dell'elemento di raccolta.
+     * @param string $newType (Nuovo) Tipo della risorsa.
+     * @param string|null $newTitle (Nuovo) Titolo della risorsa. 
+     * @param string $newHref (Nuovo) Link di collegamento della risorsa.
+     * @param string|null $newSource (Nuova) Fonte della risorsa.
+     * @param string|null $newDoi (Nuovo) Digital Object Identifier della risorsa.
+     */
     public function updateNetworkResource($elementID, $newType, $newTitle, $newHref, $newSource, $newDoi) {
         $element = $this->getCollectionElementFromID($elementID, "rete");
         if ($element[0]['tipo'] != $newType || $element[0]['titolo'] != $newTitle || $element[0]['href'] != $newHref || $element[0]['fonte'] != $newSource || $element[0]['DOI'] != $newDoi) {
@@ -1141,6 +1251,14 @@ class DatabaseHelper{
         }
     }
 
+    /**
+     * Modifica le informazioni di una voce dell'indice. Vengono confrontate le info correnti con quelle passate come parametro e, se almeno una è diversa, viene eseguito l'update.
+     * @param int $indexItemID ID della voce.
+     * @param string $newTitle (Nuovo) Titolo della voce.
+     * @param int $newPosition (Nuova) Posizione della voce all'interno dell'indice. 
+     * @param int|null $newLinkToPage (Nuova) Pagina a cui è legata la voce.
+     * @param string|null $newDestAnchor (Nuova) Ancora a cui è legata la voce.
+     */
     public function updateIndexItem($indexItemID, $newTitle, $newPosition, $newLinkToPage, $newDestAnchor) {
         $item = $this->getIndexItemFromID($indexItemID);
         if ($item[0]['title'] != $newTitle || $item[0]['anchor'] != $newDestAnchor || $item[0]['position'] != $newPosition || $item[0]['page'] != $newLinkToPage) {
@@ -1150,6 +1268,13 @@ class DatabaseHelper{
         }
     }
 
+    /**
+     * Modifica le informazioni di una nota. Vengono confrontate le info correnti con quelle passate come parametro e, se almeno una è diversa, viene eseguito l'update.
+     * @param int $noteID ID della nota.
+     * @param string $newText (Nuovo) Contenuto della nota.
+     * @param string|null $newAuthor (Nuovo) Autore della nota.
+     * @param string|null $newAnchor (Nuova) Ancora a cui è legata la nota.
+     */
     public function updateNote($noteID, $newText, $newAuthor, $newAnchor) {
         $note = $this->getNoteFromID($noteID);
         if ($note[0]['text'] != $newText || $note[0]['anchor'] != $newAnchor || $note[0]['author'] != $newAuthor) {
@@ -1159,6 +1284,11 @@ class DatabaseHelper{
         }
     }
 
+    /**
+     * Modifica le informazioni di un menù. Vengono confrontate le info correnti con quelle passate come parametro e, se almeno una è diversa, viene eseguito l'update.
+     * @param int $menuID ID del menù.
+     * @param string $newMenuName (Nuovo) Nome del menù.
+     */
     public function updateMenu($menuID, $newMenuName) {
         $menu = $this->getMenuFromID($menuID);
         if ($menu[0]['name'] != $newMenuName) {
@@ -1168,6 +1298,14 @@ class DatabaseHelper{
         }
     }
 
+    /**
+     * Modifica le informazioni di una voce del menù. Vengono confrontate le info correnti con quelle passate come parametro e, se almeno una è diversa, viene eseguito l'update.
+     * @param int $menuItemID ID della voce.
+     * @param string $newMenuItemName (Nuovo) Nome della voce.
+     * @param int|null $newMenuItemFather (Nuova) Voce madre della voce.
+     * @param int $newMenuItemPosition (Nuova) Posizione della voce all'interno del menù.
+     * @param int|null $newMenuItemLinkPage (Nuova) Pagina a cui è legata la voce.
+     */
     public function updateMenuItem($menuItemID, $newMenuItemName, $newMenuItemFather, $newMenuItemPosition, $newMenuItemLinkPage) {
         $item = $this->getMenuItemFromID($menuItemID);
         if ($item[0]['name'] != $newMenuItemName || $item[0]['father'] != $newMenuItemFather || $item[0]['position'] != $newMenuItemPosition || $item[0]['page'] != $newMenuItemLinkPage) {
@@ -1177,6 +1315,12 @@ class DatabaseHelper{
         }
     }
     
+    /**
+     * Modifica le informazioni di un tag. Vengono confrontate le info correnti con quelle passate come parametro e, se almeno una è diversa, viene eseguito l'update.
+     * @param int $tagID ID del tag.
+     * @param string $newTagName (Nuovo) Nome del tag.
+     * @param string|null $newTagDescription (Nuova) Descrizione del tag.
+     */
     public function updateTag($tagID, $newTagName, $newTagDescription) {
         $tag = $this->getTagFromID($tagID);
         if ($tag[0]['name'] != $newTagName || $tag[0]['description'] != $newTagDescription) {
@@ -1186,6 +1330,11 @@ class DatabaseHelper{
         }
     }
 
+    /**
+     * Modifica le informazioni di uno strumento di corredo. Vengono confrontate le info correnti con quelle passate come parametro e, se almeno una è diversa, viene eseguito l'update.
+     * @param int $referenceToolID ID dello strumento.
+     * @param string $newReferenceToolName (Nuovo) Nome dello strumento.
+     */
     public function updateReferenceTool($referenceToolID, $newReferenceToolName) {
         $refTool = $this->getReferenceToolFromID($referenceToolID);
         if ($refTool[0]['name'] != $newReferenceToolName) {
@@ -1195,6 +1344,11 @@ class DatabaseHelper{
         }
     }
 
+    /**
+     * Modifica le informazioni di un articolo d'inventario. Vengono confrontate le info correnti con quelle passate come parametro e, se almeno una è diversa, viene eseguito l'update.
+     * @param int $inventoryItemID ID dell'articolo.
+     * @param string $newInventoryItemName (Nuovo) Nome dell'articolo.
+     */
     public function updateInventoryItem($inventoryItemID, $newInventoryItemName) {
         $invItem = $this->getInventoryItemFromID($inventoryItemID);
         if ($invItem[0]['name'] != $newInventoryItemName) {
@@ -1204,31 +1358,57 @@ class DatabaseHelper{
         }
     }
 
+    /**
+     * Funzione template per eliminare un contenuto.
+     * @param string $table Tabella nella quale è presente il contenuto da eliminare.
+     * @param string $idField Nome del campo nella tabella che rappresenta l'ID del contenuto.
+     * @param int $contentID ID del contenuto da eliminare.
+     */
     private function deleteContent($table, $idField, $contentID) {
         $stmt = $this->db->prepare("DELETE FROM $table WHERE $idField = ?");
         $stmt->bind_param('i', $contentID);
         $stmt->execute();
     }
 
+    /**
+     * Elimina un menù.
+     * @param int $menuID ID del menù da eliminare.
+     */
     public function deleteMenu($menuID) {
         $this->deleteContent("menu", "idMenu", $menuID);
     }
     
+    /**
+     * Elimina tutte le voci di un menù.
+     * @param int $menuID ID del menù del quale si vogliono eliminare le voci.
+     */
     public function deleteAllMenuItems($menuID) {
         $this->deleteContent("menuitem", "Menu_idMenu", $menuID);
     }
 
+    /**
+     * In caso dovesse essere eliminata una voce del menù che ha figli, questa funzione cancella il loro legame.
+     * @param int $menuItemID ID della voce del menù da eliminare.
+     */
     private function releaseItemChildren($menuItemID) {
         $stmt = $this->db->prepare("UPDATE menuitem SET MenuItem_idMenuItem = NULL WHERE MenuItem_idMenuItem = ?");
         $stmt->bind_param('i', $menuItemID);
         $stmt->execute();
     }
 
+    /**
+     * Elimina una voce del menù.
+     * @param int $menuItemID ID della voce del menù da eliminare.
+     */
     public function deleteMenuItem($menuItemID) {
         $this->releaseItemChildren($menuItemID);
         $this->deleteContent("menuitem", "idMenuItem", $menuItemID);
     }
 
+    /**
+     * Elimina un tag. Vengono eliminati anche tutti i riferimenti che esistono con lui.
+     * @param int $tagID ID del tag da eliminare.
+     */
     public function deleteTag($tagID) {
         $displayedPages = $this->getAllDisplayedPagesFromTags([$tagID]);  
         $this->deleteContent("page_has_tag", "tag_idTag", $tagID);
@@ -1239,24 +1419,45 @@ class DatabaseHelper{
         $this->deleteContent("tag", "idTag", $tagID);
     }
 
+    /**
+     * Elimina uno strumento di corredo. Vengono eliminati anche tutti i riferimenti che esistono con lui.
+     * @param int $referenceToolID ID dello strumento da eliminare.
+     */
     public function deleteReferenceTool($referenceToolID) {
         $this->deleteContent("archivepage_has_referencetool", "ReferenceTool_idReferenceTool", $referenceToolID);
         $this->deleteContent("referencetool", "idReferenceTool", $referenceToolID);
     }
 
+    /**
+     * Elimina un articolo d'inventario. Vengono eliminati anche tutti i riferimenti che esistono con lui.
+     * @param int $inventoryItemID ID dell'articolo da eliminare.
+     */
     public function deleteInventoryItem($inventoryItemID) {
         $this->deleteContent("archivepage_has_inventoryitem", "inventoryItem_idInventoryItem", $inventoryItemID);
         $this->deleteContent("inventoryitem", "idInventoryItem", $inventoryItemID);
     }
 
+    /**
+     * Elimina una voce dell'indice.
+     * @param int $indexItemID ID della voce da eliminare.
+     */
     public function deleteIndexItem($indexItemID) {
         $this->deleteContent("indexitem", "idIndexItem", $indexItemID);
     }
 
+    /**
+     * Elimina una nota.
+     * @param int $noteID ID della nota da eliminare.
+     */
     public function deleteNote($noteID) {
         $this->deleteContent("note", "noteId", $noteID);
     }
 
+    /**
+     * Elimina un elemento di raccolta.
+     * @param int $elementID ID dell'elemento da eliminare.
+     * @param string $type Tipo dell'elemento da eliminare.
+     */
     public function deleteCollectionElement($elementID, $type) {
         $table = "";
         switch ($type) {
@@ -1280,6 +1481,10 @@ class DatabaseHelper{
         $this->deleteContent("elementodiraccolta", "idelementoDiRaccolta", $elementID);
     }
 
+    /**
+     * Elimina una raccolta di risorse. Vengono eliminati anche tutti gli elementi al suo interno.
+     * @param int $collectionID ID della raccolta da eliminare.
+     */
     public function deleteResourceCollection($collectionID) {
         $tables = ["elementobibliografia", "elementocronologia", "elementoemeroteca", "elementofototeca", "elementorisorsa", "elementodiraccolta"];
         foreach ($tables as $table) {
@@ -1289,6 +1494,10 @@ class DatabaseHelper{
         $this->deleteContent("raccoltadirisorse", "idRaccoltaDiRisorse", $collectionID);
     }
 
+    /**
+     * Rimuove tutti i riferimenti a una pagina che sta per essere eliminata.
+     * @param int $pageID ID della pagina da eliminare.
+     */
     private function removeAllTheLinksToAPage($pageID) {
         $stmt = $this->db->prepare("UPDATE menuitem SET Page_idPage = NULL WHERE Page_idPage = ?");
         $stmt->bind_param('i', $pageID);
@@ -1298,6 +1507,9 @@ class DatabaseHelper{
         $stmt->execute();
     }
 
+    /** Elimina una pagina. Vengono eliminati anche tutti i collegamenti di altre tabelle con lei, tutte le note e tutte le voci dell'indice che contiene.
+     * @param int $pageID ID della pagina da eliminare.
+     */
     public function deletePage($pageID) {
         $pageType = $this->getPageType($pageID);
         switch ($pageType) {
@@ -1331,6 +1543,11 @@ class DatabaseHelper{
         $this->deleteContent("page", "idPage", $pageID);
     }
 
+    /**
+     * Controlla se un indirizzo email è già iscritto alla newsletter.
+     * @param string $email E-Mail da verificare.
+     * @return boolean True se l'email passata come parametro è già iscritta alla newsletter, false altrimenti.
+     */
     private function isUserAlreadySubscribed($email) {
         $stmt = $this->db->prepare("SELECT * FROM newsletter_subscribers WHERE subscriberEmail = ?");
         $stmt->bind_param('s', $email);
@@ -1339,6 +1556,13 @@ class DatabaseHelper{
         return $stmt->num_rows > 0;
     }
 
+    /**
+     * Aggiunge un nuovo indirizzo email alla newsletter.
+     * @param string $nameSurname Nome e cognome dell'utente che si vuole iscrivere.
+     * @param string $email E-Mail dell'utente che si vuole iscrivere.
+     * @return int ID della nuova tupla creata nella tabella 'newsletter_subscribers'.
+     * @throws Exception Se esiste già un utente iscritto con la email passata come parametro.
+     */
     public function addToTheNewsletter($nameSurname, $email) {
         if ($this->isUserAlreadySubscribed($email)) {
             throw new Exception("Ti sei già registrato con questa mail.");
@@ -1350,6 +1574,10 @@ class DatabaseHelper{
         return $stmt->insert_id;
     }
 
+    /**
+     * Restituisce tutti gli indirizzi email iscritti alla newsletter.
+     * @return array{ email: string }[] Array contenente le email iscritte.
+     */
     public function getNewsletterSubscribers() {
         $stmt = $this->db->prepare("SELECT subscriberEmail as email FROM newsletter_subscribers");
         $stmt->execute();
