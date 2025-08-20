@@ -1,3 +1,7 @@
+/**
+ * Modulo in cui vengono inizializzati i due elementi che utilizzano il pacchetto TinyMCE, ovvero le textarea in cui deve essere inserito il contenuto di una pagina e quella in cui deve essere inserito il contenuto di una nuova mail da inviare agli iscritti alla newsletter.
+ */
+
 tinymce.init({
     selector: 'textarea#content',
     plugins: 'lists code image link',

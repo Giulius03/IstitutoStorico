@@ -406,11 +406,11 @@ async function showContents(getterFile, addLink, editLink, removeLink, eliminati
 }
 
 /**
- * Crea le celle della tabella in cui vengono visualizzate le pagine.
- * @param {*} pages 
- * @param {*} editLink 
- * @param {*} filter 
- * @returns 
+ * Crea le singole righe della tabella in cui vengono visualizzate le pagine.
+ * @param {Promise<{idPage: number, title: string, creationDate: string, updatedDate: string}[]>} pages Array di pagine, ognuna delle quali ha il proprio ID, il titolo e le date di creazione e di ultima modifica.
+ * @param {string} editLink Stringa che rappresenta il percorso per raggiungere la pagina nella quale si può modificare un elemento del tipo di contenuto selezionato.
+ * @param {string} filter Tipo delle pagine utilizzato come filtro.
+ * @returns {string} Righe della tabella.
  */
 function showPages(pages, editLink, filter) {
     let html = ``;
@@ -450,6 +450,12 @@ function showPages(pages, editLink, filter) {
     return html;
 }
 
+/**
+ * Crea le singole righe della tabella in cui vengono visualizzati i contenuti diversi dalle pagine.
+ * @param {Promise<{ID: number, name: string}[]>} contents Array di contenuti diversi dalle pagine, ognuno dei quali ha il proprio ID e il nome.
+ * @param {string} editLink Stringa che rappresenta il percorso per raggiungere la pagina nella quale si può modificare un elemento del tipo di contenuto selezionato.
+ * @returns {string} Righe della tabella.
+ */
 function showOther(contents, editLink) {
     let html = ``;
     contents.forEach(c => {
@@ -468,6 +474,12 @@ function showOther(contents, editLink) {
     return html;
 }
 
+/**
+ * Ricava i contenuti di uno specifico tipo filtrati con una stringa di ricerca.
+ * @param {string} type Tipo di contenuto.
+ * @param {string} researchString Stringa di ricerca.
+ * @returns {Promise<any[]>} Array di contenuti.
+ */
 async function searchContents(type, researchString) {
     const url = 'utils/getters/getContentResearched.php?cont=' + type + '&string=' + researchString;
     try {
@@ -482,6 +494,12 @@ async function searchContents(type, researchString) {
     }
 }
 
+/**
+ * Ricava i contenuti di uno specifico tipi, eventualmente ordinati secondo un determinato criterio.
+ * @param {string} utilFunction Nome del file contenente lo script per ricavare i contenuti.
+ * @param {string} orderBy Criterio di ordinamento.
+ * @returns {Promise<any[]>} Array di contenuti.
+ */
 async function getContents(utilFunction, orderBy) {
     const url = 'utils/getters/' + utilFunction + '?ordBy=' + orderBy;
     try {

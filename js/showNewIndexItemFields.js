@@ -5,6 +5,9 @@ document.getElementById("btnAddIndexItem").addEventListener('click', function(ev
     showNewIndexItemFields();
 });
 
+/**
+ * Mostra gli input in cui inserire i valori degli attributi di una voce di un indice.
+ */
 async function showNewIndexItemFields() {
     const itemsContainer = document.getElementById("indexItemsForms");
     const currentItem = `
@@ -44,6 +47,9 @@ async function showNewIndexItemFields() {
     document.getElementById("numVoci").value = numOfItems;
 }
 
+/**
+ * Ricava le pagine presenti nel database, da mostrare per creare eventuali collegamenti con le voci dell'indice.
+ */
 async function start() {
     const url = '../../utils/getters/getPages.php?ordBy=title';
     try {

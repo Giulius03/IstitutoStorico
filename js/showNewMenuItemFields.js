@@ -6,6 +6,9 @@ document.getElementById("btnAddMenuItem").addEventListener('click', function(eve
     showNewMenuItemFields();
 });
 
+/**
+ * Mostra gli input in cui inserire i valori degli attributi di una voce di un menù.
+ */
 async function showNewMenuItemFields() {
     const itemsContainer = document.getElementById("menuItemsForms");
     const currentMenuItem = `
@@ -47,6 +50,9 @@ async function showNewMenuItemFields() {
     numOfItems++;
 }
 
+/**
+ * Aggiorna i valori contenuti nella select per selezionare il padre di ogni voce. Viene chiamata ad ogni inserimento.
+ */
 async function updateSelects() {
     for (let i = startNumber; i <= numOfItems; i++) {
         if (i !== numOfItems) {
@@ -73,6 +79,11 @@ document.getElementById("newNoPageForm").addEventListener("submit", function(e) 
     document.getElementById("idFine").value = numOfItems;
 });
 
+/**
+ * In caso di modifica di un menù, oltre alla possibilità di inserire nuove voci, devono essere visualizzabili anche quelle già esistenti.
+ * @param {number} menuID ID del menù che si sta modificando.
+ * @returns {Promise<{ ID: number, name: string, position: number, page: number|null, father: number|null }[]>} Array di voci del menù, ognuna delle quali contiene ID, nome, posizione, pagina di riferimento e ID della voce madre.
+ */
 async function getExistingItems(menuID) {
     let url = '../../utils/getters/getMenuItems.php?id=' + menuID;
     try {
@@ -87,6 +98,9 @@ async function getExistingItems(menuID) {
     }
 }
 
+/**
+ * Ricava le pagine presenti nel database, da mostrare per creare eventuali collegamenti con le voci del menù, e l'ID da assegnare a un'eventuale nuova voce da inserire.
+ */
 async function start() {
     let url = '../../utils/getters/getPages.php?ordBy=title';
     try {

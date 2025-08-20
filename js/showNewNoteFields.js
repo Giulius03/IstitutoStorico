@@ -4,6 +4,9 @@ document.getElementById("btnAddNote").addEventListener('click', function(event) 
     showNewNoteFields();
 });
 
+/**
+ * Mostra gli input in cui inserire i valori degli attributi di una nota.
+ */
 async function showNewNoteFields() {
     const itemsContainer = document.getElementById("notesForms");
     const currentNote = `

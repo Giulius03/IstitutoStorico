@@ -15,6 +15,10 @@ document.addEventListener('DOMContentLoaded', function() {
     getResourceCollections(document.getElementById("idPage").value);
 });
 
+/**
+ * Mostra le righe della tabella contenente le raccolte di risorse.
+ * @param {Promise<{ nome: string, ID: number }[]>} collections Array di raccolte di risorse, ognuna delle quali contiene ID e nome.
+ */
 function showResourceCollections(collections) {
     let collHtml = ``;
     if (collections.length === 0) {
@@ -57,6 +61,10 @@ function showResourceCollections(collections) {
     }
 }
 
+/**
+ * Ricava le raccolte di risorse di una pagina.
+ * @param {number} pageID ID della pagina.
+ */
 async function getResourceCollections(pageID) {
     const url = '../../utils/getters/getResourceCollections.php?id=' + pageID;
     try {

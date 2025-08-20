@@ -4,6 +4,9 @@ document.getElementById("btnAddCollection").addEventListener('click', function(e
     showNewResourseCollectionFields();
 });
 
+/**
+ * Mostra gli input in cui inserire i valori degli attributi di una raccolta di risorse.
+ */
 async function showNewResourseCollectionFields() {
     const itemsContainer = document.getElementById("collectionsForms");
     const currentCollection = `

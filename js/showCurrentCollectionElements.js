@@ -4,6 +4,12 @@ const newsPaperLibraryElemsTableHeadHtml = getTableHeadHtml(['Testata Giornalist
 const photoLibraryElemsTableHeadHtml = getTableHeadHtml(['Descrizione'], "Elementi di fototeca");
 const netowrkResourcesTableHeadHtml = getTableHeadHtml(['Titolo', 'Fonte'], "Risorse in rete");
 
+/**
+ * Restituisce la <thead> della tabella contenente gli elementi di raccolta di uno specifico tipo, ognuno dei quali visualizza attributi diversi.
+ * @param {string[]} fields Array di stringhe contenente i nomi degli attributi da mostrare. 
+ * @param {string} caption Caption della tabella (varia per ogni tipo di elemento).
+ * @returns {string} <thead> della tabella del tipo specificato.
+ */
 function getTableHeadHtml(fields, caption) {
     let html = `
     <table class="table mt-2">
@@ -28,6 +34,13 @@ document.addEventListener('DOMContentLoaded', function() {
     getCollectionElements(document.getElementById("idCollection").value);
 });
 
+/**
+ * Mostra le righe della tabella, una per ogni elemento presente.
+ * @param {Promise<any[]>} rows Array di elementi dello stesso tipo. Ogni tipo contiene campi diversi.
+ * @param {string} tableHeadHtml <thead> della tabella coerente coi campi del tipo di contenuti che si vuole mostrare.
+ * @param {string[]} fields Campi da mostrare, da utilizzare per ricavare le singole informazioni ottenute dal database.
+ * @param {string} value Stringa corrispondente all'attributo value di una specifica checkbox.
+ */
 function showRows(rows, tableHeadHtml, fields, value) {
     let rowsHtml = ``;
     if (rows.length > 0) {
@@ -74,6 +87,10 @@ function showRows(rows, tableHeadHtml, fields, value) {
     }
 }
 
+/**
+ * Ricava dal database gli elementi di raccolta contenuti in una collezione di risorse, utilizzando AJAX e script PHP.
+ * @param {number} collectionID ID della collezione.
+ */
 async function getCollectionElements(collectionID) {
     const url = '../../utils/getters/getCollectionElements.php?collectionID=' + collectionID;
     try {

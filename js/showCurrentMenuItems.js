@@ -13,12 +13,15 @@ const tableHeadHtml = `
         </tr>
     </thead>
     <tbody>`;
-let areButtonsNotEnabled = false;
 
 document.addEventListener('DOMContentLoaded', function() {
     getMenuItems(document.getElementById("idMenu").value);
 });
 
+/**
+ * Mostra le righe della tabella contenente le voci di un menù.
+ * @param {Promise<{ ID: number, name: string, position: number, page: number|null, father: number|null }[]>} items Array di voci del menù, ognuna delle quali contiene ID, nome, posizione all'interno del menù, pagina a cui fa riferimento e ID della voce madre.
+ */
 function showCurrentItems(items) {
     let itemsHtml = ``;
     if (items.length === 0) {
@@ -61,6 +64,10 @@ function showCurrentItems(items) {
     }
 }
 
+/**
+ * Ricava le voci di un menù dal database, utilizzando AJAX e script PHP.
+ * @param {number} menuID ID del menù di cui su vogliono ottenere le voci.
+ */
 async function getMenuItems(menuID) {
     let url = '../../utils/getters/getMenuItems.php?id=' + menuID;
     try {

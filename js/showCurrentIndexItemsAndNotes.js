@@ -1,7 +1,12 @@
 const indexItemsTableHeadHtml = getTableHeadHtml(['Titolo', 'Posizione'], "Voci dell'indice");
 const notesTableHeadHtml = getTableHeadHtml(['Testo'], "Note");
-let areButtonsNotEnabled = false;
 
+/**
+ * Restituisce la <thead> della tabella contenente le voci di un indice o le note. In base alla scelta, si visualizzano attributi diversi.
+ * @param {string[]} fields Array di stringhe contenente i nomi degli attributi da mostrare. 
+ * @param {string} caption Caption della tabella (varia per ogni tipo).
+ * @returns {string} <thead> della tabella.
+ */
 function getTableHeadHtml(fields, caption) {
     let html = `
     <table class="table mt-3">
@@ -27,7 +32,16 @@ document.addEventListener('DOMContentLoaded', function() {
     getNotes(document.getElementById("idPage").value);
 });
 
-function showTable(rows, tableHeadHtml, fields, divID, editFile, removeFile, plural) {
+/**
+ * Mostra la tabella contenente note o voci di un indice.
+ * @param {Promise<any[]>} rows Array di elementi dello stesso tipo (nota o voce) 
+ * @param {string} tableHeadHtml <thead> della tabella coerente coi campi del contenuto che si vuole mostrare.
+ * @param {string} fields Campi da mostrare, da utilizzare per ricavare le singole informazioni ottenute dal database.
+ * @param {string} divID Attributo id del tag <div> dentro il quale verrà inserito l'HTML generato.
+ * @param {string} editFile Nome del file contenente lo script per modificare il contenuto.
+ * @param {string} plural Stringa utile per varie label e controlli.
+ */
+function showTable(rows, tableHeadHtml, fields, divID, editFile, plural) {
     let rowsHtml = ``;
     if (rows.length === 0) {
         rowsHtml += `
@@ -72,6 +86,10 @@ function showTable(rows, tableHeadHtml, fields, divID, editFile, removeFile, plu
     }
 }
 
+/**
+ * Ricava dal database le voci dell'indice contenuto in una pagina, utilizzando AJAX e script PHP.
+ * @param {number} pageID ID della pagina.
+ */
 async function getIndexItems(pageID) {
     const url = '../../utils/getters/getIndexItems.php?id=' + pageID;
     try {
@@ -80,12 +98,16 @@ async function getIndexItems(pageID) {
             throw new Error(`Response status: ${response.status}`);
         }
         const json = await response.json();
-        showTable(json, indexItemsTableHeadHtml, ['title', 'position'], "indexItemsForms", "modifyIndexItem.php", "deleteIndexItem.php", "voci");
+        showTable(json, indexItemsTableHeadHtml, ['title', 'position'], "indexItemsForms", "modifyIndexItem.php", "voci");
     } catch (error) {
         console.log(error.message);
     }
 }
 
+/**
+ * Ricava dal database le note contenute in una pagina, utilizzando AJAX e script PHP.
+ * @param {number} pageID ID della pagina.
+ */
 async function getNotes(pageID) {
     const url = '../../utils/getters/getNotes.php?id=' + pageID;
     try {
@@ -94,7 +116,7 @@ async function getNotes(pageID) {
             throw new Error(`Response status: ${response.status}`);
         }
         const json = await response.json();
-        showTable(json, notesTableHeadHtml, ['text'], "notesForms", "modifyNote.php", "deleteNote.php", "note");    
+        showTable(json, notesTableHeadHtml, ['text'], "notesForms", "modifyNote.php", "note");    
     } catch (error) {
         console.log(error.message);
     }

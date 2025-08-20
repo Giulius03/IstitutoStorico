@@ -2,7 +2,7 @@
  * Recupera le voci di un menù a partire da un padre.
  * Utilizza AJAX e script PHP.
  * @param {number} father ID della voce madre.
- * @returns {Promise<{ID: number, name: string, slug: string}>} Array di voci di menù.
+ * @returns {Promise<{ID: number, name: string, slug: string}[]>} Array di voci di menù.
  */
 async function getMenuItemsByFather(father) {
     const url = 'utils/getters/getPrimaryMenu.php?id=' + father;
@@ -22,7 +22,7 @@ async function getMenuItemsByFather(father) {
  * Genera i tag <li> delle liste <ul> rappresentanti i figli delle varie voci del menù principale. Utilizza ricorsione.
  * @param {string} listIDMobile Attributo "id" del tag <ul> contenente il menù principale per la visualizzazione mobile.
  * @param {string} listIDPC Attributo "id" del tag <ul> contenente il menù principale per la visualizzazione PC.
- * @param {Promise<{ID: number, name: string, slug: string}>} children Figli con cui creare la lista di voci del menù
+ * @param {Promise<{ID: number, name: string, slug: string}[]>} children Figli con cui creare la lista di voci del menù
  */
 async function fillChildrenList(listIDMobile, listIDPC, children) {
     let currentForMobile = ``;
@@ -68,7 +68,7 @@ async function fillChildrenList(listIDMobile, listIDPC, children) {
 
 /**
  * Riempie il tag <ul> con tag <li>, ognuno dei quali rappresenta una voce primaria del menù.
- * @param {Promise<{ID: number, name: string>}} items Array contenente le voci del menù principale, ognuna con ID e nome.
+ * @param {Promise<{ID: number, name: string}[]>} items Array contenente le voci del menù principale, ognuna con ID e nome.
  */
 function fillMainMenu(items) {
     let currentForMobile = ``;

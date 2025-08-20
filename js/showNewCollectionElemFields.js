@@ -12,6 +12,9 @@ document.getElementById("btnAddCollectionElem").addEventListener('click', functi
     showNewCollectionElemFields();
 });
 
+/**
+ * Mostra gli input in cui inserire i valori degli attributi di uno specifico tipo di elemento.
+ */
 function showNewCollectionElemFields() {
     const elemsContainer = document.getElementById("collectionElemsForms");
     const currentType = document.querySelector('input[name="elemType"]:checked').value;
@@ -59,6 +62,10 @@ function showNewCollectionElemFields() {
     document.getElementById("numElems").value = numOfElems;
 }
 
+/**
+ * Mostra gli input per inserire i valori degli attributi di un elemento di bibliografia.
+ * @param {number} index Valore numerico corrispondente al numero di elementi dello stesso tipo inseriti.
+ */
 function showBibliographyElemFields(index) {
     document.getElementById("specificFieldsForm"+index).innerHTML = `
     <div class="form-floating my-3">
@@ -75,6 +82,10 @@ function showBibliographyElemFields(index) {
     </div>`;
 }
 
+/**
+ * Mostra gli input per inserire i valori degli attributi di un elemento di cronologia.
+ * @param {number} index Valore numerico corrispondente al numero di elementi dello stesso tipo inseriti.
+ */
 function showCronologyElemFields(index) {
     document.getElementById("specificFieldsForm"+index).innerHTML = `
     <div class="form-floating my-3">
@@ -91,6 +102,10 @@ function showCronologyElemFields(index) {
     </div>`;
 }
 
+/**
+ * Mostra gli input per inserire i valori degli attributi di un elemento di emeroteca.
+ * @param {number} index Valore numerico corrispondente al numero di elementi dello stesso tipo inseriti.
+ */
 function showNewsPaperLibraryElemFields(index) {
     document.getElementById("specificFieldsForm"+index).innerHTML = `
     <div class="form-floating my-3">
@@ -111,6 +126,10 @@ function showNewsPaperLibraryElemFields(index) {
     </div>`;
 }
 
+/**
+ * Mostra gli input per inserire i valori degli attributi di un elemento di fototeca.
+ * @param {number} index Valore numerico corrispondente al numero di elementi dello stesso tipo inseriti.
+ */
 function showNewPhotoLibraryElemFields(index) {
     document.getElementById("specificFieldsForm"+index).innerHTML = `
     <div class="form-floating my-3">
@@ -119,6 +138,10 @@ function showNewPhotoLibraryElemFields(index) {
     </div>`;
 }
 
+/**
+ * Mostra gli input per inserire i valori degli attributi di una risorsa di rete.
+ * @param {number} index Valore numerico corrispondente al numero di risorse di rete inserite.
+ */
 function showNewNetworkResourceFields(index) {
     document.getElementById("specificFieldsForm"+index).innerHTML = `
     <div class="form-floating my-3">
