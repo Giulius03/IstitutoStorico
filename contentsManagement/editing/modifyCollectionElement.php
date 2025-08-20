@@ -1,4 +1,7 @@
 <?php
+/**
+ * Pagina per modifica di un elemento di raccolta.
+ */
 require_once '../../bootstrap.php';
 
 //Base Template

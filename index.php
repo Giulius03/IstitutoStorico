@@ -1,4 +1,7 @@
 <?php
+/**
+ * Pagina home del sito per visualizzazione utenti.
+ */
 require_once 'bootstrap.php';
 
 //Base Template

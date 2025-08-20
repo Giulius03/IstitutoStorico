@@ -1,4 +1,7 @@
 <?php
+/**
+ * Pagina per inserimento di un tag.
+ */
 require_once '../../bootstrap.php';
 
 //Base Template

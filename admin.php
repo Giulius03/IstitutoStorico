@@ -1,4 +1,7 @@
 <?php
+/**
+ * Pagina di amministrazione dei contenuti del sito.
+ */
 require_once 'bootstrap.php';
 
 //Base Template

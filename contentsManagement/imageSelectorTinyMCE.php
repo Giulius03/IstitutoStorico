@@ -1,4 +1,7 @@
 <?php
+/**
+ * Pagina per selezione di immagini tramite TinyMCE.
+ */
 require_once '../bootstrap.php';
 
 //Base Template

@@ -1,4 +1,7 @@
 <?php
+/**
+ * Pagina che visualizza il contenuto di tutte quelle presenti nel sito.
+ */
 require_once 'bootstrap.php';
 
 //Base Template

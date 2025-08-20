@@ -1,4 +1,7 @@
 <?php
+/**
+ * Pagina per inserimento di uno strumento di corredo.
+ */
 require_once '../../bootstrap.php';
 
 //Base Template

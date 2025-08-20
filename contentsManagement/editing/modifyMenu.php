@@ -1,4 +1,7 @@
 <?php
+/**
+ * Pagina per modifica di un menù.
+ */
 require_once '../../bootstrap.php';
 
 //Base Template

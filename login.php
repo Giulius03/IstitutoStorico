@@ -1,4 +1,7 @@
 <?php
+/**
+ * Pagina di login come amministratore.
+ */
 require_once 'bootstrap.php';
 
 //Base Template

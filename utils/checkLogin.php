@@ -1,4 +1,7 @@
 <?php
+/**
+ * Script per verificare il login di un amministratore, compresa comunicazione dell'errore nel caso fosse necessaria.
+ */
 require_once '../bootstrap.php';
 
 $status["successful"] = false;

@@ -1,7 +1,17 @@
 <?php
+/**
+ * Classe di utilità per gestione del database.
+ * Fornisce metodi di supporto per eseguire query SQL, recuperare risultati e gestire connessioni con MySQLi.
+ * @author Marco Giugliani
+ * @version 1.0
+*/
 class DatabaseHelper{
+    /** @var mysqli Connessione al database */
     private $db;
 
+    /**
+     * Costruttore della classe.
+     */
     public function __construct(){
 
         $host = getenv('DB_HOST') ?: 'localhost';

@@ -1,4 +1,7 @@
 <?php
+/**
+ * Pagina per modifica di una voce dell'indice.
+ */
 require_once '../../bootstrap.php';
 
 //Base Template

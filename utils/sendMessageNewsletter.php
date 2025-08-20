@@ -1,4 +1,7 @@
 <?php
+/**
+ * Script per invio tramite GMail di notifiche agli utenti iscritti alla newsletter.
+ */
 require_once '../bootstrap.php';
 require '../vendor/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
