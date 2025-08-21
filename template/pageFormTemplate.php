@@ -1,11 +1,11 @@
 <?php
-$editOrDelete = $templateParams["action"] == "E" || $templateParams["action"] == "D";
+$edit = $templateParams["action"] == "E";
 if (isAdminLoggedIn()):
 ?>
 <h1 class="text-center fs-1 fw-bold mt-4">
-    <?php echo ($templateParams["action"] == "I" ? "Inserisci nuova" : ($templateParams["action"] == "E" ? "Modifica" : "Cancella"))." pagina" ?>
+    <?php echo ($templateParams["action"] == "I" ? "Inserisci nuova" : "Modifica")." pagina" ?>
 </h1>
-<form action="../../utils/<?php echo $templateParams["actionFile"] ?>" method="POST" class="mx-5 mt-4" id="newPageForm">
+<form action="<?php echo UTILS_PATH . $templateParams["actionFile"] ?>" method="POST" class="mx-5 mt-4" id="newPageForm">
     <?php if ($templateParams["action"] == "I"): ?>
     <fieldset class="d-flex flex-column align-items-center">
         <label>Seleziona il tipo di pagina:</label>
@@ -25,30 +25,29 @@ if (isAdminLoggedIn()):
         </div>
     </fieldset>
     <?php endif; ?>
-    <input type="hidden" name="idPage" id="idPage" value="<?php echo $editOrDelete ? $_GET['id'] : "" ?>" />
-    <input type="hidden" name="btnsDisab" id="btnsDisab" value="<?php echo $templateParams["action"] == "D" ? "true" : "false" ?>" />
+    <input type="hidden" name="idPage" id="idPage" value="<?php echo $edit ? $_GET['id'] : "" ?>" />
     <fieldset class="border-top mt-4">
         <legend>Attributi</legend>
         <ul class="list-unstyled m-0 mt-5 px-2">
             <li class="form-floating mb-3">
-                <input name="titolo" type="text" class="form-control" id="titolo" placeholder="Titolo" value="<?php echo $editOrDelete ? $templateParams['page']['title'] : "" ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                <input name="titolo" type="text" class="form-control" id="titolo" placeholder="Titolo" value="<?php echo $edit ? $templateParams['page']['title'] : "" ?>" required />
                 <label for="titolo">Titolo</label>
             </li>
             <li class="form-floating mb-3">
-                <input name="slug" type="text" class="form-control" id="slug" placeholder="slug" value="<?php echo $editOrDelete ? $templateParams['page']['slug'] : "" ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                <input name="slug" type="text" class="form-control" id="slug" placeholder="slug" value="<?php echo $edit ? $templateParams['page']['slug'] : "" ?>" required />
                 <label for="slug">Slug</label>
             </li>
             <li class="form-floating mb-3">
-                <input name="autore" type="text" class="form-control" id="autore" placeholder="autore" value="<?php echo $editOrDelete ? $templateParams['page']['author'] : "" ?>" <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?>/>
+                <input name="autore" type="text" class="form-control" id="autore" placeholder="autore" value="<?php echo $edit ? $templateParams['page']['author'] : "" ?>" />
                 <label for="autore">Autore</label>
             </li>
             <li class="form-check mb-3">
-                <input class="form-check-input" type="checkbox" value="visible" id="visible" name="visible" <?php echo $templateParams["action"] == "I" || ($editOrDelete && $templateParams['page']['isVisibile'] == true) ? "checked" : "" ?> <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                <input class="form-check-input" type="checkbox" value="visible" id="visible" name="visible" <?php echo $templateParams["action"] == "I" || ($edit && $templateParams['page']['isVisibile'] == true) ? "checked" : "" ?> />
                 <label class="form-check-label" for="visible">Visibile</label>
             </li>
             <li class="mb-3">
                 <label for="content" class="form-label">Inserisci il contenuto della pagina:</label>
-                <textarea class="form-control" name="content" id="content" rows="10"><?php echo $editOrDelete ? $templateParams['page']['text'] : "" ?></textarea>
+                <textarea class="form-control" name="content" id="content" rows="10"><?php echo $edit ? $templateParams['page']['text'] : "" ?></textarea>
                 <input type="hidden" name="tinymceDisabled" id="tinymceDisabled" value="<?php echo $templateParams['action'] == "D" ? "true" : "" ?>" />
             </li>
             <li class="mb-3">
@@ -57,7 +56,7 @@ if (isAdminLoggedIn()):
                     <?php $tags = $dbh->getTags();
                     foreach ($tags as $tag): ?>
                     <li class="form-check me-5">
-                        <input class="form-check-input" type="checkbox" value="<?php echo $tag['ID'] ?>" id="<?php echo "tag".$tag['ID'] ?>" name="<?php echo "tag".$tag['ID'] ?>" <?php echo $editOrDelete && in_array($tag['ID'], $templateParams["pageTags"]) ? "checked" : "" ?> <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                        <input class="form-check-input" type="checkbox" value="<?php echo $tag['ID'] ?>" id="<?php echo "tag".$tag['ID'] ?>" name="<?php echo "tag".$tag['ID'] ?>" <?php echo $edit && in_array($tag['ID'], $templateParams["pageTags"]) ? "checked" : "" ?> />
                         <label class="form-check-label" for="<?php echo "tag".$tag['ID'] ?>"><?php echo $tag['name'] ?></label>
                     </li>
                     <?php endforeach; ?>
@@ -69,22 +68,22 @@ if (isAdminLoggedIn()):
         <legend>Search Engine Optimization</legend>
         <ul class="list-unstyled mt-5 px-2">
             <li class="form-floating mb-3">
-                <input name="titoloSEO" type="text" class="form-control" id="titoloSEO" placeholder="TitoloSEO" value="<?php echo $editOrDelete ? $templateParams['page']['seoTitle'] : "" ?>" <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                <input name="titoloSEO" type="text" class="form-control" id="titoloSEO" placeholder="TitoloSEO" value="<?php echo $edit ? $templateParams['page']['seoTitle'] : "" ?>" />
                 <label for="titoloSEO">Titolo SEO</label>
             </li>
             <li class="form-floating mb-3">
-                <input name="testoSEO" type="text" class="form-control" id="testoSEO" placeholder="testoSEO" value="<?php echo $editOrDelete ? $templateParams['page']['seoText'] : "" ?>" <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                <input name="testoSEO" type="text" class="form-control" id="testoSEO" placeholder="testoSEO" value="<?php echo $edit ? $templateParams['page']['seoText'] : "" ?>" />
                 <label for="testoSEO">Testo SEO</label>
             </li>
             <li class="form-floating mb-3">
-                <input name="chiaviSEO" type="text" class="form-control" id="chiaviSEO" placeholder="ChiaviSEO" value="<?php echo $editOrDelete ? $templateParams['page']['seoKeywords'] : "" ?>" <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                <input name="chiaviSEO" type="text" class="form-control" id="chiaviSEO" placeholder="ChiaviSEO" value="<?php echo $edit ? $templateParams['page']['seoKeywords'] : "" ?>" />
                 <label for="chiaviSEO">Parole Chiave SEO</label>
             </li>
         </ul>
     </fieldset>
     <fieldset class="border-top my-4">
         <legend>Indice</legend>
-        <a class="btn btn-dark text-decoration-none mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddIndexItem" role="button">Aggiungi una voce all'indice</a>
+        <a class="btn btn-dark text-decoration-none mb-3" id="btnAddIndexItem" role="button">Aggiungi una voce all'indice</a>
         <input type="hidden" name="numVoci" id="numVoci" value="0" />
         <div id="indexItemsForms">
 
@@ -92,7 +91,7 @@ if (isAdminLoggedIn()):
     </fieldset>
     <fieldset class="border-top my-4">
         <legend>Note</legend>
-        <a class="btn btn-dark text-decoration-none mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddNote" role="button">Aggiungi una nota</a>
+        <a class="btn btn-dark text-decoration-none mb-3" id="btnAddNote" role="button">Aggiungi una nota</a>
         <input type="hidden" name="numNote" id="numNote" value="0" />
         <div id="notesForms">
 
@@ -104,7 +103,7 @@ if (isAdminLoggedIn()):
         <ul class="mt-2 p-0">
             <?php foreach ($tags as $tag): ?>
             <li class="form-check me-5">
-                <input class="form-check-input" type="checkbox" value="<?php echo $tag['ID'] ?>" id="<?php echo "tagContenuto".$tag['ID'] ?>" name="<?php echo "tagContenuto".$tag['ID'] ?>" <?php echo $editOrDelete && in_array($tag['ID'], $templateParams["containedPagesTags"]) ? "checked" : "" ?> <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                <input class="form-check-input" type="checkbox" value="<?php echo $tag['ID'] ?>" id="<?php echo "tagContenuto".$tag['ID'] ?>" name="<?php echo "tagContenuto".$tag['ID'] ?>" <?php echo $edit && in_array($tag['ID'], $templateParams["containedPagesTags"]) ? "checked" : "" ?> />
                 <label class="form-check-label" for="<?php echo "tagContenuto".$tag['ID'] ?>"><?php echo $tag['name'] ?></label>
             </li>
             <?php endforeach; ?>
@@ -114,11 +113,11 @@ if (isAdminLoggedIn()):
         <fieldset class="border-top mb-4">
             <legend>Attributi Pagina di Archivio</legend>
             <div class="form-floating mt-3">
-                <input step="1" name="dataInizio" type="number" class="form-control" id="dataInizio" placeholder="dataInizio" value="<?php echo $editOrDelete && isset($templateParams['archivePage']) ? $templateParams['archivePage'][0]['start'] : "" ?>" <?php echo $editOrDelete && isset($templateParams['archivePage']) ? "required" : "" ?> <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                <input step="1" name="dataInizio" type="number" class="form-control" id="dataInizio" placeholder="dataInizio" value="<?php echo $edit && isset($templateParams['archivePage']) ? $templateParams['archivePage'][0]['start'] : "" ?>" <?php echo $edit && isset($templateParams['archivePage']) ? "required" : "" ?> />
                 <label for="dataInizio">Data cronologica di inizio</label>
             </div>
             <div class="form-floating mt-3">
-                <input step="1" name="dataFine" type="number" class="form-control" id="dataFine" placeholder="dataFine" value="<?php echo $editOrDelete && isset($templateParams['archivePage']) ? $templateParams['archivePage'][0]['end'] : "" ?>" <?php echo $editOrDelete && isset($templateParams['archivePage']) ? "required" : "" ?> <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                <input step="1" name="dataFine" type="number" class="form-control" id="dataFine" placeholder="dataFine" value="<?php echo $edit && isset($templateParams['archivePage']) ? $templateParams['archivePage'][0]['end'] : "" ?>" <?php echo $edit && isset($templateParams['archivePage']) ? "required" : "" ?> />
                 <label for="dataFine">Data cronologica di fine</label>
             </div>
         </fieldset>
@@ -131,9 +130,8 @@ if (isAdminLoggedIn()):
                 <li class="form-check me-5">
                     <input class="form-check-input" type="checkbox" value="<?php echo $rTool['ID'] ?>" id="<?php echo "strumento".$rTool['ID'] ?>" name="<?php echo "strumento".$rTool['ID'] ?>" 
                     <?php if (isset($templateParams["referenceTools"])) {
-                        echo $editOrDelete && in_array($rTool['ID'], $templateParams["referenceTools"]) ? "checked" : ""; 
-                    }?> 
-                    <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                        echo $edit && in_array($rTool['ID'], $templateParams["referenceTools"]) ? "checked" : ""; 
+                    }?> />
                     <label class="form-check-label" for="<?php echo "strumento".$rTool['ID'] ?>"><?php echo $rTool['name'] ?></label>
                 </li>
                 <?php endforeach; ?>
@@ -147,13 +145,13 @@ if (isAdminLoggedIn()):
                 foreach ($inventoryItems as $iItem): ?>
                 <?php 
                 $index = isset($templateParams["inventoryItems"]) ? array_search($iItem['ID'], array_column($templateParams["inventoryItems"], 'ID')) : false;
-                $contained = $editOrDelete && $index !== false; ?>
+                $contained = $edit && $index !== false; ?>
                 <li class="addingInvItem d-flex align-items-center">
                     <div class="form-check me-3">
-                        <input class="form-check-input" type="checkbox" value="<?php echo $iItem['ID'] ?>" id="<?php echo "articolo".$iItem['ID'] ?>" name="<?php echo "articolo".$iItem['ID'] ?>" <?php echo $contained ? "checked" : "" ?> <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                        <input class="form-check-input" type="checkbox" value="<?php echo $iItem['ID'] ?>" id="<?php echo "articolo".$iItem['ID'] ?>" name="<?php echo "articolo".$iItem['ID'] ?>" <?php echo $contained ? "checked" : "" ?> />
                         <label class="form-check-label" for="<?php echo "articolo".$iItem['ID'] ?>"><?php echo $iItem['name'] ?></label>
                     </div>
-                    <input step="1" min="1" name="<?php echo "quantita".$iItem['ID'] ?>" type="number" class="form-control py-1 ps-2 pe-0 <?php echo $contained ? "" : "d-none" ?>" id="<?php echo "quantita".$iItem['ID'] ?>" placeholder="Quantità" value="<?php echo $contained ? $templateParams['inventoryItems'][$index]['quantity'] : "" ?>" <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                    <input step="1" min="1" name="<?php echo "quantita".$iItem['ID'] ?>" type="number" class="form-control py-1 ps-2 pe-0 <?php echo $contained ? "" : "d-none" ?>" id="<?php echo "quantita".$iItem['ID'] ?>" placeholder="Quantità" value="<?php echo $contained ? $templateParams['inventoryItems'][$index]['quantity'] : "" ?>" />
                     <label class="visually-hidden" for="<?php echo "quantita".$iItem['ID'] ?>"><?php echo "Quantità ".$iItem['name'] ?></label>
                 </li>
                 <?php endforeach; ?>
@@ -163,7 +161,7 @@ if (isAdminLoggedIn()):
     <fieldset id="resourceCollectorInfo" class="border-top mb-4 <?php echo $templateParams['action'] == "I" || (isset($templateParams['page']) && $templateParams['page']['type'] != "Raccolta di Risorse") ? "d-none" : "" ?>">
         <legend>Raccolte di Risorse</legend>
         <p class="fst-italic">Sarà possibile aggiungere elementi alle raccolte una volta creata la pagina.</p>
-        <a class="btn btn-dark text-decoration-none mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddCollection" role="button">Aggiungi una raccolta di risorse</a>
+        <a class="btn btn-dark text-decoration-none mb-3" id="btnAddCollection" role="button">Aggiungi una raccolta di risorse</a>
         <input type="hidden" name="numCollections" id="numCollections" value="0" />
         <div id="collectionsForms">
 
@@ -171,13 +169,9 @@ if (isAdminLoggedIn()):
     </fieldset>
     <div class="text-center my-4">
         <a class="btn btn-dark w-25 me-4 text-decoration-none" role="button" href="../../admin.php?cont=Pagine">Torna indietro</a>
-        <?php if ($templateParams["action"] == "E" || $templateParams["action"] == "I"): ?>
-        <input class="btn btn-dark ms-4 w-25" type="submit" value="<?php echo $templateParams["action"] == "I" ? "Crea" : "Salva" ?>" />
-        <?php else: ?>
-        <button type="button" class="btn btn-dark ms-4 w-25" data-bs-toggle="modal" data-bs-target="#confirmElimination">Elimina</button>
-        <?php endif; ?>    
+        <input class="btn btn-dark ms-4 w-25" type="submit" value="<?php echo $templateParams["action"] == "I" ? "Crea" : "Salva" ?>" />    
     </div>
-    <?php require_once("../../template/dontSaveModal.php"); ?>
+    <?php require_once(TEMPLATE_PATH . "dontSaveModal.php"); ?>
 </form>
 <div class="modal fade" id="confirmElimination" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal-dialog">

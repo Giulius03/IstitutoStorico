@@ -119,6 +119,7 @@ async function getPrimaryMenu() {
             throw new Error(`Response status: ${response.status}`);
         }
         const json = await response.json();
+        console.log("entrato");
         fillMainMenu(json);
     } catch (error) {
         console.log(error.message);

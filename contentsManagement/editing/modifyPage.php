@@ -2,15 +2,15 @@
 /**
  * Pagina per modifica di un contenuto di tipo "Pagina".
  */
-require_once '../../bootstrap.php';
+require_once '/bootstrap.php';
 
 //Base Template
 $templateParams["titolo"] = "Modifica Pagina";
-$templateParams["nome"] = "../../template/pageFormTemplate.php";
+$templateParams["nome"] = TEMPLATE_PATH . "pageFormTemplate.php";
 $templateParams["action"] = "E";
-$templateParams["actionFile"] = "contentEditors/editPage.php";
-$templateParams["js"] = array("../../js/logout.js", "../../js/tinymce.js", "../../js/showNewIndexItemFields.js", "../../js/showNewNoteFields.js", "../../js/showNewResourceCollectionFields.js", "../../js/showInvItemsQuantityInputs.js", "../../js/showCurrentIndexItemsAndNotes.js", "../../js/contentsManagementNavbarLinks.js");
-$templateParams["css"] = "../../css/style.css";
+$templateParams["actionFile"] = CONTENT_EDITORS_SCRIPT_PATH . "editPage.php";
+$templateParams["js"] = array(JS_PATH . "logout.js", JS_PATH . "tinymce.js", JS_PATH . "showNewIndexItemFields.js", JS_PATH . "showNewNoteFields.js", JS_PATH . "showNewResourceCollectionFields.js", JS_PATH . "showInvItemsQuantityInputs.js", JS_PATH . "showCurrentIndexItemsAndNotes.js", JS_PATH . "contentsManagementNavbarLinks.js");
+$templateParams["css"] = CSS_PATH . "style.css";
 
 if (isset($_GET['id'])) {
     $templateParams["page"] = $dbh->getPageFromID($_GET['id']);
@@ -24,9 +24,9 @@ if (isset($_GET['id'])) {
         $templateParams["inventoryItems"] = $dbh->getInventoryItemsFromArchivePageID($_GET['id']);
     } else if ($templateParams["page"]["type"] == "Raccolta di Risorse") {
         $templateParams["actionFile"] .= "&type=raccolta";
-        $templateParams["js"][] = "../../js/showCurrentResourceCollections.js";
+        $templateParams["js"][] = JS_PATH . "showCurrentResourceCollections.js";
     }
 }
 
-require '../../template/base.php';
+require BASE_TEMPLATE_PATH;
 ?>

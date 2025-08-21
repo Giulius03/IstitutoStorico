@@ -13,7 +13,7 @@
     </head>
     <body>
         <?php
-        $baseDir = realpath("../sites/default/images/");
+        $baseDir = realpath(IMAGES_PATH);
         $currentDir = isset($_GET['path']) ? realpath($baseDir . '/' . $_GET['path']) : $baseDir;
 
         if (strpos($currentDir, $baseDir) !== 0) {
@@ -46,7 +46,7 @@
                         </div>
                     <?php elseif (isImage($file)): ?>
                         <?php
-                        $webBasePath = '/sites/default/images/'; // percorso assoluto dalla root
+                        $webBasePath = IMAGES_PATH; // percorso assoluto dalla root
                         $webPath = $webBasePath . $relativeFilePath;
                         ?>
                         <img 

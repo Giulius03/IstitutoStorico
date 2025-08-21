@@ -2,15 +2,15 @@
 /**
  * Pagina per modifica di una nota.
  */
-require_once '../../bootstrap.php';
+require_once '/bootstrap.php';
 
 //Base Template
 $templateParams["titolo"] = "Modifica Nota";
-$templateParams["nome"] = "../../template/pageComponents.php";
+$templateParams["nome"] = TEMPLATE_PATH . "pageComponents.php";
 $templateParams["action"] = "E";
-$templateParams["actionFile"] = "contentEditors/editNote.php";
-$templateParams["css"] = "../../css/style.css";
-$templateParams["js"] = array("../../js/logout.js", "../../js/contentsManagementNavbarLinks.js");
+$templateParams["actionFile"] = CONTENT_EDITORS_SCRIPT_PATH . "editNote.php";
+$templateParams["css"] = CSS_PATH . "style.css";
+$templateParams["js"] = array(JS_PATH . "logout.js", JS_PATH . "contentsManagementNavbarLinks.js");
 $templateParams["componentName"] = "nota";
 
 if (isset($_GET['id']) && isset($_GET['idPage'])) {
@@ -18,5 +18,5 @@ if (isset($_GET['id']) && isset($_GET['idPage'])) {
     $templateParams["actionFile"] .= "?id=".$_GET['id']."&idPage=".$_GET['idPage'];
 }
 
-require '../../template/base.php';
+require BASE_TEMPLATE_PATH;
 ?>

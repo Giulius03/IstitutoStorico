@@ -1,5 +1,5 @@
 <?php
-require_once '../../bootstrap.php';
+require_once '/bootstrap.php';
 
 $collectionElems = [];
 if (isset($_GET['collectionID'])) {

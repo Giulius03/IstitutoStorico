@@ -1,5 +1,5 @@
 <?php
-require_once '../../bootstrap.php';
+require_once '/bootstrap.php';
 
 if (isset($_GET['ordBy'])) {
     $tags = $dbh->getTags($_GET['ordBy']);

@@ -1,5 +1,5 @@
 <?php
-require_once '../../bootstrap.php';
+require_once '/bootstrap.php';
 
 $fieldsName = ['Nome'];
 for ($i=$_POST['idPartenza']; $i < $_POST['idFine']; $i++) {
@@ -14,7 +14,7 @@ if (checkIsSet($fieldsName) && isset($_GET['id'])) {
             $father = (isset($_POST['fatherItem'.$i]) && $_POST['fatherItem'.$i] != "") ? $_POST['fatherItem'.$i] : null;
             $dbh->addMenuItem($i, $_POST['NomeVoce'.$i], $_POST['PosizioneVoce'.$i], $_GET['id'], $pageToLink, $father);
         }
-        header('Location: ../../admin.php?cont=menù');
+        header('Location: ' . ADMIN_PAGE_PATH . '?cont=menù');
     } catch (Exception $e) {
         echo "Errore: " . $e->getMessage();
     }

@@ -1,5 +1,5 @@
 <?php
-require_once '../../bootstrap.php';
+require_once '/bootstrap.php';
 
 $fieldsName = ['idPage', 'idCollection', 'numElems', 'Nome', 'path'];
 
@@ -9,7 +9,7 @@ if (checkIsSet($fieldsName)) {
         if (isset($_POST['elemType']) && $_POST['numElems'] > 0) {
             addNewCollectionElements($_POST['idCollection']);
         }
-        header('Location: ../../contentsManagement/editing/modifyPage.php?id='.$_POST['idPage']);
+        header('Location: ' . CONTENT_EDITORS_SCRIPT_PATH . 'modifyPage.php?id='.$_POST['idPage']);
     } catch (Exception $e) {
         echo "Errore: " . $e->getMessage();
     }

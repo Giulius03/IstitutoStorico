@@ -1,5 +1,5 @@
 <?php
-require_once '../../bootstrap.php';
+require_once '/bootstrap.php';
 
 if (isset($_GET['id'])) {
     $indexItems = $dbh->getIndexItemsFromPageID($_GET['id']);

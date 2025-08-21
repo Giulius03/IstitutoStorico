@@ -2,13 +2,22 @@
 /**
  * Pagina home del sito per visualizzazione utenti.
  */
-require_once 'bootstrap.php';
+$dir = __DIR__;
+while (!file_exists($dir . '/bootstrap.php')) {
+    $parent = dirname($dir);
+    if ($parent === $dir) {
+        die('bootstrap.php non trovato!');
+    }
+    $dir = $parent;
+}
+
+require_once $dir . '/bootstrap.php';
 
 //Base Template
 $templateParams["titolo"] = "Istituto storico della Resistenza e dell'Età contemporanea di Forlì-Cesena";
-$templateParams["nome"] = "home.php";
-$templateParams["css"] = "css/style.css";
-$templateParams["js"] = array("js/base.js");
+$templateParams["nome"] = TEMPLATE_PATH . "home.php";
+$templateParams["css"] = CSS_PATH . "style.css";
+$templateParams["js"] = array(JS_PATH."base.js");
 
-require 'template/base.php';
+require BASE_TEMPLATE_PATH;
 ?>

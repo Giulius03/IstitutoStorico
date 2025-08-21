@@ -2,16 +2,16 @@
 /**
  * Pagina per inserimento di un menù.
  */
-require_once '../../bootstrap.php';
+require_once '/bootstrap.php';
 
 //Base Template
 $templateParams["titolo"] = "Nuovo Menù";
-$templateParams["nome"] = "../../template/noPageFormTemplate.php";
+$templateParams["nome"] = TEMPLATE_PATH . "noPageFormTemplate.php";
 $templateParams["action"] = "I";
-$templateParams["actionFile"] = "contentAdders/addNewMenu.php";
-$templateParams["js"] = array("../../js/showNewMenuItemFields.js", "../../js/logout.js", "../../js/contentsManagementNavbarLinks.js");
-$templateParams["css"] = "../../css/style.css";
+$templateParams["actionFile"] = CONTENT_ADDERS_SCRIPT_PATH . "addNewMenu.php";
+$templateParams["js"] = array(JS_PATH."showNewMenuItemFields.js", JS_PATH."logout.js", JS_PATH."contentsManagementNavbarLinks.js");
+$templateParams["css"] = CSS_PATH."style.css";
 $templateParams["noPageType"] = "menù";
 
-require '../../template/base.php';
+require BASE_TEMPLATE_PATH;
 ?>

@@ -2,8 +2,8 @@
 /**
  * Script per invio tramite GMail di notifiche agli utenti iscritti alla newsletter.
  */
-require_once '../bootstrap.php';
-require '../vendor/autoload.php';
+require_once '/bootstrap.php';
+require VENDOR_FOULDER_PATH . 'autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -12,7 +12,7 @@ if (checkIsSet(['object', 'body'])) {
         $object = $_POST['object'];
         $content = $_POST['body'];
 
-        $template = file_get_contents('../template/newsletter_template.html');
+        $template = file_get_contents(TEMPLATE_PATH . 'newsletter_template.html');
 
         $html = str_replace('{{CONTENUTO_MAIL}}', $content, $template);
 
@@ -43,7 +43,7 @@ if (checkIsSet(['object', 'body'])) {
             $mail->addAddress($sub['email']);
             $mail->send();
         }
-        header('Location: ../admin.php');
+        header('Location: ' . ADMIN_PAGE_PATH);
     } catch (Exception $e) {
         echo "Errore nell'invio a {$lastSub['email']}: {$mail->ErrorInfo}<br>";
     }

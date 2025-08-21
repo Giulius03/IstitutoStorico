@@ -23,7 +23,7 @@ services:
     ports:
       - 8080:80
     volumes:
-      - ./sites/default/images:/var/www/html/sites/default/images
+      - ./:/var/www/html
     depends_on:
       - db
     environment:

@@ -1,5 +1,5 @@
 <?php
-require_once '../../bootstrap.php';
+require_once '/bootstrap.php';
 
 if (isset($_GET['id'])) {
     $resCollections = $dbh->getResourceCollectionsFromPageID($_GET['id']);

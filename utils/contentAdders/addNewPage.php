@@ -1,5 +1,5 @@
 <?php
-require_once '../../bootstrap.php';
+require_once '/bootstrap.php';
 
 $numOfTags = $dbh->getNumOfTags();
 
@@ -19,7 +19,7 @@ if (checkIsSet($fieldsName)) {
         if ($_POST['pageType'] == "raccolta" && checkIsSet(['numCollections'])) {
             addResourceCollections($idNewPage);
         }
-        header('Location: ../../admin.php?cont=Pagine');
+        header('Location: ' . ADMIN_PAGE_PATH . '?cont=Pagine');
     } catch (Exception $e) {
         echo "Errore: " . $e->getMessage();
     }

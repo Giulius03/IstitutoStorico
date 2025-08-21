@@ -1,21 +1,18 @@
 <?php if (isAdminLoggedIn()): ?>
-<h1 class="text-center fs-1 fw-bold mt-4">
-    <?php echo ($templateParams["action"] == "E" ? "Modifica" : "Cancella")." raccolta di risorse" ?>
-</h1>
-<form action="../../utils/<?php echo $templateParams["actionFile"] ?>" method="POST" class="mx-5 mt-4" id="resourceCollectionForm">
-    <input type="hidden" name="btnsDisab" id="btnsDisab" value="<?php echo $templateParams["action"] == "D" ? "true" : "false" ?>" />
+<h1 class="text-center fs-1 fw-bold mt-4">Modifica raccolta di risorse</h1>
+<form action="<?php echo UTILS_PATH . $templateParams["actionFile"] ?>" method="POST" class="mx-5 mt-4" id="resourceCollectionForm">
     <input type="hidden" name="idPage" id="idPage" value="<?php echo $_GET['idPage'] ?>" />
     <input type="hidden" name="idCollection" id="idCollection" value="<?php echo $_GET['id'] ?>" />
     <input type="hidden" name="numElems" id="numElems" value="0" />
     <ul class="list-unstyled m-0 mt-5">
         <li class="form-floating mb-3">
             <input name="Nome" type="text" class="form-control" id="Nome" placeholder="Nome" 
-                value="<?php echo $templateParams['collection'][0]['nome'] ?>" required <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+                value="<?php echo $templateParams['collection'][0]['nome'] ?>" required />
             <label for="Nome">Nome</label>
         </li>
         <li class="my-3">
             <label for="path">Path Raccolta:</label>
-            <input name="path" type="file" webkitdirectory directory class="form-control mt-1" id="path" placeholder="path" value="<?php echo $templateParams['collection'][0]['path'] ?>" <?php echo $templateParams["action"] == "D" ? "disabled" : "" ?> />
+            <input name="path" type="file" webkitdirectory directory class="form-control mt-1" id="path" placeholder="path" value="<?php echo $templateParams['collection'][0]['path'] ?>" />
         </li>
         <li class="my-3">
             <label>Seleziona il tipo degli elementi che verranno aggiunti:</label>
@@ -43,7 +40,7 @@
             </fieldset>            
         </li>
     </ul>
-    <button class="btn btn-dark mb-3 <?php echo $templateParams["action"] == "D" ? "d-none" : "" ?>" id="btnAddCollectionElem" disabled type="button">Aggiungi un elemento di raccolta</button>
+    <button class="btn btn-dark mb-3" id="btnAddCollectionElem" disabled type="button">Aggiungi un elemento di raccolta</button>
     <div id="collectionElemsForms">
 
     </div>
@@ -51,20 +48,15 @@
 
     </div>
     <div class="text-center my-4">
-        <?php $previousPagePath = $templateParams['action'] == "E" ? "" : "../editing/"; ?>
-        <a class="btn btn-dark w-25 me-4 text-decoration-none" role="button" href="<?php echo $previousPagePath . "modifyPage.php?id=".$_GET['idPage']?>">Torna indietro</a>
-        <?php if ($templateParams["action"] == "E"): ?>
+        <a class="btn btn-dark w-25 me-4 text-decoration-none" role="button" href="<?php echo CONTENT_EDITORS_SCRIPT_PATH . "modifyPage.php?id=".$_GET['idPage']?>">Torna indietro</a>
         <input class="btn btn-dark ms-4 w-25" type="submit" value="Salva" />
-        <?php else: ?>
-        <button type="button" class="btn btn-dark ms-4 w-25" data-bs-toggle="modal" data-bs-target="#confirmElimination">Elimina</button>
-        <?php endif; ?>
     </div>
-    <?php require_once("../../template/dontSaveModal.php"); ?>
+    <?php require_once(TEMPLATE_PATH . "dontSaveModal.php"); ?>
 </form>
 <div class="modal fade" id="confirmElimination" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="../../utils/contentRemovers/deleteCollectionElement.php" id="eliminationForm" method="GET">
+            <form action="<?php echo CONTENT_REMOVERS_SCRIPT_PATH ?>deleteCollectionElement.php" id="eliminationForm" method="GET">
                 <input type="hidden" name="id" id="contentid" />
                 <input type="hidden" name="idPage" id="pageid" />
                 <input type="hidden" name="idCollection" id="collid" />

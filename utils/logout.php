@@ -2,7 +2,7 @@
 /**
  * Script per eseguire il logout di un amministratore.
  */
-require_once '../bootstrap.php';
+require_once '/bootstrap.php';
 
 $status["successful"] = false;
 

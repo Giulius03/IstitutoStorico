@@ -1,5 +1,5 @@
 <?php
-require_once '../../bootstrap.php';
+require_once '/bootstrap.php';
 
 if (isset($_GET['id']) && isset($_GET['type'])) {
     try {
@@ -36,7 +36,7 @@ if (isset($_GET['id']) && isset($_GET['type'])) {
                 }
                 break;
         }
-        header('Location: ../../contentsManagement/editing/modifyResourceCollection.php?id='.$_GET['idCollection'].'&idPage='.$_GET['idPage']);
+        header('Location: ' . CONTENT_EDITORS_SCRIPT_PATH . 'modifyResourceCollection.php?id='.$_GET['idCollection'].'&idPage='.$_GET['idPage']);
     } catch (Exception $e) {
         echo "Errore: " . $e->getMessage();
     }

@@ -1,5 +1,5 @@
 <?php
-require_once '../../bootstrap.php';
+require_once '/bootstrap.php';
 
 $numOfTags = $dbh->getNumOfTags();
 $fieldsName = ['titolo', 'slug', 'autore', 'content', 'titoloSEO', 'testoSEO', 'chiaviSEO', 'numVoci', 'numNote'];
@@ -19,7 +19,7 @@ if (checkIsSet($fieldsName) && isset($_GET['id'])) {
         if (isset($_GET['type']) && $_GET['type'] == "raccolta" && checkIsSet(['numCollections'])) {
             addResourceCollections($_GET['id']);
         }
-        header('Location: ../../admin.php?cont=Pagine');
+        header('Location: ' . ADMIN_PAGE_PATH . '?cont=Pagine');
     } catch (Exception $e) {
         echo "Errore: " . $e->getMessage();
     }
