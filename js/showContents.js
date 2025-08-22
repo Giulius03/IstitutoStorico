@@ -101,9 +101,6 @@ window.addEventListener('DOMContentLoaded', () => {
 function show(content, searching = false, sorting = Sorting.NO, pagesFilter = PagesFilter.NO) {
     let btnInsertText = "";
     let eliminationMessage = "";
-    // const addContDir = "contentsManagement/insertion/";
-    // const editContDir = "contentsManagement/editing/";
-    // const removeContDir = "utils/contentRemovers/";
     
     switch (content) {
         case "Pagine":
