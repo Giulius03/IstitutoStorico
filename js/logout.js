@@ -10,19 +10,16 @@ document.querySelectorAll('[id^="logout"]').forEach(element => {
  * @param {string} newLocation Pagina in cui si verrà reindirizzati dopo aver eseguito il logout.
  * @returns 
  */
-async function logout(url = 'utils/logout.php', newLocation = 'index.php') {
+async function logout() {
+    const url = UTILS_URL + 'logout.php';
     try {
         const response = await fetch(url);
-        if (response.status === 404) {
-            logout('../../utils/logout.php', '../../index.php');
-            return;
-        }
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`);
         }
         const json = await response.json();
         if (json["successful"] === true) {
-            window.location.href = newLocation;
+            window.location.href = INDEX_PAGE_URL;
         }
     } catch (error) {
         console.log(error.message);

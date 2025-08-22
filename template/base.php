@@ -140,7 +140,17 @@
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         <?php
         if(isset($templateParams["js"])):
-            echo "<script>const BASE_URL = '" . BASE_URL . "';</script>";
+            echo "
+            <script>
+                const INDEX_PAGE_URL = '" . INDEX_PAGE_URL . "';
+                const ADMIN_PAGE_URL = '" . ADMIN_PAGE_URL . "';
+                const CONTENT_GETTERS_SCRIPT_URL = '" . CONTENT_GETTERS_SCRIPT_URL . "';
+                const UTILS_URL = '" . UTILS_URL . "';
+                const CONTENTS_INSERTING_URL = '" . CONTENTS_INSERTING_URL . "';
+                const CONTENTS_EDITING_URL = '" . CONTENTS_EDITING_URL . "';           
+                const CONTENT_REMOVERS_SCRIPT_URL = '" . CONTENT_REMOVERS_SCRIPT_URL . "'; 
+                const TINYMCE_IMAGE_SELECTOR_URL = '" . TINYMCE_IMAGE_SELECTOR_URL . "';
+            </script>";
             foreach($templateParams["js"] as $script):
         ?>
             <script src="<?php echo $script; ?>"></script>

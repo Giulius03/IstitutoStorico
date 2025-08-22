@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const modal = new bootstrap.Modal(document.getElementById("dontSaveModal"));
                 modal.show();
                 document.getElementById("btnDontSave").addEventListener('click', () => {
-                    window.location.href = "../../admin.php?cont=" + getContParamName(content);
+                    window.location.href = ADMIN_PAGE_URL + "?cont=" + getContParamName(content);
                 });
             }
         })

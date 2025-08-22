@@ -85,7 +85,7 @@ document.getElementById("newNoPageForm").addEventListener("submit", function(e) 
  * @returns {Promise<{ ID: number, name: string, position: number, page: number|null, father: number|null }[]>} Array di voci del menù, ognuna delle quali contiene ID, nome, posizione, pagina di riferimento e ID della voce madre.
  */
 async function getExistingItems(menuID) {
-    let url = '../../utils/getters/getMenuItems.php?id=' + menuID;
+    let url = CONTENT_GETTERS_SCRIPT_URL + 'getMenuItems.php?id=' + menuID;
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -102,7 +102,7 @@ async function getExistingItems(menuID) {
  * Ricava le pagine presenti nel database, da mostrare per creare eventuali collegamenti con le voci del menù, e l'ID da assegnare a un'eventuale nuova voce da inserire.
  */
 async function start() {
-    let url = '../../utils/getters/getPages.php?ordBy=title';
+    let url = CONTENT_GETTERS_SCRIPT_URL + 'getPages.php?ordBy=title';
     try {
         let response = await fetch(url);
         if (!response.ok) {
@@ -112,7 +112,7 @@ async function start() {
     } catch (error) {
         console.log(error.message);
     }
-    url = '../../utils/getters/getMenuItemsNextID.php';
+    url = CONTENT_GETTERS_SCRIPT_URL + 'getMenuItemsNextID.php';
     try {
         response = await fetch(url);
         if (!response.ok) {

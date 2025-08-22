@@ -77,7 +77,7 @@ function showTable(rows, tableHeadHtml, fields, divID, editFile, plural) {
                     document.getElementById("contentid").value = contentID;
                     document.getElementById("pageid").value = pageID;
                     if (e.target.dataset.content === "note" || e.target.dataset.content === "voci") {
-                        document.getElementById("eliminationForm").action = "../../utils/contentRemovers/" + (e.target.dataset.content === "note" ? "deleteNote.php" : "deleteIndexItem.php");
+                        document.getElementById("eliminationForm").action = CONTENT_REMOVERS_SCRIPT_URL + (e.target.dataset.content === "note" ? "deleteNote.php" : "deleteIndexItem.php");
                         document.querySelector("#confirmElimination p").textContent = "L'eliminazione di questa " + (e.target.dataset.content === "note" ? "nota" : "voce dell'indice") + " sarà permanente. Proseguire?";
                     }
                 }
@@ -91,14 +91,14 @@ function showTable(rows, tableHeadHtml, fields, divID, editFile, plural) {
  * @param {number} pageID ID della pagina.
  */
 async function getIndexItems(pageID) {
-    const url = '../../utils/getters/getIndexItems.php?id=' + pageID;
+    const url = CONTENT_GETTERS_SCRIPT_URL + 'getIndexItems.php?id=' + pageID;
     try {
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`);
         }
         const json = await response.json();
-        showTable(json, indexItemsTableHeadHtml, ['title', 'position'], "indexItemsForms", "modifyIndexItem.php", "voci");
+        showTable(json, indexItemsTableHeadHtml, ['title', 'position'], "indexItemsForms", CONTENTS_EDITING_URL + "modifyIndexItem.php", "voci");
     } catch (error) {
         console.log(error.message);
     }
@@ -109,14 +109,14 @@ async function getIndexItems(pageID) {
  * @param {number} pageID ID della pagina.
  */
 async function getNotes(pageID) {
-    const url = '../../utils/getters/getNotes.php?id=' + pageID;
+    const url = CONTENT_GETTERS_SCRIPT_URL + 'getNotes.php?id=' + pageID;
     try {
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`);
         }
         const json = await response.json();
-        showTable(json, notesTableHeadHtml, ['text'], "notesForms", "modifyNote.php", "note");    
+        showTable(json, notesTableHeadHtml, ['text'], "notesForms", CONTENTS_EDITING_URL + "modifyNote.php", "note");    
     } catch (error) {
         console.log(error.message);
     }

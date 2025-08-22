@@ -33,7 +33,7 @@ function showResourceCollections(collections) {
         <tr>
             <td class="align-middle">${collection['nome']}</td>
             <td class="align-middle">
-                <a class="btn btn-secondary px-0 py-1 text-decoration-none" href="modifyResourceCollection.php?id=${collection['ID']}&idPage=${document.getElementById("idPage").value}" role="button">Modifica</a>
+                <a class="btn btn-secondary px-0 py-1 text-decoration-none" href="${CONTENTS_EDITING_URL}modifyResourceCollection.php?id=${collection['ID']}&idPage=${document.getElementById("idPage").value}" role="button">Modifica</a>
             </td>
             <td class="align-middle">
                 <a class="btn btn-danger px-0 py-1 text-decoration-none" href="#" role="button" data-content="collezione" data-contentid="${collection['ID']}" data-pageid="${document.getElementById("idPage").value}" data-bs-toggle="modal" data-bs-target="#confirmElimination">Cancella</a>
@@ -52,7 +52,7 @@ function showResourceCollections(collections) {
                     document.getElementById("contentid").value = contentID;
                     document.getElementById("pageid").value = pageID;
                     if (e.target.dataset.content === "collezione") {
-                        document.getElementById("eliminationForm").action = "../../utils/contentRemovers/deleteResourceCollection.php";
+                        document.getElementById("eliminationForm").action = CONTENT_REMOVERS_SCRIPT_URL + "deleteResourceCollection.php";
                         document.querySelector("#confirmElimination p").textContent = "L'eliminazione di questa raccolta sarà permanente e comporterà anche la cancellazione di tutti gli elementi contenuti al suo interno. Proseguire?";
                     }
                 }
@@ -66,7 +66,7 @@ function showResourceCollections(collections) {
  * @param {number} pageID ID della pagina.
  */
 async function getResourceCollections(pageID) {
-    const url = '../../utils/getters/getResourceCollections.php?id=' + pageID;
+    const url = CONTENT_GETTERS_SCRIPT_URL + 'getResourceCollections.php?id=' + pageID;
     try {
         const response = await fetch(url);
         if (!response.ok) {

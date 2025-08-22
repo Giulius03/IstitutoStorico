@@ -57,7 +57,7 @@ function showRows(rows, tableHeadHtml, fields, value) {
             });
             rowsHtml += `
                     <td class="align-middle">
-                        <a class="btn btn-secondary px-0 py-1 text-decoration-none" href="modifyCollectionElement.php?id=${row['ID']}&idPage=${document.getElementById("idPage").value}&type=${document.querySelector('input[name="elemType"]:checked').value}" role="button">Modifica</a>
+                        <a class="btn btn-secondary px-0 py-1 text-decoration-none" href="${CONTENTS_EDITING_URL}modifyCollectionElement.php?id=${row['ID']}&idPage=${document.getElementById("idPage").value}&type=${document.querySelector('input[name="elemType"]:checked').value}" role="button">Modifica</a>
                     </td>
                     <td class="align-middle">
                         <a class="btn btn-danger px-0 py-1 text-decoration-none" href="#" role="button" data-contentid="${row['ID']}" data-pageid="${document.getElementById("idPage").value}" data-collectionid="${document.getElementById("idCollection").value}" data-type="${document.querySelector('input[name="elemType"]:checked').value}" data-bs-toggle="modal" data-bs-target="#confirmElimination">Cancella</a>
@@ -92,7 +92,7 @@ function showRows(rows, tableHeadHtml, fields, value) {
  * @param {number} collectionID ID della collezione.
  */
 async function getCollectionElements(collectionID) {
-    const url = '../../utils/getters/getCollectionElements.php?collectionID=' + collectionID;
+    const url = CONTENT_GETTERS_SCRIPT_URL + 'getCollectionElements.php?collectionID=' + collectionID;
     try {
         const response = await fetch(url);
         if (!response.ok) {

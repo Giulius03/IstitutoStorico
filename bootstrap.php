@@ -10,7 +10,6 @@ define('UTILS_PATH', ROOT_PATH . 'utils/');
 define('TEMPLATE_PATH', ROOT_PATH . 'template/');
 define('BASE_TEMPLATE_PATH', TEMPLATE_PATH . 'base.php');
 define('VENDOR_FOULDER_PATH', ROOT_PATH . 'vendor/');
-define('TINYMCE_IMAGE_SELECTOR_PATH', CONTENTS_MANAGEMENT_PATH . 'imageSelectorTinyMCE.php');
 
 //URL
 define('BASE_URL', '/');
@@ -19,6 +18,7 @@ define('JS_URL', BASE_URL . 'js/');
 define('IMAGES_URL', BASE_URL . 'sites/default/images/');
 define('UTILS_URL', BASE_URL . 'utils/');
 define('CONTENTS_MANAGEMENT_URL', BASE_URL . 'contentsManagement/');
+define('CONTENTS_INSERTING_URL', CONTENTS_MANAGEMENT_URL . 'insertion/');
 define('CONTENTS_EDITING_URL', CONTENTS_MANAGEMENT_URL . 'editing/');
 define('CONTENT_ADDERS_SCRIPT_URL', UTILS_URL . 'contentAdders/');
 define('CONTENT_EDITORS_SCRIPT_URL', UTILS_URL . 'contentEditors/');
@@ -27,6 +27,7 @@ define('CONTENT_GETTERS_SCRIPT_URL', UTILS_URL . 'getters/');
 define('INDEX_PAGE_URL', BASE_URL . 'index.php');
 define('LOGIN_PAGE_URL', BASE_URL . 'login.php');
 define('ADMIN_PAGE_URL', BASE_URL . 'admin.php');
+define('TINYMCE_IMAGE_SELECTOR_URL', CONTENTS_MANAGEMENT_URL . 'imageSelectorTinyMCE.php');
 
 require_once(UTILS_PATH . "functions.php");
 require_once(DB_PATH . "dbConfig.php");

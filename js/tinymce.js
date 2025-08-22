@@ -18,7 +18,7 @@ tinymce.init({
         if (meta.filetype === 'image') {
             var x = window.innerWidth / 2 - 200;
             var y = window.innerHeight / 2 - 200;
-            window.open('../imageSelectorTinyMCE.php', 'File Manager', 'width=400,height=400,left=' + x + ',top=' + y);
+            window.open(TINYMCE_IMAGE_SELECTOR_URL, 'File Manager', 'width=400,height=400,left=' + x + ',top=' + y);
             
             window.selectImage = function(url) {
                 callback(url, { alt: '' });
@@ -55,7 +55,7 @@ tinymce.init({
         if (meta.filetype === 'image') {
             var x = window.innerWidth / 2 - 200;
             var y = window.innerHeight / 2 - 200;
-            window.open('contentsManagement/imageSelectorTinyMCE.php', 'File Manager', 'width=400,height=400,left=' + x + ',top=' + y);
+            window.open(TINYMCE_IMAGE_SELECTOR_URL, 'File Manager', 'width=400,height=400,left=' + x + ',top=' + y);
             
             window.selectImage = function(url) {
                 callback(url, { alt: '' });

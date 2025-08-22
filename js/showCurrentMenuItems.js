@@ -40,7 +40,7 @@ function showCurrentItems(items) {
                 <td class="align-middle">${item['page'] !== null ? item['page'] : ""}</td>
                 <td class="align-middle">${item['father'] !== null ? item['father'] : ""}</td>
                 <td class="align-middle">
-                    <a class="btn btn-secondary px-0 py-1 text-decoration-none" href="modifyMenuItem.php?id=${item['ID']}&idMenu=${document.getElementById("idMenu").value}" role="button">Modifica</a>
+                    <a class="btn btn-secondary px-0 py-1 text-decoration-none" href="${CONTENTS_EDITING_URL}modifyMenuItem.php?id=${item['ID']}&idMenu=${document.getElementById("idMenu").value}" role="button">Modifica</a>
                 </td>
                 <td class="align-middle">
                     <a class="btn btn-danger px-0 py-1 text-decoration-none" href="#" role="button" data-contentid="${item['ID']}" data-menuid="${document.getElementById("idMenu").value}" data-bs-toggle="modal" data-bs-target="#confirmElimination">Cancella</a>
@@ -69,7 +69,7 @@ function showCurrentItems(items) {
  * @param {number} menuID ID del menù di cui su vogliono ottenere le voci.
  */
 async function getMenuItems(menuID) {
-    let url = '../../utils/getters/getMenuItems.php?id=' + menuID;
+    let url = CONTENT_GETTERS_SCRIPT_URL + 'getMenuItems.php?id=' + menuID;
     try {
         const response = await fetch(url);
         if (!response.ok) {

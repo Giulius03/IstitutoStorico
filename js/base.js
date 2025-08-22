@@ -5,7 +5,7 @@
  * @returns {Promise<{ID: number, name: string, slug: string}[]>} Array di voci di menù.
  */
 async function getMenuItemsByFather(father) {
-    const url = 'utils/getters/getPrimaryMenu.php?id=' + father;
+    const url = CONTENT_GETTERS_SCRIPT_URL + 'getPrimaryMenu.php?id=' + father;
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -112,7 +112,7 @@ function fillMainMenu(items) {
  * Utilizza AJAX e script PHP.
  */
 async function getPrimaryMenu() {
-    const url = BASE_URL + 'utils/getters/getPrimaryMenu.php';
+    const url = CONTENT_GETTERS_SCRIPT_URL + 'getPrimaryMenu.php';
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -140,7 +140,7 @@ async function subscribeToTheNewsletter(event) {
         return;
     }
 
-    const url = 'utils/newsletterRegistration.php';
+    const url = UTILS_URL + 'newsletterRegistration.php';
     let formData = new FormData();
     formData.append('nameSurname', document.getElementById('nomeCognome').value);
     formData.append('email', document.getElementById('email').value);

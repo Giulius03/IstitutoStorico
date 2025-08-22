@@ -55,7 +55,7 @@ document.querySelectorAll('.admin-list').forEach(l => {
                 lastSorting = Sorting.NO;
                 history.replaceState(null, "", "/admin.php?cont=" + getContParamName(content));
             } else {
-                window.location.href = "admin.php?cont=Newsletter";
+                window.location.href = ADMIN_PAGE_URL + "?cont=Newsletter";
             }
         }
     })
@@ -101,9 +101,9 @@ window.addEventListener('DOMContentLoaded', () => {
 function show(content, searching = false, sorting = Sorting.NO, pagesFilter = PagesFilter.NO) {
     let btnInsertText = "";
     let eliminationMessage = "";
-    const addContDir = "contentsManagement/insertion/";
-    const editContDir = "contentsManagement/editing/";
-    const removeContDir = "utils/contentRemovers/";
+    // const addContDir = "contentsManagement/insertion/";
+    // const editContDir = "contentsManagement/editing/";
+    // const removeContDir = "utils/contentRemovers/";
     
     switch (content) {
         case "Pagine":
@@ -113,27 +113,27 @@ function show(content, searching = false, sorting = Sorting.NO, pagesFilter = Pa
             if (pagesFilter === PagesFilter.NO) {
                 pagesFields.push("Tipo");
             }
-            showContents("getPages.php", addContDir + "newPage.php", editContDir + "modifyPage.php", removeContDir + "deletePage.php", eliminationMessage, btnInsertText, "pagine", pagesFields, searching, sorting, pagesFilter);
+            showContents("getPages.php", CONTENTS_INSERTING_URL + "newPage.php", CONTENTS_EDITING_URL + "modifyPage.php", CONTENT_REMOVERS_SCRIPT_URL + "deletePage.php", eliminationMessage, btnInsertText, "pagine", pagesFields, searching, sorting, pagesFilter);
             break;
         case "Menù":
             btnInsertText = "Inserisci un nuovo menù";
             eliminationMessage = "L'eliminazione di questo menù sarà permanente e comporterà anche la cancellazione di tutte le sue voci.";
-            showContents("getMenus.php", addContDir + "newMenu.php", editContDir + "modifyMenu.php", removeContDir + "deleteMenu.php", eliminationMessage, btnInsertText, "menù", [ "Nome" ], searching, sorting);
+            showContents("getMenus.php", CONTENTS_INSERTING_URL + "newMenu.php", CONTENTS_EDITING_URL + "modifyMenu.php", CONTENT_REMOVERS_SCRIPT_URL + "deleteMenu.php", eliminationMessage, btnInsertText, "menù", [ "Nome" ], searching, sorting);
             break;
         case "Tag":
             btnInsertText = "Inserisci un nuovo tag";
             eliminationMessage = "L'eliminazione di questo tag sarà permanente.";
-            showContents("getTags.php", addContDir + "newTag.php", editContDir + "modifyTag.php", removeContDir + "deleteTag.php", eliminationMessage, btnInsertText, "tag", [ "Nome" ], searching, sorting);
+            showContents("getTags.php", CONTENTS_INSERTING_URL + "newTag.php", CONTENTS_EDITING_URL + "modifyTag.php", CONTENT_REMOVERS_SCRIPT_URL + "deleteTag.php", eliminationMessage, btnInsertText, "tag", [ "Nome" ], searching, sorting);
             break;
         case "Articoli d'inventario":
             btnInsertText = "Inserisci un nuovo articolo d'inventario";
             eliminationMessage = "L'eliminazione di questo articolo d'inventario sarà permanente.";
-            showContents("getInventoryItems.php", addContDir + "newInvItem.php", editContDir + "modifyInvItem.php", removeContDir + "deleteInvItem.php", eliminationMessage, btnInsertText, "articoli d'inventario", [ "Nome" ], searching, sorting);
+            showContents("getInventoryItems.php", CONTENTS_INSERTING_URL + "newInvItem.php", CONTENTS_EDITING_URL + "modifyInvItem.php", CONTENT_REMOVERS_SCRIPT_URL + "deleteInvItem.php", eliminationMessage, btnInsertText, "articoli d'inventario", [ "Nome" ], searching, sorting);
             break;
         case "Strumenti di corredo":
             btnInsertText = "Inserisci un nuovo strumento di corredo";
             eliminationMessage = "L'eliminazione di questo strumento di corredo sarà permanente.";
-            showContents("getReferenceTools.php", addContDir + "newReferenceTool.php", editContDir + "modifyRefTool.php", removeContDir + "deleteRefTool.php", eliminationMessage, btnInsertText, "strumenti di corredo", [ "Nome" ], searching, sorting);
+            showContents("getReferenceTools.php", CONTENTS_INSERTING_URL + "newReferenceTool.php", CONTENTS_EDITING_URL + "modifyRefTool.php", CONTENT_REMOVERS_SCRIPT_URL + "deleteRefTool.php", eliminationMessage, btnInsertText, "strumenti di corredo", [ "Nome" ], searching, sorting);
             break;
         case "Newsletter":
             showNewsletterSendingForm();
@@ -147,7 +147,7 @@ function show(content, searching = false, sorting = Sorting.NO, pagesFilter = Pa
 function showNewsletterSendingForm() {
     document.getElementById("adminTitle").innerText = "Invia mail agli iscritti alla newsletter";
     document.getElementById("contentsShower").innerHTML = `
-    <form action="utils/sendMessageNewsletter.php" method="POST">
+    <form action="${UTILS_URL}sendMessageNewsletter.php" method="POST">
         <ul class="list-unstyled m-0 mt-5 px-2">
             <li class="form-floating mb-3">
                 <input name="object" type="text" class="form-control" id="object" placeholder="Oggetto" required />
@@ -481,7 +481,7 @@ function showOther(contents, editLink) {
  * @returns {Promise<any[]>} Array di contenuti.
  */
 async function searchContents(type, researchString) {
-    const url = 'utils/getters/getContentResearched.php?cont=' + type + '&string=' + researchString;
+    const url = CONTENT_GETTERS_SCRIPT_URL + 'getContentResearched.php?cont=' + type + '&string=' + researchString;
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -501,7 +501,7 @@ async function searchContents(type, researchString) {
  * @returns {Promise<any[]>} Array di contenuti.
  */
 async function getContents(utilFunction, orderBy) {
-    const url = 'utils/getters/' + utilFunction + '?ordBy=' + orderBy;
+    const url = CONTENT_GETTERS_SCRIPT_URL + utilFunction + '?ordBy=' + orderBy;
     try {
         const response = await fetch(url);
         if (!response.ok) {

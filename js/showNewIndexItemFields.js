@@ -51,7 +51,7 @@ async function showNewIndexItemFields() {
  * Ricava le pagine presenti nel database, da mostrare per creare eventuali collegamenti con le voci dell'indice.
  */
 async function start() {
-    const url = '../../utils/getters/getPages.php?ordBy=title';
+    const url = CONTENT_GETTERS_SCRIPT_URL + 'getPages.php?ordBy=title';
     try {
         let response = await fetch(url);
         if (!response.ok) {
