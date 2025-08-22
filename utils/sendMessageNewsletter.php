@@ -51,7 +51,7 @@ if (checkIsSet(['object', 'body'])) {
             $mail->addAddress($sub['email']);
             $mail->send();
         }
-        header('Location: ' . ADMIN_PAGE_PATH);
+        header('Location: ' . ADMIN_PAGE_URL);
     } catch (Exception $e) {
         echo "Errore nell'invio a {$lastSub['email']}: {$mail->ErrorInfo}<br>";
     }

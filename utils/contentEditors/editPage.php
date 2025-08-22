@@ -27,7 +27,7 @@ if (checkIsSet($fieldsName) && isset($_GET['id'])) {
         if (isset($_GET['type']) && $_GET['type'] == "raccolta" && checkIsSet(['numCollections'])) {
             addResourceCollections($_GET['id']);
         }
-        header('Location: ' . ADMIN_PAGE_PATH . '?cont=Pagine');
+        header('Location: ' . ADMIN_PAGE_URL . '?cont=Pagine');
     } catch (Exception $e) {
         echo "Errore: " . $e->getMessage();
     }

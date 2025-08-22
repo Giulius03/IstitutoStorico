@@ -6,10 +6,10 @@ define('ROOT_PATH', __DIR__ . '/');
 define('CONTENTS_MANAGEMENT_PATH', ROOT_PATH . 'contentsManagement/');
 define('DB_PATH', ROOT_PATH . 'db/');
 define('IMAGES_PATH', ROOT_PATH . 'sites/default/images/');
-define('TEMPLATE_PATH', ROOT_PATH . 'template/');
 define('UTILS_PATH', ROOT_PATH . 'utils/');
-define('VENDOR_FOULDER_PATH', ROOT_PATH . 'vendor/');
+define('TEMPLATE_PATH', ROOT_PATH . 'template/');
 define('BASE_TEMPLATE_PATH', TEMPLATE_PATH . 'base.php');
+define('VENDOR_FOULDER_PATH', ROOT_PATH . 'vendor/');
 define('TINYMCE_IMAGE_SELECTOR_PATH', CONTENTS_MANAGEMENT_PATH . 'imageSelectorTinyMCE.php');
 
 //URL
@@ -20,7 +20,6 @@ define('IMAGES_URL', BASE_URL . 'sites/default/images/');
 define('UTILS_URL', BASE_URL . 'utils/');
 define('CONTENTS_MANAGEMENT_URL', BASE_URL . 'contentsManagement/');
 define('CONTENTS_EDITING_URL', CONTENTS_MANAGEMENT_URL . 'editing/');
-// define('CONTENTS_INSERTING_URL', CONTENTS_MANAGEMENT_URL . 'insertion/');
 define('CONTENT_ADDERS_SCRIPT_URL', UTILS_URL . 'contentAdders/');
 define('CONTENT_EDITORS_SCRIPT_URL', UTILS_URL . 'contentEditors/');
 define('CONTENT_REMOVERS_SCRIPT_URL', UTILS_URL . 'contentRemovers/');

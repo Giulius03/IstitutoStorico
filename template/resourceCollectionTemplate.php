@@ -56,7 +56,7 @@
 <div class="modal fade" id="confirmElimination" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="<?php echo CONTENT_REMOVERS_SCRIPT_PATH ?>deleteCollectionElement.php" id="eliminationForm" method="GET">
+            <form action="<?php echo CONTENT_REMOVERS_SCRIPT_URL ?>deleteCollectionElement.php" id="eliminationForm" method="GET">
                 <input type="hidden" name="id" id="contentid" />
                 <input type="hidden" name="idPage" id="pageid" />
                 <input type="hidden" name="idCollection" id="collid" />

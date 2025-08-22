@@ -16,7 +16,7 @@ require_once $dir . '/bootstrap.php';
 $templateParams["titolo"] = "Modifica Pagina";
 $templateParams["nome"] = TEMPLATE_PATH . "pageFormTemplate.php";
 $templateParams["action"] = "E";
-$templateParams["actionFile"] = CONTENT_EDITORS_SCRIPT_PATH . "editPage.php";
+$templateParams["actionFile"] = CONTENT_EDITORS_SCRIPT_URL . "editPage.php";
 $templateParams["js"] = array(JS_URL . "logout.js", JS_URL . "tinymce.js", JS_URL . "showNewIndexItemFields.js", JS_URL . "showNewNoteFields.js", JS_URL . "showNewResourceCollectionFields.js", JS_URL . "showInvItemsQuantityInputs.js", JS_URL . "showCurrentIndexItemsAndNotes.js", JS_URL . "contentsManagementNavbarLinks.js");
 $templateParams["css"] = CSS_URL . "style.css";
 

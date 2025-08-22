@@ -13,7 +13,7 @@ if (isset($_GET['id'])) {
     try {
         $dbh->deleteAllMenuItems($_GET['id']);
         $dbh->deleteMenu($_GET['id']);
-        header('Location: ' . ADMIN_PAGE_PATH . '?cont=menù');
+        header('Location: ' . ADMIN_PAGE_URL . '?cont=menù');
     } catch (Exception $e) {
         echo "Errore: " . $e->getMessage();
     }

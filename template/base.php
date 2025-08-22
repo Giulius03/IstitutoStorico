@@ -15,13 +15,13 @@
     <body class="bg-light">
         <main>
             <header class="d-flex justify-content-center align-items-center bg-white">
-                <a href="<?php echo isAdminLoggedIn() ? "#" : INDEX_PAGE_PATH ?>" class="fs-4 fw-semibold text-dark text-decoration-none">Istituto storico di Forlì-Cesena</a>
+                <a href="<?php echo isAdminLoggedIn() ? "#" : INDEX_PAGE_URL ?>" class="fs-4 fw-semibold text-dark text-decoration-none">Istituto storico di Forlì-Cesena</a>
             </header>
             <div id="mobileNavbar" class="bg-white">
                 <nav class="pb-3">
                     <span class="bi bi-list float-start ms-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#menuPrincipaleMobile" aria-controls="menuPrincipaleMobile"></span>
                     <?php if (!isAdminLoggedIn()): ?>
-                    <a href="<?php echo LOGIN_PAGE_PATH ?>" class="float-end pe-3 text-dark" title="Accedi come amministratore"><span class="bi bi-person-fill-gear" aria-label="Accedi come amministratore"></span></a>
+                    <a href="<?php echo LOGIN_PAGE_URL ?>" class="float-end pe-3 text-dark" title="Accedi come amministratore"><span class="bi bi-person-fill-gear" aria-label="Accedi come amministratore"></span></a>
                     <?php else: ?>
                         <a class="float-end pe-3 text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="bi bi-person-fill-gear"><span></a>
                         <ul class="dropdown-menu">
@@ -69,7 +69,7 @@
                     </ul>
                     <?php endif; ?>
                     <?php if (!isAdminLoggedIn()): ?>
-                    <a href="<?php echo LOGIN_PAGE_PATH ?>" class="text-dark" title="Accedi come amministratore"><span class="bi bi-person-fill-gear" aria-label="Accedi come amministratore"><span><a>
+                    <a href="<?php echo LOGIN_PAGE_URL ?>" class="text-dark" title="Accedi come amministratore"><span class="bi bi-person-fill-gear" aria-label="Accedi come amministratore"><span><a>
                     <?php else: ?>
                     <div class="dropdown">
                         <a class="text-dark dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><span class="bi bi-person-fill-gear"><span></a>

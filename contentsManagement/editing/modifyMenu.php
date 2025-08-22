@@ -16,9 +16,9 @@ require_once $dir . '/bootstrap.php';
 $templateParams["titolo"] = "Modifica Menù";
 $templateParams["nome"] = TEMPLATE_PATH . "noPageFormTemplate.php";
 $templateParams["action"] = "E";
-$templateParams["actionFile"] = CONTENT_EDITORS_SCRIPT_PATH . "editMenu.php";
-$templateParams["js"] = array(JS_PATH . "showNewMenuItemFields.js", JS_PATH . "showCurrentMenuItems.js", JS_PATH . "logout.js", JS_PATH . "contentsManagementNavbarLinks.js");
-$templateParams["css"] = CSS_PATH . "style.css";
+$templateParams["actionFile"] = CONTENT_EDITORS_SCRIPT_URL . "editMenu.php";
+$templateParams["js"] = array(JS_URL . "showNewMenuItemFields.js", JS_URL . "showCurrentMenuItems.js", JS_URL . "logout.js", JS_URL . "contentsManagementNavbarLinks.js");
+$templateParams["css"] = CSS_URL . "style.css";
 $templateParams["noPageType"] = "menù";
 
 if (isset($_GET['id'])) {

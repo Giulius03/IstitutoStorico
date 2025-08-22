@@ -57,7 +57,7 @@ if (isAdminLoggedIn()):
     <div class="text-center my-4">
         <?php $previousPagePath = $templateParams['noPageType'] == "voce del menù" 
             ? (CONTENTS_EDITING_URL . "modifyMenu.php?id=".$_GET['idMenu'])
-            : (ADMIN_PAGE_PATH . "?cont=".$templateParams['noPageType']);?>
+            : (ADMIN_PAGE_URL . "?cont=".$templateParams['noPageType']);?>
         <a class="btn btn-dark w-25 me-4 text-decoration-none" role="button" href="<?php echo $previousPagePath ?>">Torna indietro</a>
         <input class="btn btn-dark ms-4 w-25" type="submit" value="<?php echo $templateParams["action"] == "I" ? "Crea" : "Salva" ?>" />   
     </div>
@@ -68,7 +68,7 @@ if (isAdminLoggedIn()):
 <div class="modal fade" id="confirmElimination" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="<?php echo CONTENT_REMOVERS_SCRIPT_PATH ?>deleteMenuItem.php" id="eliminationForm" method="GET">
+            <form action="<?php echo CONTENT_REMOVERS_SCRIPT_URL ?>deleteMenuItem.php" id="eliminationForm" method="GET">
                 <input type="hidden" name="id" id="contentid" />
                 <input type="hidden" name="idMenu" id="menuid" />
                 <div class="modal-header">

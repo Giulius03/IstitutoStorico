@@ -16,7 +16,7 @@ require_once $dir . '/bootstrap.php';
 $templateParams["titolo"] = "Modifica Elemento di Raccolta";
 $templateParams["nome"] = TEMPLATE_PATH . "collectionElementTemplate.php";
 $templateParams["action"] = "E";
-$templateParams["actionFile"] = CONTENT_EDITORS_SCRIPT_PATH . "editCollectionElement.php";
+$templateParams["actionFile"] = CONTENT_EDITORS_SCRIPT_URL . "editCollectionElement.php";
 $templateParams["css"] = CSS_URL . "style.css";
 $templateParams["js"] = array(JS_URL . "logout.js", JS_URL . "contentsManagementNavbarLinks.js");
 if (isset($_GET['id']) && isset($_GET['type'])) {

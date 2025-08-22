@@ -16,9 +16,9 @@ require_once $dir . '/bootstrap.php';
 $templateParams["titolo"] = "Modifica Strumento di Corredo";
 $templateParams["nome"] = TEMPLATE_PATH . "noPageFormTemplate.php";
 $templateParams["action"] = "E";
-$templateParams["actionFile"] = CONTENT_EDITORS_SCRIPT_PATH . "editRefTool.php";
-$templateParams["css"] = CSS_PATH . "style.css";
-$templateParams["js"] = array(JS_PATH . "logout.js", JS_PATH . "contentsManagementNavbarLinks.js");
+$templateParams["actionFile"] = CONTENT_EDITORS_SCRIPT_URL . "editRefTool.php";
+$templateParams["css"] = CSS_URL . "style.css";
+$templateParams["js"] = array(JS_URL . "logout.js", JS_URL . "contentsManagementNavbarLinks.js");
 $templateParams["noPageType"] = "strumento di corredo";
 
 if (isset($_GET['id'])) {

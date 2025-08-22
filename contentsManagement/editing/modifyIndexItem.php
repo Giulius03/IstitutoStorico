@@ -16,7 +16,7 @@ require_once $dir . '/bootstrap.php';
 $templateParams["titolo"] = "Modifica Voce dell'Indice";
 $templateParams["nome"] = TEMPLATE_PATH . "pageComponents.php";
 $templateParams["action"] = "E";
-$templateParams["actionFile"] = CONTENT_EDITORS_SCRIPT_PATH . "editIndexItem.php";
+$templateParams["actionFile"] = CONTENT_EDITORS_SCRIPT_URL . "editIndexItem.php";
 $templateParams["css"] = CSS_URL . "style.css";
 $templateParams["js"] = array(JS_URL . "logout.js", JS_URL . "contentsManagementNavbarLinks.js");
 $templateParams["componentName"] = "voce dell'indice";

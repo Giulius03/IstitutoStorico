@@ -22,7 +22,7 @@ if (checkIsSet($fieldsName) && isset($_GET['id'])) {
             $father = (isset($_POST['fatherItem'.$i]) && $_POST['fatherItem'.$i] != "") ? $_POST['fatherItem'.$i] : null;
             $dbh->addMenuItem($i, $_POST['NomeVoce'.$i], $_POST['PosizioneVoce'.$i], $_GET['id'], $pageToLink, $father);
         }
-        header('Location: ' . ADMIN_PAGE_PATH . '?cont=menù');
+        header('Location: ' . ADMIN_PAGE_URL . '?cont=menù');
     } catch (Exception $e) {
         echo "Errore: " . $e->getMessage();
     }

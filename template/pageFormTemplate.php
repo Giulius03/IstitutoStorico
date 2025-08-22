@@ -168,7 +168,7 @@ if (isAdminLoggedIn()):
         </div>
     </fieldset>
     <div class="text-center my-4">
-        <a class="btn btn-dark w-25 me-4 text-decoration-none" role="button" href="<?php echo ADMIN_PAGE_PATH ?>?cont=Pagine">Torna indietro</a>
+        <a class="btn btn-dark w-25 me-4 text-decoration-none" role="button" href="<?php echo ADMIN_PAGE_URL ?>?cont=Pagine">Torna indietro</a>
         <input class="btn btn-dark ms-4 w-25" type="submit" value="<?php echo $templateParams["action"] == "I" ? "Crea" : "Salva" ?>" />    
     </div>
     <?php require_once(TEMPLATE_PATH . "dontSaveModal.php"); ?>

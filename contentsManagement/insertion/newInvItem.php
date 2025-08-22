@@ -16,9 +16,9 @@ require_once $dir . '/bootstrap.php';
 $templateParams["titolo"] = "Nuovo Articolo d'Inventario";
 $templateParams["nome"] = TEMPLATE_PATH . "noPageFormTemplate.php";
 $templateParams["action"] = "I";
-$templateParams["actionFile"] = CONTENT_ADDERS_SCRIPT_PATH . "addNewInvItem.php";
-$templateParams["css"] = CSS_PATH . "style.css";
-$templateParams["js"] = array(JS_PATH."logout.js", JS_PATH."contentsManagementNavbarLinks.js");
+$templateParams["actionFile"] = CONTENT_ADDERS_SCRIPT_URL . "addNewInvItem.php";
+$templateParams["css"] = CSS_URL . "style.css";
+$templateParams["js"] = array(JS_URL."logout.js", JS_URL."contentsManagementNavbarLinks.js");
 $templateParams["noPageType"] = "articolo d'inventario";
 
 require BASE_TEMPLATE_PATH;

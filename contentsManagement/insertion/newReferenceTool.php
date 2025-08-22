@@ -16,9 +16,9 @@ require_once $dir . '/bootstrap.php';
 $templateParams["titolo"] = "Nuovo Strumento di Corredo";
 $templateParams["nome"] = TEMPLATE_PATH."noPageFormTemplate.php";
 $templateParams["action"] = "I";
-$templateParams["actionFile"] = CONTENT_ADDERS_SCRIPT_PATH."addNewRefTool.php";
-$templateParams["css"] = CSS_PATH."style.css";
-$templateParams["js"] = array(JS_PATH."logout.js", JS_PATH."contentsManagementNavbarLinks.js");
+$templateParams["actionFile"] = CONTENT_ADDERS_SCRIPT_URL."addNewRefTool.php";
+$templateParams["css"] = CSS_URL."style.css";
+$templateParams["js"] = array(JS_URL."logout.js", JS_URL."contentsManagementNavbarLinks.js");
 $templateParams["noPageType"] = "strumento di corredo";
 
 require BASE_TEMPLATE_PATH;

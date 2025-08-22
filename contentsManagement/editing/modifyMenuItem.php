@@ -16,9 +16,9 @@ require_once $dir . '/bootstrap.php';
 $templateParams["titolo"] = "Modifica Voce del Menù";
 $templateParams["nome"] = TEMPLATE_PATH . "noPageFormTemplate.php";
 $templateParams["action"] = "E";
-$templateParams["actionFile"] = CONTENT_EDITORS_SCRIPT_PATH . "editMenuItem.php";
-$templateParams["css"] = CSS_PATH . "style.css";
-$templateParams["js"] = array(JS_PATH . "logout.js", JS_PATH . "contentsManagementNavbarLinks.js");
+$templateParams["actionFile"] = CONTENT_EDITORS_SCRIPT_URL . "editMenuItem.php";
+$templateParams["css"] = CSS_URL . "style.css";
+$templateParams["js"] = array(JS_URL . "logout.js", JS_URL . "contentsManagementNavbarLinks.js");
 $templateParams["noPageType"] = "voce del menù";
 
 if (isset($_GET['id']) && isset($_GET['idMenu'])) {

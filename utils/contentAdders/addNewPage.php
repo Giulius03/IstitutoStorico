@@ -27,7 +27,7 @@ if (checkIsSet($fieldsName)) {
         if ($_POST['pageType'] == "raccolta" && checkIsSet(['numCollections'])) {
             addResourceCollections($idNewPage);
         }
-        header('Location: ' . ADMIN_PAGE_PATH . '?cont=Pagine');
+        header('Location: ' . ADMIN_PAGE_URL . '?cont=Pagine');
     } catch (Exception $e) {
         echo "Errore: " . $e->getMessage();
     }

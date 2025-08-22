@@ -16,9 +16,9 @@ require_once $dir . '/bootstrap.php';
 $templateParams["titolo"] = "Nuova Pagina";
 $templateParams["nome"] = TEMPLATE_PATH . "pageFormTemplate.php";
 $templateParams["action"] = "I";
-$templateParams["actionFile"] = CONTENT_ADDERS_SCRIPT_PATH . "addNewPage.php";
-$templateParams["js"] = array(JS_PATH."logout.js", JS_PATH."tinymce.js", JS_PATH."showSpecifics.js", JS_PATH."showNewIndexItemFields.js", JS_PATH."showNewNoteFields.js", JS_PATH."showInvItemsQuantityInputs.js", JS_PATH."showNewResourceCollectionFields.js", JS_PATH."contentsManagementNavbarLinks.js");
-$templateParams["css"] = CSS_PATH."style.css";
+$templateParams["actionFile"] = CONTENT_ADDERS_SCRIPT_URL . "addNewPage.php";
+$templateParams["js"] = array(JS_URL."logout.js", JS_URL."tinymce.js", JS_URL."showSpecifics.js", JS_URL."showNewIndexItemFields.js", JS_URL."showNewNoteFields.js", JS_URL."showInvItemsQuantityInputs.js", JS_URL."showNewResourceCollectionFields.js", JS_URL."contentsManagementNavbarLinks.js");
+$templateParams["css"] = CSS_URL."style.css";
 
 require BASE_TEMPLATE_PATH;
 ?>
