@@ -112,14 +112,13 @@ function fillMainMenu(items) {
  * Utilizza AJAX e script PHP.
  */
 async function getPrimaryMenu() {
-    const url = 'utils/getters/getPrimaryMenu.php';
+    const url = BASE_URL + 'utils/getters/getPrimaryMenu.php';
     try {
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`);
         }
         const json = await response.json();
-        console.log("entrato");
         fillMainMenu(json);
     } catch (error) {
         console.log(error.message);

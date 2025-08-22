@@ -2,7 +2,7 @@
 <h1 class="text-center fs-1 fw-bold mt-4">
     <?php echo "Modifica ".$templateParams["componentName"]; ?>
 </h1>
-<form action="<?php echo UTILS_PATH . $templateParams["actionFile"] ?>" method="POST" class="mx-5 mt-4" id="pageComponentsForm">
+<form action="<?php echo $templateParams["actionFile"] ?>" method="POST" class="mx-5 mt-4" id="pageComponentsForm">
     <ul class="list-unstyled m-0 mt-5 px-2">
     <?php if ($templateParams["componentName"] == "voce dell'indice"): ?>
         <li class="form-floating mb-3">
@@ -41,7 +41,7 @@
         </li>
     </ul>
     <div class="text-center my-4">
-        <a class="btn btn-dark w-25 me-4 text-decoration-none" role="button" href="<?php echo CONTENT_EDITORS_SCRIPT_PATH . "modifyPage.php?id=".$_GET['idPage']?>">Torna indietro</a>
+        <a class="btn btn-dark w-25 me-4 text-decoration-none" role="button" href="<?php echo CONTENTS_EDITING_URL . "modifyPage.php?id=".$_GET['idPage']?>">Torna indietro</a>
         <input class="btn btn-dark ms-4 w-25" type="submit" value="Salva" />   
     </div>
     <?php require_once(TEMPLATE_PATH . "dontSaveModal.php");?>

@@ -1,6 +1,6 @@
 <?php if (isAdminLoggedIn()): ?>
 <h1 class="text-center fs-1 fw-bold mt-4">Modifica raccolta di risorse</h1>
-<form action="<?php echo UTILS_PATH . $templateParams["actionFile"] ?>" method="POST" class="mx-5 mt-4" id="resourceCollectionForm">
+<form action="<?php echo $templateParams["actionFile"] ?>" method="POST" class="mx-5 mt-4" id="resourceCollectionForm">
     <input type="hidden" name="idPage" id="idPage" value="<?php echo $_GET['idPage'] ?>" />
     <input type="hidden" name="idCollection" id="idCollection" value="<?php echo $_GET['id'] ?>" />
     <input type="hidden" name="numElems" id="numElems" value="0" />
@@ -48,7 +48,7 @@
 
     </div>
     <div class="text-center my-4">
-        <a class="btn btn-dark w-25 me-4 text-decoration-none" role="button" href="<?php echo CONTENT_EDITORS_SCRIPT_PATH . "modifyPage.php?id=".$_GET['idPage']?>">Torna indietro</a>
+        <a class="btn btn-dark w-25 me-4 text-decoration-none" role="button" href="<?php echo CONTENTS_EDITING_URL . "modifyPage.php?id=".$_GET['idPage']?>">Torna indietro</a>
         <input class="btn btn-dark ms-4 w-25" type="submit" value="Salva" />
     </div>
     <?php require_once(TEMPLATE_PATH . "dontSaveModal.php"); ?>

@@ -16,8 +16,8 @@ require_once $dir . '/bootstrap.php';
 //Base Template
 $templateParams["titolo"] = "Istituto storico della Resistenza e dell'Età contemporanea di Forlì-Cesena";
 $templateParams["nome"] = TEMPLATE_PATH . "home.php";
-$templateParams["css"] = CSS_PATH . "style.css";
-$templateParams["js"] = array(JS_PATH."base.js");
+$templateParams["css"] = CSS_URL . "style.css";
+$templateParams["js"] = array(JS_URL."base.js");
 
 require BASE_TEMPLATE_PATH;
 ?>

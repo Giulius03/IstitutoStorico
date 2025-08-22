@@ -120,7 +120,7 @@
                             <a class="fs-6" href="https://www.regione.emilia-romagna.it/" target="_blank">Regione Emilia-Romagna</a>
                         </p>
                         <a href="https://www.regione.emilia-romagna.it/" target="_blank">
-                            <img class="img-responsive" src="<?php echo IMAGES_PATH ?>css/regione-emilia-romagna.png" alt="Regione Emilia-Romagna" />
+                            <img class="img-responsive" src="<?php echo IMAGES_URL ?>css/regione-emilia-romagna.png" alt="Regione Emilia-Romagna" />
                         </a>
                         <hr class="text-white" />
                         <ul class="list-unstyled row">
@@ -140,6 +140,7 @@
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         <?php
         if(isset($templateParams["js"])):
+            echo "<script>const BASE_URL = '" . BASE_URL . "';</script>";
             foreach($templateParams["js"] as $script):
         ?>
             <script src="<?php echo $script; ?>"></script>

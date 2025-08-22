@@ -5,7 +5,7 @@ if (isAdminLoggedIn()):
 <h1 class="text-center fs-1 fw-bold mt-4">
     <?php echo ($templateParams["action"] == "I" ? "Inserisci nuovo" : "Modifica")." ".$templateParams['noPageType'] ?>
 </h1>
-<form action="<?php echo UTILS_PATH . $templateParams['actionFile'] ?>" method="POST" class="mx-5 mt-5" id="newNoPageForm">
+<form action="<?php echo $templateParams['actionFile'] ?>" method="POST" class="mx-5 mt-5" id="newNoPageForm">
     <div class="form-floating mb-3">
         <input name="Nome" type="text" class="form-control" id="Nome" placeholder="Nome" value="<?php echo $edit ? $templateParams['content'][0]['name'] : "" ?>" required />
         <label for="Nome">Nome</label>
@@ -56,7 +56,7 @@ if (isAdminLoggedIn()):
     <?php endif; ?>
     <div class="text-center my-4">
         <?php $previousPagePath = $templateParams['noPageType'] == "voce del menù" 
-            ? (CONTENT_EDITORS_SCRIPT_PATH . "modifyMenu.php?id=".$_GET['idMenu'])
+            ? (CONTENTS_EDITING_URL . "modifyMenu.php?id=".$_GET['idMenu'])
             : (ADMIN_PAGE_PATH . "?cont=".$templateParams['noPageType']);?>
         <a class="btn btn-dark w-25 me-4 text-decoration-none" role="button" href="<?php echo $previousPagePath ?>">Torna indietro</a>
         <input class="btn btn-dark ms-4 w-25" type="submit" value="<?php echo $templateParams["action"] == "I" ? "Crea" : "Salva" ?>" />   

@@ -5,7 +5,7 @@ if (isAdminLoggedIn()):
 <h1 class="text-center fs-1 fw-bold mt-4">
     <?php echo ($templateParams["action"] == "I" ? "Inserisci nuova" : "Modifica")." pagina" ?>
 </h1>
-<form action="<?php echo UTILS_PATH . $templateParams["actionFile"] ?>" method="POST" class="mx-5 mt-4" id="newPageForm">
+<form action="<?php echo $templateParams["actionFile"] ?>" method="POST" class="mx-5 mt-4" id="newPageForm">
     <?php if ($templateParams["action"] == "I"): ?>
     <fieldset class="d-flex flex-column align-items-center">
         <label>Seleziona il tipo di pagina:</label>
@@ -168,7 +168,7 @@ if (isAdminLoggedIn()):
         </div>
     </fieldset>
     <div class="text-center my-4">
-        <a class="btn btn-dark w-25 me-4 text-decoration-none" role="button" href="../../admin.php?cont=Pagine">Torna indietro</a>
+        <a class="btn btn-dark w-25 me-4 text-decoration-none" role="button" href="<?php echo ADMIN_PAGE_PATH ?>?cont=Pagine">Torna indietro</a>
         <input class="btn btn-dark ms-4 w-25" type="submit" value="<?php echo $templateParams["action"] == "I" ? "Crea" : "Salva" ?>" />    
     </div>
     <?php require_once(TEMPLATE_PATH . "dontSaveModal.php"); ?>

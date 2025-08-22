@@ -2,13 +2,21 @@
 /**
  * Pagina per selezione di immagini tramite TinyMCE.
  */
-require_once '/bootstrap.php';
+$dir = __DIR__;
+while (!file_exists($dir . '/bootstrap.php')) {
+    $parent = dirname($dir);
+    if ($parent === $dir) {
+        die('bootstrap.php non trovato!');
+    }
+    $dir = $parent;
+}
+require_once $dir . '/bootstrap.php';
 
 //Base Template
 $templateParams["titolo"] = "Seleziona Immagine";
 $templateParams["nome"] = "selectImgTinyMCE.php";
-$templateParams["js"] = array("../js/tinymce.js");
-$templateParams["css"] = "../css/style.css";
+$templateParams["js"] = array(JS_PATH."tinymce.js");
+$templateParams["css"] = CSS_PATH."style.css";
 
 require TEMPLATE_PATH . $templateParams["nome"];
 ?>

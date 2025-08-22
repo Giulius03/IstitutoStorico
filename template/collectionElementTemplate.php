@@ -1,6 +1,6 @@
 <?php if (isAdminLoggedIn()): ?>
 <h1 class="text-center fs-1 fw-bold mt-4">Modifica elemento di raccolta</h1>
-<form action="<?php echo UTILS_PATH . $templateParams["actionFile"] ?>" method="POST" class="mx-5 mt-4" id="collectionElemForm">
+<form action="<?php echo $templateParams["actionFile"] ?>" method="POST" class="mx-5 mt-4" id="collectionElemForm">
     <ul class="list-unstyled m-0 mt-5">
     <?php if ($_GET["type"] == "bibliografia"): ?>
         <li class="form-floating mb-3">
@@ -59,7 +59,7 @@
     <?php endif; ?>
     </ul>
     <div class="text-center my-4">
-        <a class="btn btn-dark w-25 me-4 text-decoration-none" role="button" href="<?php echo CONTENTS_EDITING_PATH . "modifyResourceCollection.php?id=".$templateParams['element'][0]['raccolta']."&idPage=".$_GET['idPage']?>">Torna indietro</a>
+        <a class="btn btn-dark w-25 me-4 text-decoration-none" role="button" href="<?php echo CONTENTS_EDITING_URL . "modifyResourceCollection.php?id=".$templateParams['element'][0]['raccolta']."&idPage=".$_GET['idPage']?>">Torna indietro</a>
         <input class="btn btn-dark ms-4 w-25" type="submit" value="Salva" />
     </div>
     <?php require_once(TEMPLATE_PATH . "dontSaveModal.php"); ?>

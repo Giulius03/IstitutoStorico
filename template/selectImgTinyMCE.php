@@ -46,7 +46,7 @@
                         </div>
                     <?php elseif (isImage($file)): ?>
                         <?php
-                        $webBasePath = IMAGES_PATH; // percorso assoluto dalla root
+                        $webBasePath = IMAGES_URL; // percorso assoluto dalla root
                         $webPath = $webBasePath . $relativeFilePath;
                         ?>
                         <img 

@@ -2,7 +2,15 @@
 /**
  * Script per invio tramite GMail di notifiche agli utenti iscritti alla newsletter.
  */
-require_once '/bootstrap.php';
+$dir = __DIR__;
+while (!file_exists($dir . '/bootstrap.php')) {
+    $parent = dirname($dir);
+    if ($parent === $dir) {
+        die('bootstrap.php non trovato!');
+    }
+    $dir = $parent;
+}
+require_once $dir . '/bootstrap.php';
 require VENDOR_FOULDER_PATH . 'autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;

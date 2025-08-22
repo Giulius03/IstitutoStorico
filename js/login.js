@@ -17,7 +17,7 @@ function changePwProp(button, input) {
 async function login(event) {
     event.preventDefault();
 
-    const url = 'utils/checkLogin.php';
+    const url = BASE_URL + 'utils/checkLogin.php';
     let formData = new FormData();
     formData.append('username', document.getElementById('username').value);
     formData.append('password', document.getElementById('password').value);
@@ -33,7 +33,7 @@ async function login(event) {
         const json = await response.json();
         console.log(json);
         if (json["successful"] === true) {
-            window.location.href = "admin.php";
+            window.location.href = BASE_URL + "admin.php";
         } else {
             document.getElementById("loginError").innerHTML = `<p>${json["error"]}</p>`;
         }
