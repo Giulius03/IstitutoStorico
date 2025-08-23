@@ -14,9 +14,9 @@ require_once $dir . '/bootstrap.php';
 
 //Base Template
 $templateParams["titolo"] = "Seleziona Immagine";
-$templateParams["nome"] = "selectImgTinyMCE.php";
+$templateParams["nome"] = TEMPLATE_PATH."selectImgTinyMCE.php";
 $templateParams["js"] = array(JS_URL."tinymce.js");
 $templateParams["css"] = CSS_URL."style.css";
 
-require TEMPLATE_PATH . $templateParams["nome"];
+require BASE_TEMPLATE_PATH;
 ?>
