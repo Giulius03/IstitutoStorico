@@ -1,0 +1,4 @@
+services:
+  server:
+    volumes:
+      - ./:/var/www/html
