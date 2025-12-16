@@ -15,7 +15,7 @@ Ristrutturazione del backend e del frontend dell'attuale sito web dell'Istituto 
 
 N.B. È necessario avere installato l'applicazione Docker Desktop per poter proseguire.
 
-git clone https://github.com/Giulius03/IstitutoStorico.git 
+git clone https://github.com/Giulius03/IstitutoStorico.git  
 cd percorso/cartella/progetto  
 docker compose up
 
